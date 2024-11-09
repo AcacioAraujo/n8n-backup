@@ -1,0 +1,1678 @@
+{
+  "createdAt": "2024-09-26T22:36:25.470Z",
+  "updatedAt": "2024-10-28T21:09:56.540Z",
+  "id": "CfFtHiYnXrCNRIgX",
+  "name": "[NAVARANDA]-[]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1OEhyQJNEM4f9UZO7oe4u8fIiQmCZyorajGZQ5yGexXA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "base_clientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OEhyQJNEM4f9UZO7oe4u8fIiQmCZyorajGZQ5yGexXA/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "ManychatId"
+            },
+            {
+              "lookupColumn": "Local",
+              "lookupValue": "e-commerce"
+            }
+          ]
+        },
+        "options": {
+          "returnAllMatches": "returnAllMatches"
+        }
+      },
+      "id": "9573c465-9e8b-49c1-a38b-f6b03ffc9773",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        500,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "522d40bb-49ac-4fcc-abe9-4bde5b5e98f2",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        220,
+        -280
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6ee3200c-cc74-40f8-b872-8ac696d5c941",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Manacás",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "769bf9af-ef8d-44d3-8b6c-d95e47857a75",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Cancioneiro",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "5d25b314-a9e8-47ea-b875-650a7fcceadf",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Terras da Estancia",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "fead5a31-cdee-450c-97c4-5b8c32c2ff03",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Villa Lobos",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "ba3181f2-055c-4b7d-94ce-2d394c72c1cf",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "e-commerce",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "0fc6e04a-2b2c-41e1-80a8-93d39d0ba03b",
+      "name": "Filter1",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        700,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.manychat.com/fb/subscriber/findByName",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "={{ $json.Nome }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 1249671:030d66614c62947b2dcd7eed5379c84c"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "7b678b03-ead3-4564-a9f2-1c6115598019",
+      "name": "Buscar Contato",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1320,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "421059e2-67db-43ec-9c71-5681b76417c4",
+              "leftValue": "={{ $json.data }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "e2691e1c-2f98-45db-847d-3722d74ff034",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1500,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1OEhyQJNEM4f9UZO7oe4u8fIiQmCZyorajGZQ5yGexXA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "base_clientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OEhyQJNEM4f9UZO7oe4u8fIiQmCZyorajGZQ5yGexXA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nome": "={{ $json.data[0].name }}",
+            "ManychatId": "={{ $json.data[0].id }}"
+          },
+          "matchingColumns": [
+            "Nome"
+          ],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ManychatId",
+              "displayName": "ManychatId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Documento",
+              "displayName": "Documento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Endereço",
+              "displayName": "Endereço",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Número",
+              "displayName": "Número",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Complemento",
+              "displayName": "Complemento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bairro",
+              "displayName": "Bairro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cidade",
+              "displayName": "Cidade",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Apelido",
+              "displayName": "Apelido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Local",
+              "displayName": "Local",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Observacao",
+              "displayName": "Observacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "dia_aniversario",
+              "displayName": "dia_aniversario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "mes_aniversario",
+              "displayName": "mes_aniversario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f6f4a2a7-99d9-487c-a0f2-71dcfb7c63cd",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        1800,
+        640
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/createSubscriber",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 1249671:030d66614c62947b2dcd7eed5379c84c"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"first_name\": \"{{ $('Separar Campos').item.json.Nome }}\",\n  \"last_name\": \"{{ $('Separar Campos').item.json.Sobrenome }}\",\n  \"phone\": \"{{ $('Separar Campos').item.json.Telefone }}\",\n  \"whatsapp_phone\": \"{{ $('Separar Campos').item.json.Telefone }}\",\n  \"has_opt_in_sms\": true,\n  \"has_opt_in_email\": true,\n  \"consent_phrase\": \"ok\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "a57061b7-eaff-4404-b5ba-8578ee2cea9a",
+      "name": "Manychat - Criar Contato",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1960,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0dcf0307-2129-494b-a18b-9149143bdb88",
+              "name": "row_number",
+              "value": "={{ $json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "c7d784cb-f40a-49f1-95f8-0aae10099965",
+              "name": "Nome Completo",
+              "value": "={{ $json.Nome }}",
+              "type": "string"
+            },
+            {
+              "id": "f16a93ef-397b-423a-a561-6929f3f4fa1a",
+              "name": "Telefone",
+              "value": "={{ $json.Telefone }}",
+              "type": "number"
+            },
+            {
+              "id": "c77cb76f-e86a-4504-a811-6e752f15142b",
+              "name": "Local",
+              "value": "={{ $json.Local }}",
+              "type": "string"
+            },
+            {
+              "id": "f5ea1809-fd4b-4400-8aa4-299497fe1a89",
+              "name": "Nome",
+              "value": "={{ \n\n(()=>{\n\nlet nome = $json.Nome.split(' ');\nreturn nome[0];\n\n})()\n\n}}",
+              "type": "string"
+            },
+            {
+              "id": "c456f1e9-0bee-418d-8071-e596d4e990f0",
+              "name": "Sobrenome",
+              "value": "={{ \n\n(()=>{\n\nlet nome = $json.Nome.split(' ');\nreturn nome[1];\n\n})()\n\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d1113695-b053-4e20-a098-108b9cb2a036",
+      "name": "Separar Campos",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/addTag",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 1249671:030d66614c62947b2dcd7eed5379c84c"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "subscriber_id",
+              "value": "={{ $('Manychat - Criar Contato').item.json.data.id }}"
+            },
+            {
+              "name": "tag_id",
+              "value": "={{ $json.tag_id }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "d9764e65-50a3-45f3-a1ad-c0f04260be9c",
+      "name": "Manychat - Adicionar tag",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2620,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9a835f3f-23e8-441c-abae-b816ba9ab7d5",
+              "name": "=tag_id",
+              "value": "={{ \n\n(()=>{\n  var tag_id = 0;\nvar local = $('Separar Campos').item.json.Local;\n\nswitch(local) {\n  case \"Cancioneiro\":\n    tag_id = \"45071932\";\n    break;\n  case \"Manacás\":\n    tag_id = \"45072353\";\n    break;\n  case \"Villa Lobos\":\n    tag_id = \"45072204\";\n    break;\n  case \"Terras da Estancia\":\n    tag_id = \"45072233\";\n    break;\n  case \"e-commerce\":\n    tag_id = \"53590195\";\n    break;\n\n  default:\n    tag_id = \"0\";    \n}\n\nreturn tag_id;\n})()\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "804d7f74-5292-47ed-9796-6f6158d66ac4",
+      "name": "Tag ID",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2440,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "5df1266f-1ce6-4e17-81c3-234658c3b5f6",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1720,
+        340
+      ],
+      "webhookId": "4edc21f1-856f-44e9-ad53-be41ba4f360c"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "row_number, Nome, ManychatId, Telefone, Local",
+        "options": {}
+      },
+      "id": "17030bcb-6a1f-4631-83d3-cfedf1e92ef5",
+      "name": "Split Out1",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        920,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a6729d8d-f359-4502-84ca-fd43ea1c5107",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "error",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a74ea3ce-e644-4460-bf00-2a3277a87774",
+      "name": "Deu erro",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2180,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/createSubscriber",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 1249671:030d66614c62947b2dcd7eed5379c84c"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "first_name",
+              "value": "={{ \n\n(()=>{\n\nlet nome = $('Separar Campos').item.json.Nome.split(' ');\nreturn nome[0];\n\n})()\n\n}}"
+            },
+            {
+              "name": "last_name",
+              "value": "={{ \n\n(()=>{\n\nlet nome = $('Separar Campos').item.json.Nome.split(' ');\nreturn nome[1];\n\n})()\n\n}}"
+            },
+            {
+              "name": "phone",
+              "value": "={{ $('Separar Campos').item.json.Telefone.toString() }}"
+            },
+            {
+              "name": "whatsapp_phone",
+              "value": "={{ $('Separar Campos').item.json.Telefone.toString() }}"
+            },
+            {
+              "name": "has_opt_in_sms",
+              "value": true
+            },
+            {
+              "name": "has_opt_in_email",
+              "value": true
+            },
+            {
+              "name": "consent_phrase",
+              "value": "ok"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "e1249923-4928-4cf8-b64a-ccd08f8bb177",
+      "name": "Manychat - Criar Contato1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1940,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1OEhyQJNEM4f9UZO7oe4u8fIiQmCZyorajGZQ5yGexXA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "base_clientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OEhyQJNEM4f9UZO7oe4u8fIiQmCZyorajGZQ5yGexXA/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "5389c3f0-a1c6-474c-9078-4941f3a49e30",
+      "name": "Google Sheets2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        580,
+        820
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fead5a31-cdee-450c-97c4-5b8c32c2ff03",
+              "leftValue": "={{ $json.ManychatId }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "24991d13-d294-43b1-88b2-077958b341fd",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        940,
+        820
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6ee3200c-cc74-40f8-b872-8ac696d5c941",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Manacás",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "769bf9af-ef8d-44d3-8b6c-d95e47857a75",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Cancioneiro",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "5d25b314-a9e8-47ea-b875-650a7fcceadf",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Terras da Estancia",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "fead5a31-cdee-450c-97c4-5b8c32c2ff03",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Villa Lobos",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "08875d53-7033-4845-b2a7-22a80e96fa7c",
+      "name": "Filter2",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        760,
+        820
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/addTag",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 1249671:030d66614c62947b2dcd7eed5379c84c"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "subscriber_id",
+              "value": "={{ $('Filter').item.json.ManychatId }}"
+            },
+            {
+              "name": "tag_id",
+              "value": "={{ $json.tag_id }}"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 0
+            }
+          },
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "7b34ec7e-c784-4dc3-8f03-9ff97a2fecd1",
+      "name": "Manychat - Adicionar tag1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1880,
+        880
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "1c3447cd-7a14-4ddc-8230-eee4380e0580",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1220,
+        820
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9a835f3f-23e8-441c-abae-b816ba9ab7d5",
+              "name": "=tag_id",
+              "value": "={{ \n\n(()=>{\n  var tag_id = 0;\nvar local = $json.Local;\n\nswitch(local) {\n  case \"Cancioneiro\":\n    tag_id = \"45071932\";\n    break;\n  case \"Manacás\":\n    tag_id = \"45072353\";\n    break;\n  case \"Villa Lobos\":\n    tag_id = \"45072204\";\n    break;\n  case \"Terras da Estancia\":\n    tag_id = \"45072233\";\n    break;\n  default:\n    tag_id = \"0\";    \n}\n\nreturn tag_id;\n})()\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c8f582af-caf5-4e6b-a554-7abbe23ae385",
+      "name": "Tag ID2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1460,
+        880
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "id": "cc62b050-b6a5-45f3-a388-5c95ce8cc75f",
+      "name": "Wait1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1680,
+        880
+      ],
+      "webhookId": "91078485-4160-4276-bca2-4621b7592dad"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1OEhyQJNEM4f9UZO7oe4u8fIiQmCZyorajGZQ5yGexXA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "base_clientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OEhyQJNEM4f9UZO7oe4u8fIiQmCZyorajGZQ5yGexXA/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "ManychatId"
+            },
+            {
+              "lookupColumn": "Local",
+              "lookupValue": "e-commerce"
+            }
+          ]
+        },
+        "options": {
+          "returnAllMatches": "returnAllMatches"
+        }
+      },
+      "id": "ecf9a333-08b8-460e-925b-2f593f1da380",
+      "name": "Google Sheets3",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        460,
+        200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6ee3200c-cc74-40f8-b872-8ac696d5c941",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Manacás",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "769bf9af-ef8d-44d3-8b6c-d95e47857a75",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Cancioneiro",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "5d25b314-a9e8-47ea-b875-650a7fcceadf",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Terras da Estancia",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "fead5a31-cdee-450c-97c4-5b8c32c2ff03",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Villa Lobos",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "ba3181f2-055c-4b7d-94ce-2d394c72c1cf",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "e-commerce",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "2ec79265-4cbd-4ea1-a254-63a781b37791",
+      "name": "Filter3",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        660,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.manychat.com/fb/subscriber/findByName",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "={{ $json['Nome Completo'] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 1249671:030d66614c62947b2dcd7eed5379c84c"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "0c0f869b-fc34-4605-a6f2-90299258f97a",
+      "name": "Buscar Contato1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1280,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0dcf0307-2129-494b-a18b-9149143bdb88",
+              "name": "row_number",
+              "value": "={{ $json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "c7d784cb-f40a-49f1-95f8-0aae10099965",
+              "name": "Nome Completo",
+              "value": "={{ $json.Nome }}",
+              "type": "string"
+            },
+            {
+              "id": "f16a93ef-397b-423a-a561-6929f3f4fa1a",
+              "name": "Telefone",
+              "value": "={{ $json.Telefone }}",
+              "type": "number"
+            },
+            {
+              "id": "c77cb76f-e86a-4504-a811-6e752f15142b",
+              "name": "Local",
+              "value": "={{ $json.Local }}",
+              "type": "string"
+            },
+            {
+              "id": "f5ea1809-fd4b-4400-8aa4-299497fe1a89",
+              "name": "Nome",
+              "value": "={{ \n\n(()=>{\n\nlet nome = $json.Nome.split(' ');\nreturn nome[0];\n\n})()\n\n}}",
+              "type": "string"
+            },
+            {
+              "id": "c456f1e9-0bee-418d-8071-e596d4e990f0",
+              "name": "Sobrenome",
+              "value": "={{ \n\n(()=>{\n\nlet nome = $json.Nome.split(' ');\nreturn nome[1];\n\n})()\n\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d5e75fe6-d0bd-49c4-8bdc-199fb6d5feb0",
+      "name": "Separar Campos1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1080,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "row_number, Nome, ManychatId, Telefone, Local",
+        "options": {}
+      },
+      "id": "7d084173-1738-4f98-aa51-37564a426426",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        880,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1OEhyQJNEM4f9UZO7oe4u8fIiQmCZyorajGZQ5yGexXA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "base_clientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OEhyQJNEM4f9UZO7oe4u8fIiQmCZyorajGZQ5yGexXA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nome": "={{ $json.data[0].name }}",
+            "ManychatId": "={{ $json.data[0].id }}",
+            "Status": "cadastrado"
+          },
+          "matchingColumns": [
+            "Nome"
+          ],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ManychatId",
+              "displayName": "ManychatId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Documento",
+              "displayName": "Documento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Endereço",
+              "displayName": "Endereço",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Número",
+              "displayName": "Número",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Complemento",
+              "displayName": "Complemento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bairro",
+              "displayName": "Bairro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cidade",
+              "displayName": "Cidade",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Apelido",
+              "displayName": "Apelido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Local",
+              "displayName": "Local",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Observacao",
+              "displayName": "Observacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "dia_aniversario",
+              "displayName": "dia_aniversario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "mes_aniversario",
+              "displayName": "mes_aniversario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e6bfdeeb-eab1-4cfd-a908-9a584f39e305",
+      "name": "Google Sheets4",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        1520,
+        160
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1OEhyQJNEM4f9UZO7oe4u8fIiQmCZyorajGZQ5yGexXA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 103629834,
+          "mode": "list",
+          "cachedResultName": "cliente_pontuacao",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OEhyQJNEM4f9UZO7oe4u8fIiQmCZyorajGZQ5yGexXA/edit#gid=103629834"
+        },
+        "options": {
+          "returnAllMatches": "returnAllMatches"
+        }
+      },
+      "id": "c3eedcc8-7ac1-4c78-884c-7df314208b82",
+      "name": "Google Sheets5",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        460,
+        -280
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ba3181f2-055c-4b7d-94ce-2d394c72c1cf",
+              "leftValue": "={{ $json.Valor }}",
+              "rightValue": 200,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "16d1aa8f-7ac8-4de0-868d-72345bf4edb3",
+      "name": "Filter4",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        700,
+        -280
+      ]
+    }
+  ],
+  "connections": {
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Contato": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separar Campos": {
+      "main": [
+        [
+          {
+            "node": "Buscar Contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manychat - Criar Contato": {
+      "main": [
+        [
+          {
+            "node": "Deu erro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tag ID": {
+      "main": [
+        [
+          {
+            "node": "Manychat - Adicionar tag",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Manychat - Criar Contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Separar Campos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deu erro": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Tag ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Filter2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter2": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Tag ID2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tag ID2": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manychat - Adicionar tag1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Manychat - Adicionar tag1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        [
+          {
+            "node": "Filter3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter3": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separar Campos1": {
+      "main": [
+        [
+          {
+            "node": "Buscar Contato1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Separar Campos1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Contato1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets5": {
+      "main": [
+        [
+          {
+            "node": "Filter4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "ac8145e3-8645-48bd-a126-6fb53317f646",
+  "triggerCount": 0,
+  "tags": []
+}
