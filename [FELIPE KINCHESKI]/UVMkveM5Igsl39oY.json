@@ -1,0 +1,431 @@
+{
+  "createdAt": "2024-09-22T01:26:42.291Z",
+  "updatedAt": "2024-09-26T23:52:30.665Z",
+  "id": "UVMkveM5Igsl39oY",
+  "name": "[FELIPE KINCHESKI] - [AC][METRICAS DE AUTOMAÇÃO]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "34e54b68-af2a-40ff-b39a-6c72ccf8047b",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        620,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "automations",
+        "options": {}
+      },
+      "id": "c7471b26-b192-4c9d-be07-51e2be5e18d9",
+      "name": "Separar Automações",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1140,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://bionaturedigital.api-us1.com/api/3/campaigns",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "orders[sdate]",
+              "value": "DESC"
+            },
+            {
+              "name": "filters[seriesid]",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "826da1614b5899162102184284b59dad2dfb7d6c2d8fd23bfccfd1a4d181e83531621fcc"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4f059067-3216-4bc2-b978-176b50d2eaa6",
+      "name": "Campanhas de Automação",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1300,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://bionaturedigital.api-us1.com/api/3/automations?orders[cdate]=DESC",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "826da1614b5899162102184284b59dad2dfb7d6c2d8fd23bfccfd1a4d181e83531621fcc"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "66dfb8c3-2cb7-4b1a-b73f-f88053e16cdb",
+      "name": "Automações",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        980,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "campaigns",
+        "options": {}
+      },
+      "id": "7b67c71c-a9a1-4a9a-8be3-0f08badbd6e3",
+      "name": "Separar Campanhas de Automação",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://bionaturedigital.api-us1.com/api/3/messages/{{ $json.message_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "826da1614b5899162102184284b59dad2dfb7d6c2d8fd23bfccfd1a4d181e83531621fcc"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "77a0f670-4f9d-4e1b-9118-f13253592eb6",
+      "name": "Mensagens de Automação",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1620,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1lCz6LP0g0sKSi3MJrunaVo3EbnhNme3NjRi8vtpLM38",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Automações",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lCz6LP0g0sKSi3MJrunaVo3EbnhNme3NjRi8vtpLM38/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "PAGINA": "={{ $('Separar Campanhas de Automação').item.json.links.links }}",
+            "ENVIOS": "={{ $('Separar Campanhas de Automação').item.json.send_amt }}",
+            "ABERTURA": "={{ $('Separar Campanhas de Automação').item.json.uniqueopens }}",
+            "CLIQUES": "={{ $('Separar Campanhas de Automação').item.json.uniquelinkclicks }}",
+            "ASSUNTO": "={{ $json.message.subject.trim() }}",
+            "TX. ABERTURA": "={{ $('Separar Campanhas de Automação').item.json.uniqueopens / $('Separar Campanhas de Automação').item.json.send_amt }}",
+            "TX. CLIQUE": "={{ $('Separar Campanhas de Automação').item.json.uniquelinkclicks / $('Separar Campanhas de Automação').item.json.send_amt }}",
+            "AUTOMAÇÃO": "={{ $('Separar Automações').item.json.name }}",
+            "CAMPANHA": "={{ $('Separar Campanhas de Automação').item.json.name }}"
+          },
+          "matchingColumns": [
+            "AUTOMAÇÃO"
+          ],
+          "schema": [
+            {
+              "id": "AUTOMAÇÃO",
+              "displayName": "AUTOMAÇÃO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CAMPANHA",
+              "displayName": "CAMPANHA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ASSUNTO",
+              "displayName": "ASSUNTO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PAGINA",
+              "displayName": "PAGINA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ENVIOS",
+              "displayName": "ENVIOS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ABERTURA",
+              "displayName": "ABERTURA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TX. ABERTURA",
+              "displayName": "TX. ABERTURA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CLIQUES",
+              "displayName": "CLIQUES",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TX. CLIQUE",
+              "displayName": "TX. CLIQUE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "VENDAS",
+              "displayName": "VENDAS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "RECEITA",
+              "displayName": "RECEITA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "934dad16-798e-4b11-a24b-14c75dcda76b",
+      "name": "Exportar Automações",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1780,
+        640
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Automações",
+        "height": 283,
+        "width": 1391.75,
+        "color": 4
+      },
+      "id": "3d2d00e3-902a-4595-9e6e-516dca64533f",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        580,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "clear",
+        "documentId": {
+          "__rl": true,
+          "value": "1lCz6LP0g0sKSi3MJrunaVo3EbnhNme3NjRi8vtpLM38",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Automações",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lCz6LP0g0sKSi3MJrunaVo3EbnhNme3NjRi8vtpLM38/edit#gid=0"
+        },
+        "keepFirstRow": true
+      },
+      "id": "8902d285-c8c2-4e1c-bd7f-0fd047d9ed2b",
+      "name": "Limpar Planilha",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        800,
+        640
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Limpar Planilha",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separar Automações": {
+      "main": [
+        [
+          {
+            "node": "Campanhas de Automação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Automações": {
+      "main": [
+        [
+          {
+            "node": "Separar Automações",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campanhas de Automação": {
+      "main": [
+        [
+          {
+            "node": "Separar Campanhas de Automação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separar Campanhas de Automação": {
+      "main": [
+        [
+          {
+            "node": "Mensagens de Automação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagens de Automação": {
+      "main": [
+        [
+          {
+            "node": "Exportar Automações",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limpar Planilha": {
+      "main": [
+        [
+          {
+            "node": "Automações",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "9bcce4b2-d908-4998-962e-ff49a8219d8f",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2024-09-20T23:42:06.240Z",
+      "updatedAt": "2024-09-20T23:42:06.240Z",
+      "id": "8orOBMJ9K1GhnPVE",
+      "name": "Felipe Kincheski"
+    }
+  ]
+}
