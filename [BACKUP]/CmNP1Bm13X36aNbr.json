@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-09T12:25:24.842Z",
-  "updatedAt": "2024-11-09T17:01:22.890Z",
+  "updatedAt": "2024-11-09T17:03:50.502Z",
   "id": "CmNP1Bm13X36aNbr",
   "name": "[BACKUP]-[GITHUB]",
   "active": false,
@@ -144,7 +144,7 @@
       "typeVersion": 3.4,
       "position": [
         2120,
-        880
+        800
       ]
     },
     {
@@ -436,6 +436,11 @@
       "main": [
         [
           {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          },
+          {
             "node": "Criar arquivo",
             "type": "main",
             "index": 0
@@ -468,7 +473,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "382a4298-809b-4754-9528-8f2fdec84e97",
+  "versionId": "508e9ae1-6139-4f70-9dfc-27b133d08ed1",
   "triggerCount": 0,
   "tags": []
 }
