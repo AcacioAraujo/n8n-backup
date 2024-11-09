@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-09T12:25:24.842Z",
-  "updatedAt": "2024-11-09T16:54:34.256Z",
+  "updatedAt": "2024-11-09T17:01:22.890Z",
   "id": "CmNP1Bm13X36aNbr",
   "name": "[BACKUP]-[GITHUB]",
   "active": false,
@@ -144,7 +144,7 @@
       "typeVersion": 3.4,
       "position": [
         2120,
-        620
+        880
       ]
     },
     {
@@ -267,7 +267,7 @@
           "value": "={{ $('Variaveis').first().json.github_repository }}",
           "mode": "name"
         },
-        "filePath": "={{ $json.file_path }}",
+        "filePath": "={{ (()=>{\n\n    const nome = $('workflow').item.json.name.split(/ - |-/);\n    return nome.length > 1 ? nome[0] : \"[PADRAO]\";\n\n})()\n}}/{{ $('workflow').item.json.id }}.json",
         "binaryData": true,
         "commitMessage": "={{ $('workflow').item.json.name }}[{{ $now.toString() }}]"
       },
@@ -276,7 +276,7 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        2300,
+        2120,
         620
       ],
       "alwaysOutputData": true,
@@ -436,7 +436,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields",
+            "node": "Criar arquivo",
             "type": "main",
             "index": 0
           }
@@ -456,13 +456,7 @@
     },
     "Edit Fields": {
       "main": [
-        [
-          {
-            "node": "Criar arquivo",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     }
   },
@@ -474,7 +468,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "47e59551-9408-4081-b53d-2bc9bab5fbca",
+  "versionId": "382a4298-809b-4754-9528-8f2fdec84e97",
   "triggerCount": 0,
   "tags": []
 }
