@@ -1,0 +1,882 @@
+{
+  "createdAt": "2024-07-11T16:23:01.366Z",
+  "updatedAt": "2024-07-11T21:52:58.069Z",
+  "id": "sNsXAHulUUiaaxu3",
+  "name": "[3] Confirmacao de Consulta 1D - Google Agenda",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "8c5495e4-e434-460b-bdd8-8202a5b50b4a",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        460,
+        1080
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json[\"Day of week\"] }}",
+              "operation": "notEqual",
+              "value2": "Friday"
+            }
+          ]
+        }
+      },
+      "id": "dd66ea76-5617-4be8-b06d-a3a64f2cb9c0",
+      "name": "Sexta?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        720,
+        1080
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "b7ed6af3-4fbc-4b8b-b81c-edfdab2c1eb1",
+      "name": "Sexta-feira",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        960,
+        1500
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "cb953151-dda9-4226-a5c6-afbcb7fc849a",
+      "name": "Segunda a Quinta",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        980,
+        1060
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "addToDate",
+        "magnitude": "={{ $json.timestamp }}",
+        "duration": 1,
+        "outputFieldName": "Data",
+        "options": {}
+      },
+      "id": "c4c78d7c-6508-42e1-a2d7-486412668a13",
+      "name": "Soma +1 Dia",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.Data }}",
+        "format": "yyyy-MM-dd",
+        "outputFieldName": "Data Formatada",
+        "options": {
+          "timezone": true
+        }
+      },
+      "id": "b8c3be5b-10af-4406-be77-14a6f0b3829e",
+      "name": "Formata Data",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1500,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "addToDate",
+        "magnitude": "={{ $json.timestamp }}",
+        "duration": 2,
+        "outputFieldName": "Data",
+        "options": {}
+      },
+      "id": "0dca5fa1-d418-461f-919f-38a37e161d9c",
+      "name": "Soma +2 Dias",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "contato@robotriz.com.br",
+          "mode": "list",
+          "cachedResultName": "contato@robotriz.com.br"
+        },
+        "returnAll": true,
+        "options": {
+          "timeMin": "={{ $now.plus(1, 'day').format('yyyy-MM-dd') }}",
+          "timeMax": "={{ $now.plus(2, 'day').format('yyyy-MM-dd') }}"
+        }
+      },
+      "id": "b84f6a1b-4fac-47fb-88c1-5820ca7e378c",
+      "name": "Busca Eventos Amanhã",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.1,
+      "position": [
+        1200,
+        1060
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "27WinJTE9Con8wAf",
+          "name": "[ROBOTRIZ] GOOGLE CALENDAR"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "contato@robotriz.com.br",
+          "mode": "list",
+          "cachedResultName": "contato@robotriz.com.br"
+        },
+        "returnAll": true,
+        "options": {
+          "timeMin": "={{ $now.plus(3, 'day').format('yyyy-MM-dd') }}",
+          "timeMax": "={{ $now.plus(4, 'day').format('yyyy-MM-dd') }}"
+        }
+      },
+      "id": "72220464-67d7-4ea4-8879-a265a3a54677",
+      "name": "Busca Eventos Segunda",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.1,
+      "position": [
+        1200,
+        1500
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "27WinJTE9Con8wAf",
+          "name": "[ROBOTRIZ] GOOGLE CALENDAR"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Observação\n\n- Serve para enviar a confirmação de consulta na sexta-feira dos pacientes agendados na segunda, caso a clínica só trabalhe até sexta.\n\n- Case trabalhe até sábado, alterar o **after** para plus(2, 'day') e o **before** para plus(3, 'day').\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDesenvolvido por Kaique Grigoletto (@k.grigoletto)",
+        "height": 419.375,
+        "width": 468.1875,
+        "color": 7
+      },
+      "id": "d35fe51f-3100-4fb2-8aad-a76d825b6bec",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        900,
+        1260
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Observação\n\nAjustado para as clínicas que  trabalham de segunda à sexta. Caso trabalhe no sábado, alterar para Saturday.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDesenvolvido por Kaique Grigoletto (@k.grigoletto)",
+        "height": 296.5625,
+        "width": 290,
+        "color": 7
+      },
+      "id": "ca0e2da2-da16-4a67-84ae-3af04c44a8ac",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        620,
+        923.75
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.status }}",
+              "value2": "confirmed"
+            },
+            {
+              "value1": "={{ $json.start.dateTime }}",
+              "operation": "notEqual",
+              "value2": "={{ undefined }}"
+            },
+            {
+              "value1": "={{ $json.colorId }}",
+              "value2": "=5"
+            }
+          ]
+        }
+      },
+      "id": "f45b86d0-885e-4dde-9559-80ce768d0903",
+      "name": "Filtrar confirmados e horário definidos",
+      "type": "n8n-nodes-base.filter",
+      "position": [
+        1440,
+        1060
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "start"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cb6723b5-de09-46b2-ba1c-c1c128776a66",
+      "name": "Reordenar Ascendente",
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        1060
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "f75bf7ea-f7ab-4448-9868-f55732368791",
+      "name": "Split In Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        2120,
+        1060
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Desenvolvido por Kaique Grigoletto (@k.grigoletto)\n// Verifica se o valor é uma string antes de usar o método replace\nvar WhatsApp = String(items[0].json.WhatsApp).replace(/[^0-9]+/g, '');\nvar ddd, ddi, ddx, length;\n\nif (WhatsApp.length >= 12) {\n  if (WhatsApp.charAt(0) === '+') {\n    ddi = WhatsApp.slice(0, 3);\n    WhatsApp = parseInt(WhatsApp.slice(3)).toString();\n  } else {\n    if (WhatsApp.slice(0, 2) === '55') {\n      WhatsApp = parseInt(WhatsApp.slice(2)).toString();\n      ddi = \"+55\";\n    } else {\n      WhatsApp = parseInt(WhatsApp).toString();\n      ddi = 'não informado';\n    }\n  }\n} else {\n  WhatsApp = parseInt(WhatsApp).toString();\n  ddi = 'não informado';\n}\n\nddd = WhatsApp.slice(0, 2);\nWhatsApp = WhatsApp.slice(2);\n\n// Adiciona o nono dígito apenas se o DDD for menor ou igual ao 28\nif (parseInt(ddd) < 28) {\n  WhatsApp = '9' + WhatsApp.slice(-8);\n} else {\n  WhatsApp = WhatsApp.slice(-8);\n}\n\nvar whatsapp_formatado = '+55' + ddd + WhatsApp;\n\nreturn [\n  {\n    json: {\n      ddi,\n      ddd,\n      WhatsApp,\n      whatsapp_formatado,\n    },\n  },\n];"
+      },
+      "id": "9505900b-9213-4c54-aed8-2daf499007f2",
+      "name": "Validar Telefone",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2560,
+        1040
+      ],
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Desenvolvido por Kaique Grigoletto (@k.grigoletto)\nfor (const item of $input.all()) {\n  // Extrair o número de telefone usando uma expressão regular com variações\n  const descricaoEvento = item.json.description || ''; // Utiliza a variável description como entrada\n  \n  console.log('Descrição do evento:', descricaoEvento); // Adiciona log para verificar a descrição\n  \n  // Regex para capturar telefone nos formatos variados\n  const regexTelefone = /(?:tel(?:e|efone)?[:=\\-\\s]*)?(\\+?\\d{1,3}[-\\s.]?\\(?\\d{1,3}\\)?[-\\s.]?\\d{4,5}[-\\s.]?\\d{4})/i;\n  const matchTelefone = descricaoEvento.match(regexTelefone);\n  \n  console.log('Resultado da regex:', matchTelefone); // Adiciona log para verificar o resultado da regex\n\n  // Se encontrar um número de telefone, adiciona ao JSON com a chave 'WhatsApp'\n  if (matchTelefone && matchTelefone[1]) {\n    const numeroTelefone = matchTelefone[1].replace(/[()\\s\\-.]/g, ''); // Remove caracteres não numéricos\n    console.log('Número de telefone encontrado:', numeroTelefone); // Adiciona log para verificar o número encontrado\n    item.json.WhatsApp = numeroTelefone;\n  } else {\n    console.log('Número de telefone não encontrado'); // Adiciona log quando o número não é encontrado\n    item.json.WhatsApp = 'Número de telefone não encontrado na descrição do evento';\n  }\n}\n\nreturn $input.all();\n"
+      },
+      "id": "36366f12-6872-45b0-abab-779ea5d09de2",
+      "name": "Extrair Telefone",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2340,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "requestMethod": "POST",
+        "url": "=https://backend.botconversa.com.br/api/v1/webhook/subscriber/",
+        "options": {},
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "phone",
+              "value": "={{ $json.whatsapp_formatado }}"
+            },
+            {
+              "name": "first_name",
+              "value": "={{ $('Dados').item.json.Nome.split(\" \")[0] }}"
+            },
+            {
+              "name": "last_name",
+              "value": "={{ $('Dados').item.json.Nome.split(\" \")[1] }}"
+            }
+          ]
+        }
+      },
+      "id": "14cfeb09-298f-4110-80cd-3320ec56241f",
+      "name": "Cadastrar na audiência",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        2760,
+        1040
+      ],
+      "typeVersion": 2,
+      "retryOnFail": false,
+      "executeOnce": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XQVhWneh6SN0tBEr",
+          "name": "[ID-BC: 87973] LABORATORIO"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "function numeroRandomicoIntervalo(min, max) { // minimo e maximo incluso \n  return Math.floor(Math.random() * (max - min + 1) + min)\n}\n\nfor (item of items) {\n  item.json.numeroRandomico = numeroRandomicoIntervalo(5, 15); // altere os dois números para definir um range entre minimo e maximo\n}\n\nreturn items;"
+      },
+      "name": "Número randômico com intervalo",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        2560,
+        1440
+      ],
+      "typeVersion": 1,
+      "id": "06cdf865-7371-454f-8654-35e6f2eb9450",
+      "retryOnFail": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "amount": "={{$json[\"numeroRandomico\"]}}",
+        "unit": "seconds"
+      },
+      "name": "Delay de acordo com número gerado",
+      "type": "n8n-nodes-base.wait",
+      "position": [
+        2760,
+        1440
+      ],
+      "webhookId": "720a4a25-7bf5-496a-94c9-0c73044907c2",
+      "typeVersion": 1,
+      "id": "7fc2f86a-8b1b-49bb-a15a-36c804b8cf28",
+      "retryOnFail": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "start",
+              "value": "={{ $json.start.dateTime }}"
+            },
+            {
+              "name": "description",
+              "value": "={{ $json.description }}"
+            },
+            {
+              "name": "Nome",
+              "value": "={{ $json.summary }}"
+            },
+            {
+              "name": "Event ID",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "name": "Flow",
+              "value": "4662325"
+            },
+            {
+              "name": "ID DataConsulta",
+              "value": "2621798"
+            },
+            {
+              "name": "ID HorarioConsulta",
+              "value": "2621800"
+            },
+            {
+              "name": "ID Event ID",
+              "value": "2621799"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "78fcaf11-3fc8-409a-8b96-d603d9902469",
+      "name": "Dados",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1680,
+        1060
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://backend.botconversa.com.br/api/v1/webhook/subscriber/{{ $('Cadastrar na audiência').item.json.id }}/custom_fields/{{ $('Dados').item.json['ID DataConsulta'] }}/",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "value",
+              "value": "={{ $('Dados').item.json.start.toDateTime().format('dd/MM/yy') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ef31d5a9-04a6-4f1a-a25f-444365a026ad",
+      "name": "Campo Personalizado - Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2340,
+        1240
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XQVhWneh6SN0tBEr",
+          "name": "[ID-BC: 87973] LABORATORIO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://backend.botconversa.com.br/api/v1/webhook/subscriber/{{ $('Cadastrar na audiência').item.json.id }}/custom_fields/{{ $('Dados').item.json['ID HorarioConsulta'] }}/",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "value",
+              "value": "={{ $('Dados').item.json.start.toDateTime().format('HH:mm') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e7c35ab3-2e79-47fa-bdd1-40414ad1832d",
+      "name": "Campo Personalizado - Hora",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2560,
+        1240
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XQVhWneh6SN0tBEr",
+          "name": "[ID-BC: 87973] LABORATORIO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://backend.botconversa.com.br/api/v1/webhook/subscriber/{{ $node[\"Cadastrar na audiência\"].json[\"id\"] }}/send_flow/",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "flow",
+              "value": "={{ $('Dados').item.json.Flow }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "13ad1723-6bf8-4623-8fbd-dab780c621e9",
+      "name": "Enviar flow",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2340,
+        1440
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XQVhWneh6SN0tBEr",
+          "name": "[ID-BC: 87973] LABORATORIO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Alterar\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDesenvolvido por Kaique Grigoletto (@k.grigoletto)",
+        "height": 214.7355390946501,
+        "width": 166.22353909465028,
+        "color": 4
+      },
+      "id": "953c5954-b5d4-4df4-9dc0-d6cdca075ea8",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1640,
+        998.1875884773665
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Observação\n\nFiltra todos confirmados, exclui eventos de dia inteiro e apenas eventos com a cor AMARELA.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDesenvolvido por Kaique Grigoletto (@k.grigoletto)",
+        "height": 320.8902057613169,
+        "color": 7
+      },
+      "id": "e5c057d0-5510-4d19-af70-46f0662b964f",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        896.2162304526748
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Cores Google Calendar\n\ncolorId: 1 - #a4bdfc (Azul claro)\ncolorId: 2 - #7ae7bf (Verde claro)\ncolorId: 3 - #dbadff (Roxo claro)\ncolorId: 4 - #ff887c (Rosa claro)\ncolorId: 5 - #fbd75b (Amarelo claro)\ncolorId: 6 - #ffb878 (Laranja claro)\ncolorId: 7 - #46d6db (Ciano)\ncolorId: 8 - #e1e1e1 (Cinza)\ncolorId: 9 - #5484ed (Azul escuro)\ncolorId: 10 - #51b749 (Verde escuro)\ncolorId: 11 - #dc2127 (Vermelho)",
+        "height": 308.14814814814827,
+        "width": 309.9588477366254,
+        "color": 2
+      },
+      "id": "29114d46-a850-4f84-a91f-ff2ec84ec986",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        460,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Status\n\n**Agendado:**\ncolorId: 5 - #fbd75b (Amarelo claro)\n\n**Confirmado:**\ncolorId: 2 - #7ae7bf (Verde claro)\n\n**Compareceu:**\ncolorId: 10 - #51b749 (Verde escuro)\n\n**Faltou:**\ncolorId: 11 - #dc2127 (Vermelho)\n\n",
+        "height": 306.42567901234605,
+        "width": 304.79012345678984
+      },
+      "id": "e89b177a-247a-4001-9368-dd4406d85f8f",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        800,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://backend.botconversa.com.br/api/v1/webhook/subscriber/{{ $('Cadastrar na audiência').item.json.id }}/custom_fields/{{ $('Dados').item.json['ID Event ID'] }}/",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "value",
+              "value": "={{ $('Split In Batches').item.json['Event ID'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e898f721-abb6-4218-9d16-6657a3bac73a",
+      "name": "Campo Personalizado - Event ID",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2760,
+        1240
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XQVhWneh6SN0tBEr",
+          "name": "[ID-BC: 87973] LABORATORIO"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Sexta?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sexta?": {
+      "main": [
+        [
+          {
+            "node": "Segunda a Quinta",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sexta-feira",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Segunda a Quinta": {
+      "main": [
+        [
+          {
+            "node": "Busca Eventos Amanhã",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Soma +1 Dia": {
+      "main": [
+        [
+          {
+            "node": "Formata Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sexta-feira": {
+      "main": [
+        [
+          {
+            "node": "Busca Eventos Segunda",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Busca Eventos Amanhã": {
+      "main": [
+        [
+          {
+            "node": "Filtrar confirmados e horário definidos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtrar confirmados e horário definidos": {
+      "main": [
+        [
+          {
+            "node": "Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reordenar Ascendente": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split In Batches": {
+      "main": [
+        [
+          {
+            "node": "Extrair Telefone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrair Telefone": {
+      "main": [
+        [
+          {
+            "node": "Validar Telefone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar Telefone": {
+      "main": [
+        [
+          {
+            "node": "Cadastrar na audiência",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Número randômico com intervalo": {
+      "main": [
+        [
+          {
+            "node": "Delay de acordo com número gerado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados": {
+      "main": [
+        [
+          {
+            "node": "Reordenar Ascendente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cadastrar na audiência": {
+      "main": [
+        [
+          {
+            "node": "Campo Personalizado - Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campo Personalizado - Data": {
+      "main": [
+        [
+          {
+            "node": "Campo Personalizado - Hora",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campo Personalizado - Hora": {
+      "main": [
+        [
+          {
+            "node": "Campo Personalizado - Event ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delay de acordo com número gerado": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar flow": {
+      "main": [
+        [
+          {
+            "node": "Número randômico com intervalo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Busca Eventos Segunda": {
+      "main": [
+        [
+          {
+            "node": "Filtrar confirmados e horário definidos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campo Personalizado - Event ID": {
+      "main": [
+        [
+          {
+            "node": "Enviar flow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "20ea7059-ee18-45b9-96f5-cbfec004b452",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2024-07-11T00:21:27.828Z",
+      "updatedAt": "2024-07-11T00:21:27.828Z",
+      "id": "quj3fHETQNpIwE0v",
+      "name": "Patrick Raul"
+    },
+    {
+      "createdAt": "2024-07-11T00:21:16.296Z",
+      "updatedAt": "2024-07-11T00:21:16.296Z",
+      "id": "929Cq0MPDYxfq67l",
+      "name": "Google Agenda"
+    }
+  ]
+}
