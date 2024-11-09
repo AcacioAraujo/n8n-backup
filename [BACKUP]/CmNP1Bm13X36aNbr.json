@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-09T12:25:24.842Z",
-  "updatedAt": "2024-11-09T17:03:50.502Z",
+  "updatedAt": "2024-11-09T18:51:08.709Z",
   "id": "CmNP1Bm13X36aNbr",
   "name": "[BACKUP]-[GITHUB]",
   "active": false,
@@ -255,6 +255,35 @@
     },
     {
       "parameters": {
+        "operation": "toJson",
+        "mode": "each",
+        "options": {
+          "format": true,
+          "fileName": "={{ $json.id }}.json"
+        }
+      },
+      "id": "dcfe87f0-a133-4a4d-92d4-b743438f5ac8",
+      "name": "Convert to File",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1940,
+        620
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "4f6216bf-619b-4c50-84f4-32e4c88b97aa",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        360,
+        340
+      ]
+    },
+    {
+      "parameters": {
         "authentication": "oAuth2",
         "resource": "file",
         "owner": {
@@ -287,35 +316,6 @@
         }
       },
       "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "operation": "toJson",
-        "mode": "each",
-        "options": {
-          "format": true,
-          "fileName": "={{ $json.id }}.json"
-        }
-      },
-      "id": "dcfe87f0-a133-4a4d-92d4-b743438f5ac8",
-      "name": "Convert to File",
-      "type": "n8n-nodes-base.convertToFile",
-      "typeVersion": 1.1,
-      "position": [
-        1940,
-        620
-      ]
-    },
-    {
-      "parameters": {},
-      "id": "4f6216bf-619b-4c50-84f4-32e4c88b97aa",
-      "name": "When clicking ‘Test workflow’",
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        360,
-        340
-      ]
     }
   ],
   "connections": {
@@ -458,11 +458,6 @@
           }
         ]
       ]
-    },
-    "Edit Fields": {
-      "main": [
-        []
-      ]
     }
   },
   "settings": {
@@ -473,7 +468,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "508e9ae1-6139-4f70-9dfc-27b133d08ed1",
+  "versionId": "248ce05e-550c-4e72-9c60-1348dc158a5e",
   "triggerCount": 0,
   "tags": []
 }
