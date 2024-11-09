@@ -1,0 +1,1721 @@
+{
+  "createdAt": "2024-11-08T12:45:53.694Z",
+  "updatedAt": "2024-11-08T12:45:53.694Z",
+  "id": "lkbCjV883q49W4aF",
+  "name": "[POUSADA SERRA QUE CHORA]-[INTEGRAÇÃO AGENTE DE IA]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Variaveis').item.json.celular }}",
+        "messageData": "={{ $('Variaveis').item.json.conversation }}",
+        "tail": true
+      },
+      "id": "b4abe6a5-5d09-4aed-90db-1196fad4edf0",
+      "name": "Salva msg",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        880,
+        200
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $('Variaveis').item.json.celular }}",
+        "options": {}
+      },
+      "id": "92ccc158-8ea7-4f62-b64f-f14ab42bd195",
+      "name": "Consulta msg",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        200
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "2e0a1c74-f04d-428c-b99f-db3c0ce31afc",
+              "leftValue": "={{ $json.propertyName }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "array",
+                "operation": "lengthEquals",
+                "rightType": "number"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "aedf9bfd-82a2-46e3-9f8f-30c6f6812d3c",
+      "name": "Primeira msg",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1300,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 30,
+        "path": "d4896982-1485-46d9-a58c-6ae6c78f7922"
+      },
+      "id": "2cd77790-a6b5-4e6c-a8de-09e7bddc2bce",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1520,
+        140
+      ],
+      "webhookId": "d4896982-1485-46d9-a58c-6ae6c78f7922"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.robotriz.com.br/message/sendText/Pousadas%20Robotriz",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "6612A58785A6-4F45-9527-B3BA28DF0952"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "5535997638844"
+            },
+            {
+              "name": "text",
+              "value": "={{\n\n(()=>{\n\n  let arrMensagens = $json.propertyName;\n\n  return arrMensagens.join(\", \");\n})()\n\n}}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          },
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "id": "f82fc43f-3f6f-4cb6-be9c-b05142b80c56",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        320,
+        1020
+      ],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b3d0d8df-bb6e-415d-a075-87214afeb35b",
+              "leftValue": "={{ $json.key.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "ac061f1b-2281-4754-ac83-89de8691681d",
+      "name": "If1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        540,
+        1020
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "07a30880-ff38-4636-ba58-d176ecf5c2af",
+              "leftValue": "={{ $json.key.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "20e85834-0dc4-4ff3-9075-5540d63bc552",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3080,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Variaveis').item.json.celular }}"
+      },
+      "id": "071a26ee-e09f-4900-90cc-8295a12401bb",
+      "name": "Limpa msgs",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3300,
+        80
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Dados Lead').item.json.celular }}"
+      },
+      "id": "44358fa8-97a7-4ea4-a0e9-718123665446",
+      "name": "Limpa msgs1",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        760,
+        1020
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $('Dados Lead').item.json.celular }}",
+        "keyType": "list",
+        "options": {}
+      },
+      "id": "5a8eb1a2-1c91-47ee-8429-ea7385628fd0",
+      "name": "Consulta msg novamente1",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        120,
+        1020
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $('Variaveis').item.json.celular }}",
+        "keyType": "list",
+        "options": {}
+      },
+      "id": "c1a1a04d-9503-4f4a-a218-79edd84f3385",
+      "name": "Consulta msg novamente",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1700,
+        140
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Variaveis').item.json.celular }}"
+      },
+      "id": "ab8d97f1-e7b3-4817-a22f-4e962a77e957",
+      "name": "Limpa msgs2",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        760,
+        40
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {
+          "language": "pt"
+        }
+      },
+      "id": "eee1fa82-24bb-48be-bb54-3557b61cb8a5",
+      "name": "OpenAI1",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        1700,
+        480
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "openAiApi": {
+          "id": "qTcKDeG1l7aS58Jy",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "audio64",
+        "options": {
+          "fileName": "transcricao.ogg",
+          "mimeType": "audio/ogg"
+        }
+      },
+      "id": "a53ede84-2e53-4de3-8a14-975ce4f4a014",
+      "name": "Converter em Audio",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1540,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "setAllData": false,
+        "destinationKey": "audio64",
+        "options": {
+          "encoding": "base64"
+        }
+      },
+      "id": "54079b34-57b4-4e59-b06d-6d9d1c36d150",
+      "name": "Move Binary Data",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "typeVersion": 1,
+      "position": [
+        1380,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b6cd097d-3a3a-4cdc-a6f1-13c118a4618c",
+              "name": "transcricao",
+              "value": "={{\n  $node['Webhook'].json.body.data.message.imageMessage?.caption\n    ? (\n        $json.content \n          ? `${$json.content} Legenda: ${$node['Webhook'].json.body.data.message.imageMessage.caption } }` \n          : 'Erro: json.content ausente para imagem com legenda'\n      ) \n    : `${$json.content || ''} ${$json.text ? $json.text : ''}`\n}}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a8e52887-f61a-4daa-af3b-fd7b735acf88",
+      "name": "Transcrição",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1860,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "setAllData": false,
+        "destinationKey": "image64",
+        "options": {
+          "encoding": "base64"
+        }
+      },
+      "id": "32df0164-b427-460a-b22e-6f033f839144",
+      "name": "Move Binary Data1",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "typeVersion": 1,
+      "position": [
+        1380,
+        740
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "image64",
+        "options": {
+          "fileName": "imagem.jpeg",
+          "mimeType": "image/jpeg"
+        }
+      },
+      "id": "871ade1c-6471-46ba-bee2-0b2103f72dfb",
+      "name": "Converter em Imagem",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1540,
+        740
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini-2024-07-18",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI-2024-07-18"
+        },
+        "text": "Descreva todo o conteúdo da imagem, sem Acentos e sem hífens",
+        "inputType": "base64",
+        "options": {}
+      },
+      "id": "d2f7497d-efdf-4997-ad00-e8097ccdf31f",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [
+        1700,
+        740
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "qTcKDeG1l7aS58Jy",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Webhook').item.json.body.data.message.mediaUrl }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "91904481-bc54-4456-bf17-2641a9880722",
+      "name": "Baixar audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1220,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Webhook').item.json.body.data.message.mediaUrl }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "e6c9486c-4a0c-4eb1-bb16-2929c3dd0833",
+      "name": "Baixar imagem",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1220,
+        740
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dify-api.robotriz.com.br/v1/chat-messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Variaveis').item.json.api_key }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"inputs\": {},\n  \"query\": \"{{ $('Mensagens').item.json.query }}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"{{ $('Dados Lead').item.json.conversation_id }}\",\n  \"user\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"files\": [\n    {\n      \"type\": \"image\",\n      \"transfer_method\": \"remote_url\",\n      \"url\": \"https://cloud.dify.ai/logo/logo-site.png\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "id": "bea3ce9a-c328-4a0e-b1f9-565d094f0b9c",
+      "name": "Dify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2140,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "=telefone",
+              "lookupValue": "={{ $json.celular }}"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "id": "806fb0e2-7f2c-4a31-ad4c-b4dbacc8f4ad",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -120,
+        380
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "32d59737-a408-4097-ae6a-cbb435afde8b",
+              "name": "conversation_id",
+              "value": "={{ $json.conversation_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "43ea18ea-bc62-4d97-b665-b05e2043e010",
+      "name": "Dados Lead",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        80,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7ec39f15-8a96-4e19-b459-9078035f0d99",
+              "name": "celular",
+              "value": "={{ (()=>{\n\n  var entrada = $json.body.data.key.remoteJid\n\n    const partes = entrada.split('@');\n    \n    // Pegar a primeira parte\n    let primeiraParte = partes[0];\n    \n    // Verificar se tem 13 caracteres\n    if (primeiraParte.length !== 13) {\n        // Inserir '9' na 5ª posição (índice 4)\n        primeiraParte = primeiraParte.slice(0, 4) + '9' + primeiraParte.slice(4);\n    }\n\nreturn primeiraParte\n\n})()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "f853db83-6be1-4ee2-93fd-19c955345814",
+              "name": "remoteJid",
+              "value": "={{ $json.body.data.key.remoteJid }}",
+              "type": "string"
+            },
+            {
+              "id": "fe55b87a-c26f-412c-bc13-de0663d0aaf0",
+              "name": "conversation",
+              "value": "={{ $json.body.data.message.conversation }}",
+              "type": "string"
+            },
+            {
+              "id": "5acbc6a3-2627-40dd-a5b3-0818f6cd10cd",
+              "name": "messageType",
+              "value": "={{ $json.body.data.messageType }}",
+              "type": "string"
+            },
+            {
+              "id": "ed90fdce-325a-4ec2-8794-5ec8eb347694",
+              "name": "api_key",
+              "value": "app-o9cQbcGHuKviiEwq53jZQiqa",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5a2df099-2acf-4110-9234-b2ed8b21fe77",
+      "name": "Variaveis",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -300,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Variaveis').item.json.messageType }}",
+                    "rightValue": "conversation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Texto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "772cb82b-59c4-4f89-8b4a-656d3f8c1226",
+                    "leftValue": "={{ $('Variaveis').item.json.messageType }}",
+                    "rightValue": "audioMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "019ed50a-9616-4a4a-af08-e8317e239faa",
+                    "leftValue": "={{ $('Variaveis').item.json.messageType }}",
+                    "rightValue": "imageMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Imagem"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ecd8d8e3-4351-4041-9af2-473da621fdf9",
+      "name": "Tipo de mensagem",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        540,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f10a56af-ec7b-48cd-aa36-1a6d14488814",
+              "leftValue": "={{ $('Dados Lead').item.json.conversation_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d9010ec9-601c-4d99-b292-9f55971f3f17",
+      "name": "Não tem conversation_id",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2360,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "telefone": "={{ $('Variaveis').item.json.celular }}",
+            "conversation_id": "={{ $('Dify').item.json.conversation_id }}"
+          },
+          "matchingColumns": [
+            "telefone"
+          ],
+          "schema": [
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "data_inscricao",
+              "displayName": "data_inscricao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "horario_inscricao",
+              "displayName": "horario_inscricao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pagina",
+              "displayName": "pagina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "conversation_id",
+              "displayName": "conversation_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "03819615-6d19-41e8-9221-b591f7145d94",
+      "name": "Atualiza conversation_id",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2600,
+        40
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "883441bb-4af1-4ada-84fa-ff750dc06d71",
+              "name": "=query",
+              "value": "={{\n\n(()=>{\n\n  let arrMensagens = $json.propertyName;\n\n  return arrMensagens.join(\" \");\n})()\n\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "77c785a5-19e9-4c8e-8426-7e12fa6b2e32",
+      "name": "Mensagens",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1920,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.robotriz.com.br/message/sendText/suporte_admiraves",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=2670092489D3-45C2-A404-0E1A22B89C31"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Variaveis').item.json.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('Dify').item.json.answer }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "52f7c5a6-1535-4de8-b767-fcf30bde5cd1",
+      "name": "Envia resposta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2860,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dify-api.robotriz.com.br/v1/chat-messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Variaveis').item.json.api_key }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"inputs\": {},\n  \"query\": \"{{ \n(()=>{\n  return $json.transcricao.replace(/[\\n\\r]/g, '');\n})()\n\n}}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"{{ $('Dados Lead').item.json.conversation_id }}\",\n  \"user\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"files\": [\n    {\n      \"type\": \"image\",\n      \"transfer_method\": \"remote_url\",\n      \"url\": \"https://cloud.dify.ai/logo/logo-site.png\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "id": "b7efd79f-0ffd-42c0-947f-93b2b36be7cd",
+      "name": "Dify1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2060,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f10a56af-ec7b-48cd-aa36-1a6d14488814",
+              "leftValue": "={{ $('Dados Lead').item.json.conversation_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "13bde0c2-fba0-4ecd-97a7-26ed66f085a9",
+      "name": "Não tem conversation_id1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2280,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "telefone": "={{ $('Variaveis').item.json.celular }}",
+            "conversation_id": "={{ $('Dify1').item.json.conversation_id }}"
+          },
+          "matchingColumns": [
+            "telefone"
+          ],
+          "schema": [
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "data_inscricao",
+              "displayName": "data_inscricao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "horario_inscricao",
+              "displayName": "horario_inscricao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pagina",
+              "displayName": "pagina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "conversation_id",
+              "displayName": "conversation_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "799dc919-0868-4be7-9946-92b313d2f04a",
+      "name": "Atualiza conversation_id1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2520,
+        380
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.robotriz.com.br/message/sendText/suporte_admiraves",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=2670092489D3-45C2-A404-0E1A22B89C31"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Variaveis').item.json.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('Dify1').item.json.answer }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "fd034ce9-c492-4075-af12-5f9f00752874",
+      "name": "Envia resposta1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2780,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9fb78c40-3eaf-4362-a5e4-8cba44d2b88a",
+              "leftValue": "={{ $('Google Sheets').item.json.agente_ia.toString() }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c0e00aef-2703-473c-aa8b-f091fdad82ee",
+      "name": "liberado para testes",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        300,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "28d74be8-a368-43ab-a714-e11665566ad5",
+              "leftValue": "={{ $json.body.sender }}",
+              "rightValue": "553599148941@s.whatsapp.net",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "eb0ae91c-589a-434b-a6f6-8d33fb797481",
+      "name": "Sender não é Melissa",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -560,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "8947962c-cef5-49d1-8da2-d38f8232f205",
+        "options": {}
+      },
+      "id": "37a36d72-a39a-40bd-940d-ff761bb8adf5",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -540,
+        380
+      ],
+      "webhookId": "8947962c-cef5-49d1-8da2-d38f8232f205"
+    }
+  ],
+  "connections": {
+    "Salva msg": {
+      "main": [
+        [
+          {
+            "node": "Consulta msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta msg": {
+      "main": [
+        [
+          {
+            "node": "Primeira msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Primeira msg": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Consulta msg novamente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Limpa msgs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta msg novamente1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta msg novamente": {
+      "main": [
+        [
+          {
+            "node": "Mensagens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "Transcrição",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Converter em Audio": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move Binary Data": {
+      "main": [
+        [
+          {
+            "node": "Converter em Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcrição": {
+      "main": [
+        [
+          {
+            "node": "Dify1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move Binary Data1": {
+      "main": [
+        [
+          {
+            "node": "Converter em Imagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Converter em Imagem": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baixar audio": {
+      "main": [
+        [
+          {
+            "node": "Move Binary Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baixar imagem": {
+      "main": [
+        [
+          {
+            "node": "Move Binary Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Transcrição",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Dados Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Lead": {
+      "main": [
+        [
+          {
+            "node": "liberado para testes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Variaveis": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tipo de mensagem": {
+      "main": [
+        [
+          {
+            "node": "Salva msg",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Baixar audio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Baixar imagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dify": {
+      "main": [
+        [
+          {
+            "node": "Não tem conversation_id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Não tem conversation_id": {
+      "main": [
+        [
+          {
+            "node": "Atualiza conversation_id",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Envia resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagens": {
+      "main": [
+        [
+          {
+            "node": "Dify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualiza conversation_id": {
+      "main": [
+        [
+          {
+            "node": "Envia resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envia resposta": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dify1": {
+      "main": [
+        [
+          {
+            "node": "Não tem conversation_id1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Não tem conversation_id1": {
+      "main": [
+        [
+          {
+            "node": "Atualiza conversation_id1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Envia resposta1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualiza conversation_id1": {
+      "main": [
+        [
+          {
+            "node": "Envia resposta1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "liberado para testes": {
+      "main": [
+        [
+          {
+            "node": "Tipo de mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Variaveis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "axios/1.7.7",
+            "content-length": "1041",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "9292266f8f54",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "Conde Trader",
+            "data": {
+              "key": {
+                "remoteJid": "553597638844@s.whatsapp.net",
+                "fromMe": false,
+                "id": "3EB0F61F11B7EBB11ECCFB"
+              },
+              "pushName": "Acácio Araujo MG",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "conversation": "oi",
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "X/lGvRQo33s7pg==",
+                    "senderTimestamp": "1730470693",
+                    "senderAccountType": "E2EE",
+                    "receiverAccountType": "E2EE",
+                    "recipientKeyHash": "B5QZjjPCLsvxEg==",
+                    "recipientTimestamp": "1729285345"
+                  },
+                  "deviceListMetadataVersion": 2,
+                  "messageSecret": "oRcWQG4sZgwkepHLOtTiAsVDEEVhiTUufUQaKdcBELI="
+                }
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1731012153,
+              "instanceId": "c676c325-210c-4937-9ef5-6d4d77c59b58",
+              "source": "web",
+              "chatwootMessageId": 65,
+              "chatwootInboxId": 1,
+              "chatwootConversationId": 2
+            },
+            "destination": "https://n8n.robotriz.com.br/webhook-test/85a77fa9-e3c2-4185-af32-22632864dfd4",
+            "date_time": "2024-11-07T17:42:34.014Z",
+            "sender": "557382015895@s.whatsapp.net",
+            "server_url": "https://evolution.robotriz.com.br",
+            "apikey": "92296C17C4AB-4130-90AA-2CE1FB6603D1"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/85a77fa9-e3c2-4185-af32-22632864dfd4",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "3809367a-831e-436d-988b-ef70a55a90b7",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-11-08T12:45:44.820Z",
+      "updatedAt": "2024-11-08T12:45:44.820Z",
+      "id": "PhnwDtvybcxUVs1k",
+      "name": "Serra que Chora"
+    }
+  ]
+}
