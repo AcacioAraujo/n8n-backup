@@ -1,0 +1,1356 @@
+{
+  "createdAt": "2024-07-29T20:42:14.899Z",
+  "updatedAt": "2024-07-29T20:42:14.899Z",
+  "id": "37tmkWUvrFt9DXP4",
+  "name": "[GOOGLE AGENDA] + [EVOLUTION]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "name": "CalendarAvailability",
+        "description": "Call this tool to get my calendar availability as stringified JSON array.",
+        "workflowId": "=wF45fAi70zGnDLzH"
+      },
+      "id": "211935fa-f0d9-48fd-8d91-8924991c62eb",
+      "name": "Workflow Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "position": [
+        2800,
+        600
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Busca horários disponíveis na agenda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDesenvolvido por Kaique Grigoletto (@k.grigoletto)",
+        "height": 277.5772628442218,
+        "width": 417.1598293502251
+      },
+      "id": "c7579439-9bdc-4667-9c4d-96099579bf5e",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2460,
+        280
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-2024-05-13",
+        "options": {
+          "maxTokens": 1000,
+          "temperature": 0.1
+        }
+      },
+      "id": "79b483fc-96cd-4047-9716-e0114236904e",
+      "name": "OpenAI Chat Model4",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        2520,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.message.content.output.consulta.data }}",
+        "format": "custom",
+        "customFormat": "yyyy-MM-dd HH:mm:ss",
+        "outputFieldName": "Inicio consulta",
+        "options": {
+          "timezone": true
+        }
+      },
+      "id": "57d59c92-6721-447e-99fc-83d72148446c",
+      "name": "Início Consulta",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        3740,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "addToDate",
+        "magnitude": "={{ $json['Inicio consulta'] }}",
+        "timeUnit": "hours",
+        "duration": 1,
+        "outputFieldName": "Final da consulta",
+        "options": {
+          "includeInputFields": false
+        }
+      },
+      "id": "6adb911e-343a-4fa1-a346-1e5dd458fc2b",
+      "name": "Final da Consulta",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        3940,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "kaiquegrigoletto@gmail.com",
+          "mode": "list",
+          "cachedResultName": "kaiquegrigoletto@gmail.com"
+        },
+        "start": "={{ $('Início Consulta').item.json['Inicio consulta'] }}",
+        "end": "={{ $json['Final da consulta'] }}",
+        "useDefaultReminders": false,
+        "additionalFields": {
+          "attendees": [],
+          "description": "=Whatsapp: 1112345678",
+          "summary": "={{ $('Dados').item.json.Name }} | Consulta"
+        }
+      },
+      "id": "4a639101-3159-438a-93fb-4e3cf97105c1",
+      "name": "Criar Agendamento",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.1,
+      "position": [
+        4120,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "7c873c5d-8aee-4b63-bb10-fadf1ba27bb8",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "=com sucesso",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "ddf03e05-d505-4b8c-bbd6-c2a571529762",
+      "name": "Agendou?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2980,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.kaiquegrigoletto.com.br/message/sendText/Kaique-Grigoletto",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "="
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Dados').item.json.sessionId }}"
+            },
+            {
+              "name": "textMessage.text",
+              "value": "={{ $json.output }}"
+            },
+            {
+              "name": "options.delay",
+              "value": "={{ 1200 }}"
+            },
+            {
+              "name": "options.presence",
+              "value": "composing"
+            },
+            {
+              "name": "options.linkPreview",
+              "value": "={{ false }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "42ae4bd8-0e6e-4014-97e7-b1478705f7e3",
+      "name": "Envia Mensagem",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        3140,
+        580
+      ],
+      "typeVersion": 4
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "ff11fb8f-147b-4404-a3f4-d60bd9435657",
+              "leftValue": "={{ $json.sessionId }}",
+              "rightValue": "5511942578559",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "286f1f45-764a-4a97-8b7b-26393137f35d",
+      "name": "Verifica número",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        940,
+        400
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "e69ee06c-f504-440b-abee-ad5335ec58c0",
+      "name": "Texto",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        240
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "62f185c4-f418-4c7b-b496-3292834b521c",
+      "name": "Imagem",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        420
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "b2346963-8e0a-4191-94f4-31fb1cc5ef52",
+      "name": "Audio",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.kaiquegrigoletto.com.br/chat/getBase64FromMediaMessage/Suporte-ANA",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "3gey2oglbwkzxdf7na76zk"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "message.key.id",
+              "value": "={{ $json.body.data.key.id }}"
+            },
+            {
+              "name": "convertToMp4",
+              "value": "false"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a89489ab-5b5e-4eff-a058-5dad7496fd42",
+      "name": "Imagem para Base64",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1660,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "base64",
+        "options": {
+          "mimeType": "={{ $json.mimetype }}"
+        }
+      },
+      "id": "5864649a-4216-4d1f-8c15-20123a66f2df",
+      "name": "Base64 para Arquivo",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1860,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "413d559e-769f-4954-86a7-e587eef2b50d",
+              "name": "sessionId",
+              "value": "={{ $json.body.data.key.remoteJid.split(\"@\")[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "dd1f7393-9c31-47fb-aeb7-8dcad28db585",
+              "name": "id",
+              "value": "={{ $json.body.data.key.id }}",
+              "type": "string"
+            },
+            {
+              "id": "7b66d8e8-2fc2-4bf8-bc6a-3e9975ce91e7",
+              "name": "messageType",
+              "value": "={{ $('Webhook').item.json[\"body\"][\"data\"][\"messageType\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "5d90e0c4-c9a0-49c7-a078-161ea4e234be",
+              "name": "chatInput",
+              "value": "={{ $json.body.data.message.conversation }}",
+              "type": "string"
+            },
+            {
+              "id": "436bb0dd-cf7f-4b52-8ceb-110610400835",
+              "name": "Name",
+              "value": "={{ $json.body.data.pushName }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fa183e86-a542-43e1-b89c-0e4515727238",
+      "name": "Dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        740,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "base64",
+        "options": {
+          "mimeType": "={{ $json.mimetype }}"
+        }
+      },
+      "id": "cb4055d2-c981-45ac-adf0-de01de93738a",
+      "name": "Convert to File",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1860,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.kaiquegrigoletto.com.br/chat/getBase64FromMediaMessage/Suporte-ANA",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "3gey2oglbwkzxdf7na76zk"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "message.key.id",
+              "value": "={{ $json.body.data.key.id }}"
+            },
+            {
+              "name": "convertToMp4",
+              "value": "false"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f28dff67-4268-4fd8-bed3-c646ad3a86b0",
+      "name": "Áudio para Base64",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1660,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {
+          "language": "pt"
+        }
+      },
+      "id": "91b70e04-af56-49a9-82af-78923c349d47",
+      "name": "Transcreve Audio",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        2040,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.kaiquegrigoletto.com.br/message/sendText/Kaique-Grigoletto",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "="
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Dados').item.json.sessionId }}"
+            },
+            {
+              "name": "textMessage.text",
+              "value": "={{ $('OpenAI1').item.json.message.content.output.mensagem }}"
+            },
+            {
+              "name": "options.delay",
+              "value": "={{ 1200 }}"
+            },
+            {
+              "name": "options.presence",
+              "value": "composing"
+            },
+            {
+              "name": "options.linkPreview",
+              "value": "={{ false }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "f37e77d2-2980-48d9-a896-2493785f3355",
+      "name": "Envia mensagem - Agendamento",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        4300,
+        260
+      ],
+      "typeVersion": 4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1fdc7d9f-f0fb-47d0-bda0-3f5535ebf5e6",
+              "name": "chatInput",
+              "value": "={{ $json.chatInput }}",
+              "type": "string"
+            },
+            {
+              "id": "1094ca87-fbc9-4922-80ff-9a5e8fd50fe2",
+              "name": "sessionId",
+              "value": "={{ $('Dados').item.json.sessionId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "41b9d8f7-0f68-4219-9aed-804a4fe55014",
+      "name": "Define ChatInput (texto)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        2220,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1fdc7d9f-f0fb-47d0-bda0-3f5535ebf5e6",
+              "name": "chatInput",
+              "value": "={{ $json.content }}",
+              "type": "string"
+            },
+            {
+              "id": "1094ca87-fbc9-4922-80ff-9a5e8fd50fe2",
+              "name": "sessionId",
+              "value": "={{ $('Dados').item.json.sessionId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b1b71d5d-4f84-4275-a0e2-0e2fc4061999",
+      "name": "Define ChatInput (imagem)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        2220,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1fdc7d9f-f0fb-47d0-bda0-3f5535ebf5e6",
+              "name": "chatInput",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "7ee13e4c-4a64-4975-9c3b-a718890f921b",
+              "name": "sessionId",
+              "value": "={{ $('Dados').item.json.sessionId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e9599ea6-e276-4103-8524-c89fd55871c2",
+      "name": "Define ChatInput (áudio)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        2220,
+        600
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "20999258-b132-4b90-89d0-f510189e93a4",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        1060,
+        1041
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "response",
+        "include": "allFieldsExcept",
+        "fieldsToExclude": "sort",
+        "options": {}
+      },
+      "id": "b79b9c09-b595-4945-bf55-be63eb706c48",
+      "name": "Format response",
+      "type": "n8n-nodes-base.itemLists",
+      "position": [
+        2160,
+        1041
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "response",
+              "value": "={{ JSON.stringify($json.response) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "af8ee3ac-ca71-4823-8103-a0f4b4d27c03",
+      "name": "Stringify Response",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        2380,
+        1041
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "start",
+              "value": "={{ DateTime.fromISO($json.start.dateTime).toLocaleString(DateTime.DATE_HUGE) }}, {{ DateTime.fromISO($json.start.dateTime).toLocaleString(DateTime.TIME_24_WITH_SHORT_OFFSET) }}"
+            },
+            {
+              "name": "end",
+              "value": "={{ DateTime.fromISO($json.end.dateTime).toLocaleString(DateTime.DATE_HUGE) }}, {{ DateTime.fromISO($json.end.dateTime).toLocaleString(DateTime.TIME_24_WITH_SHORT_OFFSET) }}"
+            },
+            {
+              "name": "name",
+              "value": "={{ $json.summary }}"
+            },
+            {
+              "name": "sort",
+              "value": "={{ $json.start.dateTime }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "85e90092-a6e5-4e7a-97b8-a4a529028311",
+      "name": "Extract start, end and name",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1700,
+        1041
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.status }}",
+              "value2": "confirmed"
+            }
+          ],
+          "boolean": [
+            {
+              "value1": "={{ $json.start.dateTime }}",
+              "operation": "notEqual",
+              "value2": "={{ undefined }}"
+            }
+          ]
+        }
+      },
+      "id": "f23ef194-64ef-46af-bf5d-cd430498161a",
+      "name": "Filter only confirmed and with set time",
+      "type": "n8n-nodes-base.filter",
+      "position": [
+        1480,
+        1041
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "sort",
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "sort"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7cee593b-b351-4c48-bbce-56e86d890cee",
+      "name": "Sort",
+      "type": "n8n-nodes-base.itemLists",
+      "position": [
+        1920,
+        1041
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "kaiquegrigoletto@gmail.com",
+          "mode": "list",
+          "cachedResultName": "kaiquegrigoletto@gmail.com"
+        },
+        "returnAll": true,
+        "options": {
+          "timeMin": "={{ $now.minus(1, 'day').toISO() }}",
+          "timeMax": "={{ $now.plus(1, 'month').toISO() }}",
+          "singleEvents": true
+        }
+      },
+      "id": "036fbd94-ba9a-41d7-88ae-29379c502027",
+      "name": "Google Calendar1",
+      "type": "n8n-nodes-base.googleCalendar",
+      "position": [
+        1280,
+        1041
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "### Busca todos horários ocupados do Google Agenda\n- Buscar todos horários ocupados entre um intervalo. \n- Não é possível buscar os horários disponíveis, por isso eu faço a engenharia reserva.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDesenvolvido por Kaique Grigoletto (@k.grigoletto)",
+        "height": 290.71962593189903,
+        "width": 1573.5582358986087,
+        "color": 7
+      },
+      "id": "cdef99ab-10d4-43e5-add7-8cac75dedb42",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1000.3366982695161,
+        913.885985729522
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "10e35d63-04a2-450a-ac3b-bdb093b4361c",
+        "options": {}
+      },
+      "id": "d8abcbb8-efad-465f-9649-ecc7cc7f2ef0",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        560,
+        400
+      ],
+      "webhookId": "10e35d63-04a2-450a-ac3b-bdb093b4361c"
+    },
+    {
+      "parameters": {},
+      "id": "fb19453d-0fb8-42f2-b8e7-498821f87f42",
+      "name": "Meu Número",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "sessionTTL": 300
+      },
+      "id": "84606cf5-dec1-46e0-9f39-94e1d6c2c506",
+      "name": "Redis Chat Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.2,
+      "position": [
+        2680,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-2024-05-13",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-2024-05-13"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Você é uma assistente capaz de transformar o texto com informações da consulta de input em um Json formato no seguinte modelo:\n\n{\n  \"output\": {\n    \"consulta\": {\n      \"data\": \"2024-05-27T11:00:00\"\n    },\n    \"mensagem\": \"Sua consulta está confirmada com sucesso para segunda-feira, 27 de maio de 2024, às 11:00.\"\n  }\n}\n\nEm hipótese alguma gere uma output fora desse padrão do json\n",
+              "role": "system"
+            },
+            {
+              "content": "=Por favor, transforme o texto em um json válido:\n\n{{ $json.output }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "id": "15aff2b4-b98f-424b-9e31-941a1fa4766d",
+      "name": "OpenAI1",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        3280,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=## *Role*\n\nVocê é uma secretária gentil e educada, responsável por fazer os agendamentos de uma clínica odontológica chamada Clínica XPTO.\n\n## *Tasks*\n\n- *Verifique a disponibilidade da agenda a partir das informações dos horários ocupados da agenda*. Ofereça horários, dias ou períodos DISPONÍVEIS como resposta. Retorne todas as opções de forma resumida e com emojis.\n- Ao verificar os horários, pule sempre uma hora após o último agendamento. Exemplo: Se tiver um agendamento às 15h, o próximo horário disponível é a partir das 16h.\n- Caso o paciente envie os horários que ele possua disponibilidade, verifique com os horários disponíveis da clínica e escolha a mais próxima.\n- Caso ele não envie nenhuma data e hora, sugira as opções mais próximas dentro dos próximos dois dias.\n- O horário de atendimento é das 09h às 18h de segunda a sexta-feira.\n- O período da manhã é das 9h até 12h e o período da tarde é das 13h até 18h.\n- A data e hora de hoje é: {{ $now.toISO() }}.\n- *SEMPRE* que houver confirmação de agendamento ou compatibilidade com a data e horário solicitados, a frase de resposta deve conter apenas \"Sua consulta foi confirmada com sucesso para o dia, mês, ano, hora e minuto.\" entre o texto contendo a data e hora completa.\n- Caso pergunte algo que não seja relacionado a agendamento, a frase de resposta deve ser \"hmm, não tenho certeza\".\n\n## *Communication Style*\n\n- Use um tom educado e acolhedor.\n- Responda de maneira clara, organizada e concisa.\n- Mantenha uma atitude positiva e prestativa.\n- Use Emojis na resposta.\n- Pule uma linha entre parágrafos.\n\n## *Interaction Examples*\n\n### Exemplo 1:\nPaciente: \"Olá, gostaria de marcar uma consulta\"\n\nSecretária: \"Temos disponibilidade na terça-feira às 10h e na quinta-feira às 14h. Qual horário seria melhor para você?\"\n\n### Exemplo 2:\nPaciente: \"Quais são os horários no período da manhã da próxima semana?\"\n\nSecretária: \"Na próxima semana no período da manhã temos os seguintes horários:  \nSegunda-feira: 9h, 10h, 11h.  \nQuarta-feira: 9h, 10h, 11h.  \nQual dessas opções é melhor para você?\"\n\n### Exemplo 3:\nPaciente: \"Posso agendar para o dia 15 de julho às 14h?\"\n\nSecretária: \"Verifiquei a nossa agenda e temos disponibilidade.  \nSua consulta foi confirmada com sucesso para o dia 15 de julho de 2024 às 14h! 😊\"\n\n### Exemplo 4:\nPaciente: \"Quais são as especialidades?\"\n\nSecretária: \"hmm, não tenho certeza.\"\n\n## *Limitations and Restrictions*\n\n- Não responda nenhuma informação que não seja relacionada a agendamento.\n- Não confirme consultas sem verificar a disponibilidade real.\n- Não use em hipótese alguma \"confirmado com sucesso\" no texto caso o paciente esteja apenas verificando a disponibilidade e ainda não confirmou a data.\n- Não faça nenhuma saudação, responda apenas com as informações que você foi instruída a fazer.\n- Não deixe de pular uma linha entre parágrafos.\n- Não envie um horário que seja o início de outro evento. Exemplo: Se 14h está ocupado e a consulta leva 1h, *NUNCA* envie 14h como opção. Envie nesse caso, horário de manhã disponível 9h, 10h, 11h, 12h e de tarde 13h, 15h, 16h, 17h.\n- Não mencione nenhum horário entre 9h até 12h como período da tarde e nenhum horário entre 13h até 18h como período da manhã.\n- Não envie horários após 17h, já que a clínica fecha às 18h.\n- Não deixe de enviar nenhum horário disponível. Inclusive às 12h caso esteja sem agendamento. \n"
+        }
+      },
+      "id": "7c3bc244-64e3-453f-8287-aaad38c8cade",
+      "name": "Secretária",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.5,
+      "position": [
+        2560,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook').item.json[\"body\"][\"data\"][\"messageType\"] }}",
+                    "rightValue": "conversation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "49ba3896-7705-4669-bbb8-c87333518294",
+                    "leftValue": "={{ $('Webhook').item.json[\"body\"][\"data\"][\"messageType\"] }}",
+                    "rightValue": "imageMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "1e302447-c26b-45a8-ace8-d9bc812a6d84",
+                    "leftValue": "={{ $('Webhook').item.json[\"body\"][\"data\"][\"messageType\"] }}",
+                    "rightValue": "audioMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "034c0cbc-7602-473b-aad5-28a536f53d14",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        1220,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "text": "Você é uma secretária de uma clínica. \n\nAnalise a imagem e identifique os horários que o lead possui disponveis. \n\nA partir disso, retorne um texto em primeira pessoa informando quais horários estão disponveis para agendamento. Exemplo: \n\n\"Os meus horários disponíveis para agendamento são Segunda-feira às 10h e Terça-feira às 16h. Quais dessas opções eu consigo agendar?\"",
+        "inputType": "base64",
+        "options": {
+          "detail": "high"
+        }
+      },
+      "id": "079e7e54-8687-46a7-af09-21b682caafb2",
+      "name": "Analisa Imagem",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        2040,
+        420
+      ]
+    }
+  ],
+  "connections": {
+    "Workflow Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Secretária",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Secretária",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Início Consulta": {
+      "main": [
+        [
+          {
+            "node": "Final da Consulta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Final da Consulta": {
+      "main": [
+        [
+          {
+            "node": "Criar Agendamento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agendou?": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Envia Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Agendamento": {
+      "main": [
+        [
+          {
+            "node": "Envia mensagem - Agendamento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifica número": {
+      "main": [
+        [
+          {
+            "node": "Meu Número",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Imagem para Base64": {
+      "main": [
+        [
+          {
+            "node": "Base64 para Arquivo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Imagem": {
+      "main": [
+        [
+          {
+            "node": "Imagem para Base64",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base64 para Arquivo": {
+      "main": [
+        [
+          {
+            "node": "Analisa Imagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados": {
+      "main": [
+        [
+          {
+            "node": "Verifica número",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Transcreve Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Áudio para Base64": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Audio": {
+      "main": [
+        [
+          {
+            "node": "Áudio para Base64",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcreve Audio": {
+      "main": [
+        [
+          {
+            "node": "Define ChatInput (áudio)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Texto": {
+      "main": [
+        [
+          {
+            "node": "Define ChatInput (texto)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define ChatInput (imagem)": {
+      "main": [
+        [
+          {
+            "node": "Secretária",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define ChatInput (texto)": {
+      "main": [
+        [
+          {
+            "node": "Secretária",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define ChatInput (áudio)": {
+      "main": [
+        [
+          {
+            "node": "Secretária",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Calendar1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format response": {
+      "main": [
+        [
+          {
+            "node": "Stringify Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract start, end and name": {
+      "main": [
+        [
+          {
+            "node": "Sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter only confirmed and with set time": {
+      "main": [
+        [
+          {
+            "node": "Extract start, end and name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort": {
+      "main": [
+        [
+          {
+            "node": "Format response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar1": {
+      "main": [
+        [
+          {
+            "node": "Filter only confirmed and with set time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Secretária",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "Início Consulta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Secretária": {
+      "main": [
+        [
+          {
+            "node": "Agendou?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Texto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Imagem",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analisa Imagem": {
+      "main": [
+        [
+          {
+            "node": "Define ChatInput (imagem)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "662d44dc-af85-4f08-944e-61e897d1d20b",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2024-07-11T00:21:16.296Z",
+      "updatedAt": "2024-07-11T00:21:16.296Z",
+      "id": "929Cq0MPDYxfq67l",
+      "name": "Google Agenda"
+    },
+    {
+      "createdAt": "2024-07-29T20:41:04.698Z",
+      "updatedAt": "2024-07-29T20:41:04.698Z",
+      "id": "anmZlMDhKVZ1nRkB",
+      "name": "Kaique Grigoletto"
+    },
+    {
+      "createdAt": "2024-07-29T20:41:04.699Z",
+      "updatedAt": "2024-07-29T20:41:04.699Z",
+      "id": "0RDyb2aA4pyZGw7h",
+      "name": "Aula"
+    },
+    {
+      "createdAt": "2024-07-29T20:41:04.702Z",
+      "updatedAt": "2024-07-29T20:41:04.702Z",
+      "id": "3GSK7z8hhG5lztrs",
+      "name": "A Nova Automação"
+    }
+  ]
+}
