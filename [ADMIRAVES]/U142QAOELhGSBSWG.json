@@ -1,0 +1,472 @@
+{
+  "createdAt": "2024-10-06T22:35:30.554Z",
+  "updatedAt": "2024-10-07T12:28:55.399Z",
+  "id": "U142QAOELhGSBSWG",
+  "name": "[ADMIRAVES]-[CONSULTAR/CADASTRAR CONTATO]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://bvxwsfktknhhfobjrvnp.supabase.co/rest/v1/infoprod_contato",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2eHdzZmt0a25oaGZvYmpydm5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk4MzYyNDMsImV4cCI6MjAyNTQxMjI0M30.5dK67_5czBoHsLT5Ca9oimz44xJiGzXGn9PSOhw7IYs"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2eHdzZmt0a25oaGZvYmpydm5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk4MzYyNDMsImV4cCI6MjAyNTQxMjI0M30.5dK67_5czBoHsLT5Ca9oimz44xJiGzXGn9PSOhw7IYs"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "nome_completo",
+              "value": "={{ $('Webhook').item.json.body.nome_completo }}"
+            },
+            {
+              "name": "apelido",
+              "value": "={{ $('Webhook').item.json.body.apelido }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $('Webhook').item.json.body.email }}"
+            },
+            {
+              "name": "telefone",
+              "value": "={{ $('Webhook').item.json.body.telefone }}"
+            },
+            {
+              "name": "municipio",
+              "value": "={{ $('Webhook').item.json.body.municipio }}"
+            },
+            {
+              "name": "uf",
+              "value": "={{ $('Webhook').item.json.body.uf }}"
+            },
+            {
+              "name": "id_usuario_plataforma",
+              "value": "={{ $('Webhook').item.json.body.id_usuario_plataforma }}"
+            },
+            {
+              "name": "id_conversa",
+              "value": "={{ $('Webhook').item.json.body.id_conversa }}"
+            },
+            {
+              "name": "id_cliente",
+              "value": "={{ $('Webhook').item.json.body.id_cliente}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2009b100-117d-425a-9d85-a8a04055b52b",
+      "name": "Cadastrar contato",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1580,
+        340
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "url": "https://bvxwsfktknhhfobjrvnp.supabase.co/rest/v1/infoprod_contato",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "id_usuario_plataforma",
+              "value": "=eq.{{ $json.body.id_usuario_plataforma }}"
+            },
+            {
+              "name": "select",
+              "value": "id_contato,nome_completo,apelido,email,municipio,uf,id_conversa"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2eHdzZmt0a25oaGZvYmpydm5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk4MzYyNDMsImV4cCI6MjAyNTQxMjI0M30.5dK67_5czBoHsLT5Ca9oimz44xJiGzXGn9PSOhw7IYs"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2eHdzZmt0a25oaGZvYmpydm5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk4MzYyNDMsImV4cCI6MjAyNTQxMjI0M30.5dK67_5czBoHsLT5Ca9oimz44xJiGzXGn9PSOhw7IYs"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "01bb00c8-db21-4e9d-8c63-612e728153c8",
+      "name": "Verificar contato",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1220,
+        220
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "27cad1f9-d8bc-4762-84b0-939640e9f965",
+              "leftValue": "={{ $json.id_contato }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "cad11294-11d2-41ad-b095-de3754abaab4",
+      "name": "Existe contato?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.1,
+      "position": [
+        1420,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"status\":0\n  ,\"mensagem\": \"contato já cadastrado\"\n}",
+        "options": {}
+      },
+      "id": "57c0758c-ac2c-415d-b7f9-67415cc312c1",
+      "name": "Retorna contato já cadastrado",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1580,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"status\":1\n  ,\"mensagem\": \"contato cadastrado com sucesso\"\n}",
+        "options": {}
+      },
+      "id": "cfbd1ee5-05eb-404d-a62a-dab26aa655b3",
+      "name": "Retorna cadastrado com sucesso",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1760,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"id_usuario_plataforma\":\"{{ $json.id_usuario_plataforma }}\"\n  ,\"nome_completo\":\"{{ $json.nome_completo }}\"\n  ,\"telefone\":\"{{ $json.telefone }}\"\n  ,\"email\":\"{{ $json.email }}\"\n  ,\"apelido\":\"{{ $json.apelido }}\"\n  ,\"municipio\":\"{{ $json.municipio }}\"\n  ,\"uf\":\"{{ $json.uf }}\"\n  ,\"id_conversa\":\"{{ $json.id_conversa }}\"\n}",
+        "options": {}
+      },
+      "id": "53cef941-698e-43ea-ae35-2938fc01a3c5",
+      "name": "Retorna dados contato",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1400,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select c.dify_id, c.nome_completo, c.email, c.telefone, p.paciente_id, p.cpf\nfrom contato c \nleft join paciente p on p.cpf = c.cpf\nwhere c.dify_id = '{{ $json.body.dify_id }}'",
+        "options": {}
+      },
+      "id": "3a909029-665e-4b24-867e-f1aed8f7f3c6",
+      "name": "Consultar Disponibilidade",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        860,
+        -100
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "Ygk4OurDcLlzNVI3",
+          "name": "Postgres - Clinica Robotriz"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://bvxwsfktknhhfobjrvnp.supabase.co/rest/v1/infoprod_contato",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "id_usuario_plataforma",
+              "value": "=eq.{{ $json.body.id_usuario_plataforma }}"
+            },
+            {
+              "name": "select",
+              "value": "id_contato,nome_completo,apelido,telefone,email,municipio,uf,id_conversa,id_usuario_plataforma"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2eHdzZmt0a25oaGZvYmpydm5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk4MzYyNDMsImV4cCI6MjAyNTQxMjI0M30.5dK67_5czBoHsLT5Ca9oimz44xJiGzXGn9PSOhw7IYs"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2eHdzZmt0a25oaGZvYmpydm5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk4MzYyNDMsImV4cCI6MjAyNTQxMjI0M30.5dK67_5czBoHsLT5Ca9oimz44xJiGzXGn9PSOhw7IYs"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "624571e4-8ab9-4e58-8c83-e0052d99ad30",
+      "name": "Consultar contato",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1220,
+        -40
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.acao }}",
+                    "rightValue": "consultar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Consultar"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "f5e23fda-01c6-4807-8410-5f1e2d89610a",
+                    "leftValue": "={{ $json.body.acao }}",
+                    "rightValue": "cadastrar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Cadastrar"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "637d5214-1d8f-4dde-ae33-33fa49730aa8",
+                    "leftValue": "{{ $json.body.acao }}",
+                    "rightValue": "Alterar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Alterar"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1c503003-74cd-431a-b818-5e7cca28869f",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.1,
+      "position": [
+        1040,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "66378c73-0935-4f7d-a3c3-a18166447a18",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "3b78bf06-f83f-47a4-8cfc-1f584abed2df",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        820,
+        360
+      ],
+      "webhookId": "66378c73-0935-4f7d-a3c3-a18166447a18"
+    }
+  ],
+  "connections": {
+    "Verificar contato": {
+      "main": [
+        [
+          {
+            "node": "Existe contato?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Existe contato?": {
+      "main": [
+        [
+          {
+            "node": "Retorna contato já cadastrado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cadastrar contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cadastrar contato": {
+      "main": [
+        [
+          {
+            "node": "Retorna cadastrado com sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consultar contato": {
+      "main": [
+        [
+          {
+            "node": "Retorna dados contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Consultar contato",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Verificar contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "afcec6c7-cff4-4109-8347-091cd2b3a39b",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-07-16T19:34:32.785Z",
+      "updatedAt": "2024-07-16T19:34:32.785Z",
+      "id": "OYw06Py1CLDhVhe0",
+      "name": "Admiraves"
+    }
+  ]
+}
