@@ -506,6 +506,68 @@
   "pinData": {},
   "versionId": "4e685473-681f-4469-87ab-094d443eb23c",
   "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2024-07-11T22:40:58.674Z",
+      "updatedAt": "2024-07-11T22:40:58.674Z",
+      "role": "workflow:owner",
+      "workflowId": "X20IUjxfOx0AXn9J",
+      "projectId": "Ja0JncpEDo2g8lbx",
+      "project": {
+        "createdAt": "2024-07-09T23:33:51.407Z",
+        "updatedAt": "2024-07-09T23:40:01.832Z",
+        "id": "Ja0JncpEDo2g8lbx",
+        "name": "Contato Robotriz <contato@robotriz.com.br>",
+        "type": "personal",
+        "projectRelations": [
+          {
+            "createdAt": "2024-07-09T23:33:51.407Z",
+            "updatedAt": "2024-07-09T23:33:51.407Z",
+            "role": "project:personalOwner",
+            "userId": "84433b36-02ca-45a7-b6b1-c2dda5784d62",
+            "projectId": "Ja0JncpEDo2g8lbx",
+            "user": {
+              "createdAt": "2024-07-09T23:33:50.791Z",
+              "updatedAt": "2024-08-09T15:09:28.053Z",
+              "id": "84433b36-02ca-45a7-b6b1-c2dda5784d62",
+              "email": "contato@robotriz.com.br",
+              "firstName": "Contato",
+              "lastName": "Robotriz",
+              "personalizationAnswers": {
+                "companyType": "systems-integrator",
+                "role": "it",
+                "automationGoalDevops": [
+                  "other"
+                ],
+                "automationGoalDevopsOther": "Client process",
+                "automationBeneficiary": "myself",
+                "companySize": "<20",
+                "reportedSource": "friend",
+                "version": "v4",
+                "personalization_survey_submitted_at": "2024-07-09T23:41:05.707Z",
+                "personalization_survey_n8n_version": "1.48.3"
+              },
+              "settings": {
+                "userActivated": true,
+                "firstSuccessfulWorkflowId": "s4XUgLyHXyIgYsTQ",
+                "userActivatedAt": 1720658875761,
+                "isOnboarded": true,
+                "npsSurvey": {
+                  "responded": true,
+                  "lastShownAt": 1723216160272
+                }
+              },
+              "role": "global:owner",
+              "disabled": false,
+              "mfaEnabled": false,
+              "isPending": false,
+              "isOwner": true
+            }
+          }
+        ]
+      }
+    }
+  ],
   "tags": [
     {
       "createdAt": "2024-07-11T00:21:16.296Z",
