@@ -1,0 +1,333 @@
+{
+  "createdAt": "2024-07-18T11:36:50.165Z",
+  "updatedAt": "2024-10-05T01:03:51.030Z",
+  "id": "rwnKbGJ0XacCk3tc",
+  "name": "[ADMIRAVES] - [GRAVACAO DADOS]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "293eba4a-785d-41ce-aca1-b5f7b4d6b1c5",
+              "leftValue": "={{ $json.acao }}",
+              "rightValue": "=criar",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "99ad52d9-f609-418a-a102-c441f0aa52c9",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        900,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $json.id_planilha }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $json.pagina }}",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nome_completo": "={{ $json.nome_completo }}",
+            "email": "={{ $json.email }}"
+          },
+          "matchingColumns": [
+            "email"
+          ],
+          "schema": [
+            {
+              "id": "nome_completo",
+              "displayName": "nome_completo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "552a44ba-76dd-49c7-939b-680d3a52a054",
+      "name": "Novo registro",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        1380,
+        40
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gqjvAzQ2yoOC6JTy",
+          "name": "[ADMIRAVES] - [Google Sheets]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('dados_planilha').item.json.id_planilha }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $('dados_planilha').item.json.pagina }}",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "email"
+          ],
+          "schema": [
+            {
+              "id": "nome_completo",
+              "displayName": "nome_completo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "celular",
+              "displayName": "celular",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8085591e-e6d3-4894-9744-c8577f55132e",
+      "name": "Atualiza registro",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        1380,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gqjvAzQ2yoOC6JTy",
+          "name": "[ADMIRAVES] - [Google Sheets]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "200fb615-fb9d-44b1-95ea-957ce8624634",
+              "name": "id_planilha",
+              "value": "={{ $json.body.id_planilha }}",
+              "type": "string"
+            },
+            {
+              "id": "1dc69f41-5502-4821-864a-86d54cc0d7e5",
+              "name": "pagina",
+              "value": "={{ $json.body.pagina }}",
+              "type": "string"
+            },
+            {
+              "id": "0cf25f2a-16f8-4568-b74e-92b0072dfdc7",
+              "name": "acao",
+              "value": "={{ $json.body.acao }}",
+              "type": "string"
+            },
+            {
+              "id": "3fad4a5f-535e-4b5c-9e23-7f15eacf2320",
+              "name": "campo",
+              "value": "={{ $json.body.campo }}",
+              "type": "string"
+            },
+            {
+              "id": "e9241223-11ae-431f-bc0a-9f96f70c1246",
+              "name": "valor",
+              "value": "={{ $json.body.valor }}",
+              "type": "string"
+            },
+            {
+              "id": "a0c56fbf-a1e0-4c1b-9779-a80519919fe6",
+              "name": "nome_completo",
+              "value": "={{ $json.body.nome_completo }}",
+              "type": "string"
+            },
+            {
+              "id": "95773d57-9d4f-4d5a-8b8d-12057709829e",
+              "name": "email",
+              "value": "={{ $json.body.email }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2f48b117-3174-4ecb-b5dd-16db90956762",
+      "name": "dados_planilha",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        600,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"email\": \"{{ $json.email }}\",\n  \"{{ $json.campo }}\":\"{{ $json.valor }}\" \n}",
+        "options": {}
+      },
+      "id": "b740ead7-1c4b-498a-aaf5-e622bf778049",
+      "name": "dados_atualizacao",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "d81c8a56-3bc9-40a9-876e-36b63178fbad",
+        "options": {}
+      },
+      "id": "d45a6835-83e7-460a-868f-b4c1938560fe",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        300,
+        160
+      ],
+      "webhookId": "d81c8a56-3bc9-40a9-876e-36b63178fbad"
+    }
+  ],
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Novo registro",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "dados_atualizacao",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dados_planilha": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dados_atualizacao": {
+      "main": [
+        [
+          {
+            "node": "Atualiza registro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "dados_planilha",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "b618be28-4d56-4bcb-89aa-12aec33ac03b",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-07-16T19:34:32.785Z",
+      "updatedAt": "2024-07-16T19:34:32.785Z",
+      "id": "OYw06Py1CLDhVhe0",
+      "name": "Admiraves"
+    }
+  ]
+}
