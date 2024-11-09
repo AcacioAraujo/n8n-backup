@@ -1,0 +1,258 @@
+{
+  "createdAt": "2024-07-09T23:43:01.064Z",
+  "updatedAt": "2024-07-11T00:28:47.180Z",
+  "id": "sMhHcUf4MXTFlSIJ",
+  "name": "Teste Raul 2",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "2e4b0a33-884b-4d99-aabb-79f01cba2f76",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        600,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "contato@robotriz.com.br",
+          "mode": "list",
+          "cachedResultName": "contato@robotriz.com.br"
+        },
+        "returnAll": true,
+        "options": {
+          "timeMin": "={{ $now.toISO() }}",
+          "timeMax": "={{ $now.plus(7,'day').toISO() }}"
+        }
+      },
+      "id": "a8cc96a9-ec8b-438c-b103-c527e6b11c03",
+      "name": "Google Calendar",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.1,
+      "position": [
+        780,
+        440
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "27WinJTE9Con8wAf",
+          "name": "[ROBOTRIZ] GOOGLE CALENDAR"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7693321c-2564-4f9a-9b6f-3ff9d39042a3",
+              "name": "response",
+              "value": "={{ JSON.stringify($json.response) }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4c706744-dbf0-4d13-b725-013477c53468",
+      "name": "Tratar Resposta",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1900,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "f9e295ca-688a-40e3-ab75-90ceadabacfa",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "confirmed",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "c85c5663-8cb6-4ce3-bacd-1688dbe0847f",
+              "leftValue": "={{ $json.start.dateTime }}",
+              "rightValue": "={{ undefined }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "7b866b16-cc7b-4958-be3d-320212e7a2f5",
+      "name": "Filtrar confirmados e horários definidos",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8fbd27c2-43e0-4546-ae4a-d83dfefe1028",
+              "name": "start",
+              "value": "={{ $json.start.dateTime }}",
+              "type": "string"
+            },
+            {
+              "id": "be22be73-7c94-4104-8836-8707d4cb3d4b",
+              "name": "end",
+              "value": "={{ $json.end.dateTime }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bc16a4a8-4bda-487c-992c-c2f4922cc6a9",
+      "name": "Extrair Data Start/End",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1220,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "start"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6e41eff0-447a-4e1c-896e-bfe02369e8a5",
+      "name": "Reordenar Ascendente",
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "response",
+        "options": {}
+      },
+      "id": "1dba44aa-d4b1-4984-80d7-00f31c5ac8fb",
+      "name": "Formatar Resposta",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        440
+      ]
+    }
+  ],
+  "connections": {
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar": {
+      "main": [
+        [
+          {
+            "node": "Filtrar confirmados e horários definidos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtrar confirmados e horários definidos": {
+      "main": [
+        [
+          {
+            "node": "Extrair Data Start/End",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrair Data Start/End": {
+      "main": [
+        [
+          {
+            "node": "Reordenar Ascendente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reordenar Ascendente": {
+      "main": [
+        [
+          {
+            "node": "Formatar Resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatar Resposta": {
+      "main": [
+        [
+          {
+            "node": "Tratar Resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "810242e7-64aa-41b6-85ef-6b800b180d87",
+  "triggerCount": 0,
+  "tags": []
+}
