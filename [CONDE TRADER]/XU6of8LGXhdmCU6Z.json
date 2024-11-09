@@ -1,0 +1,341 @@
+{
+  "createdAt": "2024-08-26T17:23:08.910Z",
+  "updatedAt": "2024-08-29T12:46:32.559Z",
+  "id": "XU6of8LGXhdmCU6Z",
+  "name": "[CONDE TRADER]-[DADOS DE FORMULARIO POR INSTANCIA]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "specifiedFields",
+        "fieldsToInclude": "pergunta, resposta",
+        "options": {}
+      },
+      "id": "41f4a18e-a54d-4c29-9e74-92bfede57852",
+      "name": "Aggregate",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.robotriz.com.br/message/sendText/Conde Trader",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "92296C17C4AB-4130-90AA-2CE1FB6603D1"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Edit Fields').item.json.telefone_contato }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.message.content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f87c926f-eb3c-4f24-b99c-2d4516cc3e04",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2120,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e6d12cd8-5075-44e6-9eba-ebe1528056bc",
+              "name": "telefone_contato",
+              "value": "5535997638844",
+              "type": "string"
+            },
+            {
+              "id": "862c9fe4-1114-4b0f-b35e-882444270d61",
+              "name": "nome_contato",
+              "value": "Acácio",
+              "type": "string"
+            },
+            {
+              "id": "d8836d6e-ee01-4d69-8181-8a53a90db605",
+              "name": "instancia",
+              "value": "={{ $json.body.instancia }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3dfdc50d-4eb3-4b2e-ad6c-46275c5418a9",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1140,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "844f1253-b2b1-4a9b-835c-6e81381741ac",
+        "options": {}
+      },
+      "id": "1ce2b566-f19d-407c-bc7b-34dba91d9dd1",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        920,
+        400
+      ],
+      "webhookId": "844f1253-b2b1-4a9b-835c-6e81381741ac"
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "https://xuxuslxmlmipcezvvyjs.supabase.co/rest/v1/controle_formulario",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "instancia",
+              "value": "=eq.{{ $('Edit Fields').item.json.instancia }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh1eHVzbHhtbG1pcGNlenZ2eWpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQzNTk3NDQsImV4cCI6MjAzOTkzNTc0NH0.asxtzY3BeCzETG5-xiB_iTuoUBISvCA60KupVvr1IfA"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh1eHVzbHhtbG1pcGNlenZ2eWpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQzNTk3NDQsImV4cCI6MjAzOTkzNTc0NH0.asxtzY3BeCzETG5-xiB_iTuoUBISvCA60KupVvr1IfA"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \"instancia\": \"{{ $('Edit Fields').item.json.instancia }}\", \"mensagem_admin\": \"true\" }",
+        "options": {}
+      },
+      "id": "1fd8aed7-22b3-4326-843c-9653734f9e55",
+      "name": "Atualiza controle de formulário",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2360,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://xuxuslxmlmipcezvvyjs.supabase.co/rest/v1/rpc/obter_dados_formulario",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh1eHVzbHhtbG1pcGNlenZ2eWpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQzNTk3NDQsImV4cCI6MjAzOTkzNTc0NH0.asxtzY3BeCzETG5-xiB_iTuoUBISvCA60KupVvr1IfA"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh1eHVzbHhtbG1pcGNlenZ2eWpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQzNTk3NDQsImV4cCI6MjAzOTkzNTc0NH0.asxtzY3BeCzETG5-xiB_iTuoUBISvCA60KupVvr1IfA"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \"v_instancia\": \"{{ $('Webhook').item.json.body.instancia }}\" }",
+        "options": {}
+      },
+      "id": "20edfcab-cce4-48c4-8392-b67bb612b842",
+      "name": "Consulta dados de formulário",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1340,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e6d12cd8-5075-44e6-9eba-ebe1528056bc",
+              "name": "telefone_contato",
+              "value": "557398414940",
+              "type": "string"
+            },
+            {
+              "id": "862c9fe4-1114-4b0f-b35e-882444270d61",
+              "name": "nome_contato",
+              "value": "Patrick",
+              "type": "string"
+            },
+            {
+              "id": "d8836d6e-ee01-4d69-8181-8a53a90db605",
+              "name": "instancia",
+              "value": "={{ $json.body.instancia }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6c7c7e4a-4545-426d-a7bf-88453599db27",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1140,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Você é um assistente da Conde Trader, que recebe um JSON de perguntas e respostas de leads, as organiza e retorna APENAS os dados no seguinte padrão:\n\nOlá {{ $('Edit Fields').item.json.nome_contato }}, seguem abaixo as perguntas e respostas do lead:\n\nInstancia do formulário: {{ $('Webhook').item.json.body.instancia }}\n\nPergunta\nResposta\n\nRemover \"Pergunta\" e \"Resposta\" dos itens organizados.\n\nSegue abaixo o array para ser organizado:",
+              "role": "system"
+            },
+            {
+              "content": "={{ JSON.stringify($json.data) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "25262573-d413-4bfb-a924-0b3c39f5b623",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [
+        1740,
+        400
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "qTcKDeG1l7aS58Jy",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Atualiza controle de formulário",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta dados de formulário": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Consulta dados de formulário",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "2eba3e3b-9114-4820-bfb4-fc6caba0965d",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-08-29T12:46:14.140Z",
+      "updatedAt": "2024-08-29T12:46:14.140Z",
+      "id": "eocVvbKElZAXBdU4",
+      "name": "CONDE TRADER"
+    }
+  ]
+}
