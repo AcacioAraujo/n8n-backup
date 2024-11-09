@@ -1,0 +1,458 @@
+{
+  "createdAt": "2024-10-04T13:44:49.222Z",
+  "updatedAt": "2024-11-09T16:19:46.210Z",
+  "id": "IptaDErKwX7iRNP0",
+  "name": "[AHM]-[Captura e Qualificação Leads][Cadastro Alteração Leads]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "6a9e96e9-f9d5-42c7-a11c-b9a4f5e51706",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1700,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0430d247-dadb-45f2-9351-3f784f231428",
+              "leftValue": "={{ $json.row_number }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "bcc15ed9-1542-4b45-809b-a38f8f14a99b",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1420,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"id\": null\n}",
+        "options": {}
+      },
+      "id": "d3f2cca1-10c5-43cd-96ad-7040fa3639d4",
+      "name": "Respond to Webhook1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1700,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "a3bb47a3-a980-499a-8819-00e512459050",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "e3227ead-88a4-40af-bd7d-30308afc2fee",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        780,
+        400
+      ],
+      "webhookId": "a3bb47a3-a980-499a-8819-00e512459050"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 372405182,
+          "mode": "list",
+          "cachedResultName": "lead",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44/edit#gid=372405182"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "email",
+              "lookupValue": "={{ $json.body.email_lead }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "436fce84-b522-4905-b5f4-9833acb2b4ca",
+      "name": "consulta_lead",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1240,
+        280
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "beb660f4-3d4f-45e9-a51f-cdca084d15ec",
+      "name": "Respond to Webhook2",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1440,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.tipo }}",
+                    "rightValue": "consulta_lead",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "consulta_lead"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a0649f8d-03aa-49bd-a13a-9ac3b7c2d6db",
+                    "leftValue": "={{ $json.body.tipo }}",
+                    "rightValue": "cadastro_alteracao_lead",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "cadastro_alteracao_lead"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8602b161-277f-4108-a059-bf97adfa641e",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1040,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 372405182,
+          "mode": "list",
+          "cachedResultName": "lead",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44/edit#gid=372405182"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $json.body.id }}",
+            "data_cadastro": "={{ $json.body.data_cadastro }}",
+            "nome_completo": "={{ $json.body.nome_completo }}",
+            "email": "={{ $json.body.email }}",
+            "celular": "={{ $json.body.celular }}",
+            "escolha_contato": "={{ $json.body.escolha_contato }}",
+            "razao_social": "={{ $json.body.razao_social }}",
+            "id_formulario_atual": "={{ $json.body.id_formulario_atual }}"
+          },
+          "matchingColumns": [
+            "email"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "data_cadastro",
+              "displayName": "data_cadastro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "nome_completo",
+              "displayName": "nome_completo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "celular",
+              "displayName": "celular",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "escolha_contato",
+              "displayName": "escolha_contato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "id_formulario_atual",
+              "displayName": "id_formulario_atual",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "razao_social",
+              "displayName": "razao_social",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e68f4e2f-8549-4335-9cf2-e4ba43530ac9",
+      "name": "cadastro_alteracao_lead",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1240,
+        520
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "consulta_lead": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "consulta_lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cadastro_alteracao_lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cadastro_alteracao_lead": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "PostmanRuntime/7.42.0",
+            "content-length": "275",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "postman-token": "1c9b87fe-e722-4a03-ae08-b781eca42817",
+            "x-forwarded-for": "186.233.178.75",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "9292266f8f54",
+            "x-real-ip": "186.233.178.75"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "tipo": "cadastro_lead",
+            "id": "123",
+            "data_cadastro": "2024-10-04",
+            "nome_completo": "Acacio Araujo",
+            "email": "acacio@gmail.com",
+            "celular": "11981588224",
+            "escolha_contato": "",
+            "id_pedido_atual": "111111",
+            "razao_social": "Robotriz"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/a3bb47a3-a980-499a-8819-00e512459050",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "73831acb-04d1-440f-bc2f-ed5e390bde2c",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-10-04T21:45:49.751Z",
+      "updatedAt": "2024-10-04T21:45:49.751Z",
+      "id": "keSXrdIlim8rvA8S",
+      "name": "AHM Solution"
+    }
+  ]
+}
