@@ -1,0 +1,330 @@
+{
+  "createdAt": "2024-10-25T18:27:37.776Z",
+  "updatedAt": "2024-11-05T19:03:08.065Z",
+  "id": "0cfe17fOcQuxjpMB",
+  "name": "[MEDCOLAB] - [Integração Pipedrive]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Integração Pipedrive",
+        "height": 473.9534883720929,
+        "width": 967.3487872057799,
+        "color": 3
+      },
+      "id": "78dda603-4dc4-48a7-91ae-a93d0cbc97a6",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "search",
+        "limit": 1,
+        "term": "={{ $json.email }}",
+        "additionalFields": {
+          "exactMatch": true
+        }
+      },
+      "id": "f6a6ea77-683d-489f-87d9-eb9cc17e657a",
+      "name": "Consultar Pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2200,
+        520
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "1zsyuy5qRFdVlrpi",
+          "name": "Pipedrive Medicolab"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "efb180f8-43ac-4848-93cd-34c12b6da4af",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "80711bde-c984-4a1e-8e0a-ab3cc7623133",
+      "name": "Existe Pessoa",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2360,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "name": "={{ $('Dados Lead').item.json.nome }}",
+        "additionalFields": {
+          "email": [
+            "={{ $('Dados Lead').item.json.email }}"
+          ],
+          "org_id": "={{ $('Dados Lead').item.json.organization_id }}",
+          "phone": [
+            "={{ $('Dados Lead').item.json.WhatsApp }}"
+          ]
+        }
+      },
+      "id": "71ab24c5-9c86-4bb7-8c15-e3cb3ed6b11a",
+      "name": "Cadastrar Pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2560,
+        700
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "1zsyuy5qRFdVlrpi",
+          "name": "Pipedrive Medicolab"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "title": "={{ $('Dados Lead').item.json.titulo }}",
+        "org_id": "={{ $('Dados Lead').item.json.organization_id }}",
+        "additionalFields": {
+          "label": "={{ $('Dados Lead').item.json.tipo_formulario }}",
+          "person_id": "={{ $('Consultar Pessoa').item.json.id }}",
+          "stage_id": 11,
+          "status": "open"
+        }
+      },
+      "id": "34f1592d-146e-4eaf-afa9-c554896b6c70",
+      "name": "Criar Novo Negócio",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2560,
+        500
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "1zsyuy5qRFdVlrpi",
+          "name": "Pipedrive Medicolab"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "title": "={{ $('Dados Lead').item.json.titulo }}",
+        "org_id": "={{ $('Dados Lead').item.json.organization_id }}",
+        "additionalFields": {
+          "label": "={{ $('Dados Lead').item.json.tipo_formulario }}",
+          "person_id": "={{ $json.id }}",
+          "stage_id": 11,
+          "status": "open"
+        }
+      },
+      "id": "56a0bfb5-51f1-4fcf-876d-5724cdf14e89",
+      "name": "Criar Negócio",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2740,
+        700
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "1zsyuy5qRFdVlrpi",
+          "name": "Pipedrive Medicolab"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3f6b25d6-221b-492f-a763-ce272482d9f9",
+              "name": "organization_id",
+              "value": "=19",
+              "type": "number"
+            },
+            {
+              "id": "1b256a46-e64b-4a6d-98cb-c7ae5316caf6",
+              "name": "nome",
+              "value": "={{ $json.body.Nome }}",
+              "type": "string"
+            },
+            {
+              "id": "c48e5459-54a7-42e4-bbb9-98a05a83865d",
+              "name": "email",
+              "value": "={{ $json.body['E-mail'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3bd48161-4c5d-4385-b988-87dc7eb0313f",
+              "name": "profissao",
+              "value": "={{ $json.body['Profissão'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3ea02367-9528-4579-8f03-361db49515c9",
+              "name": "tipo_formulario",
+              "value": "={{ $json.body.tipo_formulario }}",
+              "type": "string"
+            },
+            {
+              "id": "232deb96-ebed-4387-825c-c216c7d9046c",
+              "name": "=titulo",
+              "value": "={{ $json.body.Nome }} - {{ $json.body['Profissão'] }} - {{ $json.body.tipo_formulario }}",
+              "type": "string"
+            },
+            {
+              "id": "ef3ad2c0-f694-4db2-b89b-9ad1cc5e1763",
+              "name": "WhatsApp",
+              "value": "={{ $json.body.WhatsApp }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5a00f60e-f17d-4d9d-85fd-1ae74b26e8ef",
+      "name": "Dados Lead",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2040,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "4c3a4692-4fec-4d0f-a5c5-76b669764b3f",
+        "options": {}
+      },
+      "id": "3881892c-e7f0-4f75-b074-2c48e11155f4",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1800,
+        520
+      ],
+      "webhookId": "4c3a4692-4fec-4d0f-a5c5-76b669764b3f"
+    }
+  ],
+  "connections": {
+    "Consultar Pessoa": {
+      "main": [
+        [
+          {
+            "node": "Existe Pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Existe Pessoa": {
+      "main": [
+        [
+          {
+            "node": "Criar Novo Negócio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cadastrar Pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cadastrar Pessoa": {
+      "main": [
+        [
+          {
+            "node": "Criar Negócio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Lead": {
+      "main": [
+        [
+          {
+            "node": "Consultar Pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Dados Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "f3ad9cca-cd60-49ff-b2b2-cab3c1073f59",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-11-05T19:02:56.898Z",
+      "updatedAt": "2024-11-05T19:02:56.898Z",
+      "id": "a95SfBCeJma2foTm",
+      "name": "MedColab"
+    }
+  ]
+}
