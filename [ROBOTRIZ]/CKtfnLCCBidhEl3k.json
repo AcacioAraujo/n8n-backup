@@ -1,0 +1,163 @@
+{
+  "createdAt": "2024-09-20T20:26:13.000Z",
+  "updatedAt": "2024-09-23T13:52:29.948Z",
+  "id": "CKtfnLCCBidhEl3k",
+  "name": "[ROBOTRIZ]-[DB][CADASTRAR PACIENTE CONTATO]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT fnCadastrarPacienteContato(\n    '{{ $json.body.nome }}', \n    '{{ $json.body.telefone }}', \n    '{{ $json.body.email }}', \n    '{{ $json.body.cpf }}', \n    '{{ $json.body.clinica_id }}'\n);",
+        "options": {}
+      },
+      "id": "482634a4-5ab0-47b3-b574-45851ba08ec8",
+      "name": "Cadastrar Paciente Contato_",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        1080,
+        400
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "Ygk4OurDcLlzNVI3",
+          "name": "Postgres - Clinica Robotriz"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://supa-api.robotriz.com.br/rest/v1/rpc/fncadastrarpacientecontato",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICJyb2xlIjogImFub24iLAogICJpc3MiOiAic3VwYWJhc2UiLAogICJpYXQiOiAxNzI0Mjk1NjAwLAogICJleHAiOiAxODgyMDYyMDAwCn0.3pFJIweJYqdbnpObPC78vX2I7grY9nMR7cIJlDcWAO0"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICJyb2xlIjogImFub24iLAogICJpc3MiOiAic3VwYWJhc2UiLAogICJpYXQiOiAxNzI0Mjk1NjAwLAogICJleHAiOiAxODgyMDYyMDAwCn0.3pFJIweJYqdbnpObPC78vX2I7grY9nMR7cIJlDcWAO0"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_clinica_id",
+              "value": "={{ $json.body.p_clinica_id }}"
+            },
+            {
+              "name": "p_cpf",
+              "value": "={{ $json.body.p_cpf }}"
+            },
+            {
+              "name": "p_dify_id",
+              "value": "={{ $json.body.p_dify_id }}"
+            },
+            {
+              "name": "p_email",
+              "value": "={{ $json.body.p_email }}"
+            },
+            {
+              "name": "p_nome_completo",
+              "value": "={{ $json.body.p_nome_completo }}"
+            },
+            {
+              "name": "p_telefone",
+              "value": "={{ $json.body.p_telefone }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "48eba95b-93e8-4bbb-8b24-c3bdf1f3b88c",
+      "name": "Cadastrar Paciente Contato",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1180,
+        120
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.data }}",
+        "options": {}
+      },
+      "id": "fc6e10bc-2602-4170-81f1-602c0cfab534",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1380,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "3e449866-30fc-41b2-ba3f-b42180a7d0da",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "id": "577235a5-ba8e-44a8-83e6-825d84fd7822",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        980,
+        120
+      ],
+      "webhookId": "3e449866-30fc-41b2-ba3f-b42180a7d0da"
+    }
+  ],
+  "connections": {
+    "Cadastrar Paciente Contato": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Cadastrar Paciente Contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "a6088444-dfa1-4d94-a630-2ac8cf0ea4af",
+  "triggerCount": 1,
+  "tags": []
+}
