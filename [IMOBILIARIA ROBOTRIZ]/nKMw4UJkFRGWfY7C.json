@@ -1,0 +1,260 @@
+{
+  "createdAt": "2024-10-29T18:49:49.931Z",
+  "updatedAt": "2024-10-31T14:14:03.896Z",
+  "id": "nKMw4UJkFRGWfY7C",
+  "name": "[IMOBILIARIA ROBOTRIZ]-[MVP]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "19A6CvIuNWGGXAiHCCWLX6PmF6YlmXt-tCGkkyYYDlzA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "imoveis",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19A6CvIuNWGGXAiHCCWLX6PmF6YlmXt-tCGkkyYYDlzA/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "id_imovel",
+              "lookupValue": "={{ $json.body.id_imovel }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c42d75ae-d1a4-4a1f-be49-03e2f97e0b12",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        800,
+        360
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "9c18ffd9-f25e-4ba9-9716-12f41c268a97",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1260,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "id": "63a417df-5128-4ca7-8cb7-14fc857788a5",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1780,
+        420
+      ],
+      "webhookId": "d971ab83-7563-4c18-9fe5-d229346f769b"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.robotriz.com.br/message/sendMedia/Imobiliaria%20Robotriz",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "1D0689F15C1B-47B8-81ED-BC6D2D4B0424"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "5573998251408"
+            },
+            {
+              "name": "mediatype",
+              "value": "image"
+            },
+            {
+              "name": "mimetype",
+              "value": "image/png"
+            },
+            {
+              "name": "caption",
+              "value": "={{ $json.caption }}"
+            },
+            {
+              "name": "media",
+              "value": "={{ $json.media }}"
+            },
+            {
+              "name": "fileName",
+              "value": "={{ $json.fileName }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "c567c5af-c123-4890-93db-d1926d053d05",
+      "name": "Envia msg",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1560,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "id": "7ae7aea4-0ba1-47b9-bf40-17f4667bac32",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "path": "620f46c7-df9e-4574-8fa7-22d6c067e6df",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "d0d19269-076e-43b3-b5c3-62c5d10150b9",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        600,
+        360
+      ],
+      "webhookId": "620f46c7-df9e-4574-8fa7-22d6c067e6df"
+    }
+  ],
+  "connections": {
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Envia msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envia msg": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "PostmanRuntime/7.42.0",
+            "content-length": "173",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "multipart/form-data; boundary=--------------------------943480166147414860504011",
+            "postman-token": "e172e715-62ca-4989-8573-c047942dfe2b",
+            "x-forwarded-for": "186.233.178.103",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "9292266f8f54",
+            "x-real-ip": "186.233.178.103"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "id_imovel": "142415050"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/620f46c7-df9e-4574-8fa7-22d6c067e6df",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "51596878-2a6b-45b9-b302-2ab1c0e057ac",
+  "triggerCount": 1,
+  "tags": []
+}
