@@ -1,0 +1,747 @@
+{
+  "createdAt": "2024-09-05T20:33:10.839Z",
+  "updatedAt": "2024-09-15T14:22:09.926Z",
+  "id": "bUink7Hhoc9BXCk3",
+  "name": "[ROBOTRIZ]-[AGENDAMENTO DE CONSULTA]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1ec39e79-ff25-4a7a-800b-0c4a9e0bc4a5",
+              "name": "eventTypeId",
+              "value": "1043308",
+              "type": "string"
+            },
+            {
+              "id": "a2c29372-f7c3-473d-b1e9-70ea933eb59b",
+              "name": "apiKey",
+              "value": "cal_live_ac87578da83ae3763bf5e6e564ec07bd",
+              "type": "string"
+            },
+            {
+              "id": "d61712b4-055d-4341-80b5-39fe19f98a27",
+              "name": "attendeeEmail",
+              "value": "={{ $json.body.attendeeEmail }}",
+              "type": "string"
+            },
+            {
+              "id": "9e7e924b-2bd6-48a5-8d88-c782c9b0b0ef",
+              "name": "type",
+              "value": "={{ $json.body.type }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "d4113cbb-9e06-4596-814c-d0db8a2dd6a5",
+      "name": "armazenar valores",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c7d9b857-63e6-42b9-96c0-8b949d01da84",
+              "name": "data formatada",
+              "value": "={{ \n\n\n\n(()=>{\n\n// Exemplo de valor\nlet dataOriginal = $json.body.data\n// Criar um objeto Date a partir da string original\nlet [dia, mes, anoHora] = dataOriginal.split('/');\nlet [ano, hora] = anoHora.split(' ');\nlet data = new Date(`${ano}-${mes}-${dia}T${hora}:00-03:00`);\n\n// Formatar a data no padrão ISO 8601 com o fuso horário America/Sao_Paulo\nlet dataFormatada = new Intl.DateTimeFormat('pt-BR', {\n    year: 'numeric',\n    month: '2-digit',\n    day: '2-digit',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    timeZone: 'America/Sao_Paulo',\n    hour12: false\n}).formatToParts(data).reduce((acc, part) => {\n    if (part.type === 'literal' && part.value === ',') return acc; // Remove a vírgula\n    return acc + part.value;\n}, '');\n\n// Converter para o formato final\ndataFormatada = `${ano}-${mes}-${dia}T${hora}:00-03:00`;\nreturn dataFormatada;\n\n\n})()\n\n\n\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "7271c899-3659-44e4-810d-7d9c9ecb94a9",
+      "name": "preparar valores",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "a77a15b9-439e-4344-8967-545dee843931",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "6931521b-c731-49e3-9556-b278638c7557",
+      "name": "verificar se foi agendado",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        920,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ce19aee2-aada-499a-9d14-80fd83a8f766",
+              "name": "error",
+              "value": "Erro ao fazer o agendamento, por favor, tente novamente.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "450e20d1-0a88-4808-bf0a-b0a54d02ef5d",
+      "name": "message falha",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1300,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "513ce21e-6933-4e21-8df4-5783c2fff396",
+              "name": "message",
+              "value": "Seu agendamento foi efetuado com sucesso.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "69782821-508b-4d79-a4ac-25e7f6c657b2",
+      "name": "message sucesso",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1300,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "1b05d05e-9f40-4910-9072-2c6841a6e784",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "ACCEPTED",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "7fc4ea5c-2abd-4851-8b5a-a114a7dd2701",
+              "leftValue": "={{ $json.startTime }}",
+              "rightValue": "={{ $now }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "afterOrEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "73006a64-d563-407c-8c0a-de7765a2e92d",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.1,
+      "position": [
+        900,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "bookings",
+        "options": {}
+      },
+      "id": "fbdb03c6-54ec-408e-a896-4220900db7e3",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        680,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e3cfd229-58b9-4d76-868a-18a670493ce1",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            },
+            {
+              "id": "4f827d7a-4c0d-4e25-abd3-efed82de2b1c",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "8b423ee7-62ed-4245-ae27-f3637fe6738c",
+              "name": "startTime",
+              "value": "={{\n(()=>{\n\nvar data = new Date($json.startTime);\n\nreturn data.toString();\n\n})()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "8355eab9-446e-4c48-94d9-a2e11862d4ae",
+              "name": "status",
+              "value": "={{ $json.status }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "06b9bdcf-6832-4835-a5fa-4e7211d39a96",
+      "name": "Limpar JSON de retorno",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "=https://api.cal.com/v1/bookings/{{ $('Webhook').item.json.body.bookingId }}/cancel",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "eventTypeId",
+              "value": "={{ $json.eventTypeId }}"
+            },
+            {
+              "name": "apiKey",
+              "value": "={{ $json.apiKey }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "be1c2097-02e8-4955-a60e-81b0a8339914",
+      "name": "Cancelar Agenda",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        460,
+        980
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.cal.com/v1/bookings",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "eventTypeId",
+              "value": "={{ $json.eventTypeId }}"
+            },
+            {
+              "name": "attendeeEmail",
+              "value": "={{ $json.attendeeEmail }}"
+            },
+            {
+              "name": "apiKey",
+              "value": "={{ $json.apiKey }}"
+            },
+            {
+              "name": "timeZone",
+              "value": "America/Sao_Paulo"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "a1e3a479-d577-4896-8e4c-409623211e64",
+      "name": "Buscar agendados",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        460,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cal.com/v1/bookings",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "apiKey",
+              "value": "={{ $json.apiKey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"responses\": {\n    \"email\": \"{{ $json.body.email }}\",\n    \"name\": \"{{ $json.body.nome }}\",\n    \"notes\": \"Self-enabling demand-driven alliance\",\n    \"guests\": [],\n    \"phone\": \"{{ $json.body.tel }}\"\n  },\n  \"start\": \"{{ $json['data formatada'] }}\",\n  \"eventTypeId\": {{ $json.eventTypeId }},\n  \"timeZone\": \"America/Sao_Paulo\",\n  \"language\": \"pt\",\n  \"location\": \"\",\n  \"metadata\": {},\n  \"hasHashedBookingLink\": false,\n  \"hashedLink\": null\n}",
+        "options": {}
+      },
+      "id": "8c4c4182-b8e2-4acd-96ea-51aab48b001d",
+      "name": "Marcar agendamento",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        580
+      ],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://api.cal.com/v1/slots",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "eventTypeId",
+              "value": "={{ $json.eventTypeId }}"
+            },
+            {
+              "name": "startTime",
+              "value": "={{   \n\n(()=>{ \n\nconst today = new Date();\nconst todayFormatted = today.toISOString().split('T')[0];\nreturn todayFormatted \n\n})()\n\n}}"
+            },
+            {
+              "name": "endTime",
+              "value": "={{   \n\n(()=>{ \n\nconst today = new Date();\nconst futureDate = new Date();\nfutureDate.setDate(today.getDate() + 7);\nconst futureDateFormatted = futureDate.toISOString().split('T')[0];\nreturn futureDateFormatted \n\n})()\n\n}}"
+            },
+            {
+              "name": "timeZone",
+              "value": "America/Sao_Paulo"
+            },
+            {
+              "name": "apiKey",
+              "value": "={{ $json.apiKey }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "ce971933-b0d0-4644-ba5a-2f94a9c3a580",
+      "name": "Buscar disponibilidade",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        460,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "9465a83a-64fd-4536-95ae-c1b4f3afeb2b",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "getSlots",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Buscar Disponibilidade"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "75370f18-a2e3-40d1-b19a-3304e2c76d7d",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "toSchedule",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Agendar"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "bdfe01d5-7d19-4775-9f26-cf23ef822648",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "bookings",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Agendamentos"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "1d846ad9-d03c-4c45-8bd4-a36fe90874c8",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "cancel",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Cancelamento"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "e986d1b7-99a1-450d-91a6-167928ad922c",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "reschedule",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Reagendar"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "364f9062-fb96-49ab-9f1e-0fbf6a438430",
+      "name": "tipo da solicitação",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        60,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://api.cal.com/v1/bookings/{{ $('Webhook').item.json.body.bookingId }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "eventTypeId",
+              "value": "={{ $('armazenar valores').item.json.eventTypeId }}"
+            },
+            {
+              "name": "apiKey",
+              "value": "={{ $('armazenar valores').item.json.apiKey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "=startTime",
+              "value": "={{ \n\n\n\n(()=>{\n\n// Exemplo de valor\nlet dataOriginal = $('Webhook').item.json.body.start\n// Criar um objeto Date a partir da string original\nlet [dia, mes, anoHora] = dataOriginal.split('/');\nlet [ano, hora] = anoHora.split(' ');\nlet data = new Date(`${ano}-${mes}-${dia}T${hora}:00-03:00`);\n\n// Formatar a data no padrão ISO 8601 com o fuso horário America/Sao_Paulo\nlet dataFormatada = new Intl.DateTimeFormat('pt-BR', {\n    year: 'numeric',\n    month: '2-digit',\n    day: '2-digit',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    timeZone: 'America/Sao_Paulo',\n    hour12: false\n}).formatToParts(data).reduce((acc, part) => {\n    if (part.type === 'literal' && part.value === ',') return acc; // Remove a vírgula\n    return acc + part.value;\n}, '');\n\n// Converter para o formato final\ndataFormatada = `${ano}-${mes}-${dia}T${hora}:00-03:00`;\nreturn dataFormatada;\n\n\n})()\n\n\n\n}}"
+            },
+            {
+              "name": "endTime",
+              "value": "={{ \n\n\n\n(()=>{\n\n// Exemplo de valor\nlet dataOriginal = $('Webhook').item.json.body.start\n// Criar um objeto Date a partir da string original\nlet [dia, mes, anoHora] = dataOriginal.split('/');\nlet [ano, hora] = anoHora.split(' ');\nlet nova_hora = parseInt(hora);\nnova_hora++;\nlet data = new Date(`${ano}-${mes}-${dia}T${nova_hora}:00-03:00`);\n\n// Formatar a data no padrão ISO 8601 com o fuso horário America/Sao_Paulo\nlet dataFormatada = new Intl.DateTimeFormat('pt-BR', {\n    year: 'numeric',\n    month: '2-digit',\n    day: '2-digit',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    timeZone: 'America/Sao_Paulo',\n    hour12: false\n}).formatToParts(data).reduce((acc, part) => {\n    if (part.type === 'literal' && part.value === ',') return acc; // Remove a vírgula\n    return acc + part.value;\n}, '');\n\n// Converter para o formato final\ndataFormatada = `${ano}-${mes}-${dia}T${nova_hora}:00-03:00`;\nreturn dataFormatada;\n\n\n})()\n\n\n\n}}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "958611f5-9fec-472c-99b6-4627eb7d1093",
+      "name": "Reagendar Agenda",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        460,
+        1140
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "cb3084b2-500b-4b2b-8d91-286f7da5430d",
+        "responseMode": "lastNode",
+        "responseData": "allEntries",
+        "options": {}
+      },
+      "id": "84b408e6-7b2d-4055-8bc5-767ff1ccce30",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -440,
+        560
+      ],
+      "webhookId": "cb3084b2-500b-4b2b-8d91-286f7da5430d"
+    }
+  ],
+  "connections": {
+    "armazenar valores": {
+      "main": [
+        [
+          {
+            "node": "tipo da solicitação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "preparar valores": {
+      "main": [
+        [
+          {
+            "node": "Marcar agendamento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "verificar se foi agendado": {
+      "main": [
+        [
+          {
+            "node": "message sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "message falha",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Limpar JSON de retorno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar agendados": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Marcar agendamento": {
+      "main": [
+        [
+          {
+            "node": "verificar se foi agendado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tipo da solicitação": {
+      "main": [
+        [
+          {
+            "node": "Buscar disponibilidade",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "preparar valores",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Buscar agendados",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cancelar Agenda",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reagendar Agenda",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "armazenar valores",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "8bcd852f-0e9d-4da6-bee8-25874957839b",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-09-05T22:11:49.763Z",
+      "updatedAt": "2024-09-05T22:11:49.763Z",
+      "id": "eQXaHo0SFzE9DQYb",
+      "name": "Robotriz"
+    }
+  ]
+}
