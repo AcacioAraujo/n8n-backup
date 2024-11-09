@@ -1,0 +1,60 @@
+{
+  "createdAt": "2024-10-03T19:17:08.859Z",
+  "updatedAt": "2024-10-03T19:24:24.281Z",
+  "id": "J8e8lzm96p7THx5T",
+  "name": "teste n8n form",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "369cbc2d-4b01-43c8-beb4-e919b921847b",
+        "formTitle": "Teste de formulário",
+        "formDescription": "Teste de Descrição",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Qual o seu nome?",
+              "placeholder": "Digite seu nome",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Qual o seu email?",
+              "placeholder": "Digite seu email"
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false,
+          "respondWithOptions": {
+            "values": {
+              "formSubmittedText": "Seus dados foram enviados. Obrigado!"
+            }
+          },
+          "ignoreBots": true,
+          "useWorkflowTimezone": true
+        }
+      },
+      "id": "62506f6f-a0a3-4551-9857-aed104c978f0",
+      "name": "n8n Form Trigger",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.1,
+      "position": [
+        820,
+        360
+      ],
+      "webhookId": "369cbc2d-4b01-43c8-beb4-e919b921847b"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "f48d15aa-89a1-4a41-9bfb-6d29f31dd60d",
+  "triggerCount": 2,
+  "tags": []
+}
