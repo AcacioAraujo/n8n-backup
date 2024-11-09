@@ -1,0 +1,513 @@
+{
+  "createdAt": "2024-08-29T12:45:57.125Z",
+  "updatedAt": "2024-09-04T20:16:08.905Z",
+  "id": "yUvOwl2qyeIrMPIB",
+  "name": "[CONDE TRADER] - [WEBHOOK][VENDAS]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5c6dd217-098a-41da-9964-49c140335d38",
+              "name": "status",
+              "value": "={{ $json.body.status }}",
+              "type": "string"
+            },
+            {
+              "id": "e7ee61ac-7e41-4978-a41c-0fda6b85559e",
+              "name": "payment_method",
+              "value": "={{ $json.body.payment_method }}",
+              "type": "string"
+            },
+            {
+              "id": "e54aa21a-fb36-4743-9a59-9c85190dbb79",
+              "name": "order_id",
+              "value": "={{ $json.body.order.id }}",
+              "type": "number"
+            },
+            {
+              "id": "c8a67f30-85b2-453f-a101-5cba68fc1da3",
+              "name": "order_date",
+              "value": "={{ $json.body.order.order_date }}",
+              "type": "string"
+            },
+            {
+              "id": "f968b41d-c6e4-4b52-b7dc-9aeea6c2e369",
+              "name": "product_name",
+              "value": "={{ $json.body.item.product_name }}",
+              "type": "string"
+            },
+            {
+              "id": "a37f6be6-9c7b-47d8-9ba8-7f74fc2c4f5f",
+              "name": "product_id",
+              "value": "={{ $json.body.item.product_id }}",
+              "type": "number"
+            },
+            {
+              "id": "aef3c835-57cf-4253-a6a0-d387e9ce754d",
+              "name": "quantity",
+              "value": "={{ $json.body.item.quantity }}",
+              "type": "number"
+            },
+            {
+              "id": "d31251b9-30f2-43fa-b6fb-7736963f9d07",
+              "name": "days_of_access",
+              "value": "={{ $json.body.item.days_of_access }}",
+              "type": "number"
+            },
+            {
+              "id": "bcecf84d-9cf6-465c-b01e-0dec70db886d",
+              "name": "customer_cpf",
+              "value": "={{ $json.body.customer.cpf }}",
+              "type": "string"
+            },
+            {
+              "id": "c19c13f1-1d1d-4c80-ad04-f7c99eb477a9",
+              "name": "customer_name",
+              "value": "={{ $json.body.customer.name }}",
+              "type": "string"
+            },
+            {
+              "id": "86ecb506-7312-42df-9df2-d771b02b6b23",
+              "name": "customer_email",
+              "value": "={{ $json.body.customer.email }}",
+              "type": "string"
+            },
+            {
+              "id": "f8bfbcda-8415-4c64-91f4-df748d3e0cf6",
+              "name": "customer_phone",
+              "value": "={{ $json.body.customer.phone.ddi }}{{ $json.body.customer.phone.ddd }}{{ $json.body.customer.phone.number }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d9cb0b66-a188-4e74-ba96-707bbf126492",
+      "name": "Separar Dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1340,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://xuxuslxmlmipcezvvyjs.supabase.co/rest/v1/rpc/cadastrar_instancia",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh1eHVzbHhtbG1pcGNlenZ2eWpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQzNTk3NDQsImV4cCI6MjAzOTkzNTc0NH0.asxtzY3BeCzETG5-xiB_iTuoUBISvCA60KupVvr1IfA"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh1eHVzbHhtbG1pcGNlenZ2eWpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQzNTk3NDQsImV4cCI6MjAzOTkzNTc0NH0.asxtzY3BeCzETG5-xiB_iTuoUBISvCA60KupVvr1IfA"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_customer_cpf",
+              "value": "={{ $json.customer_cpf }}"
+            },
+            {
+              "name": "=p_customer_email",
+              "value": "={{ $json.customer_email }}"
+            },
+            {
+              "name": "=p_customer_name",
+              "value": "={{ $json.customer_name }}"
+            },
+            {
+              "name": "=p_customer_phone",
+              "value": "={{ $json.customer_phone }}"
+            },
+            {
+              "name": "=p_days_of_access",
+              "value": "={{ $json.days_of_access }}"
+            },
+            {
+              "name": "p_order_date",
+              "value": "={{ $json.order_date }}"
+            },
+            {
+              "name": "=p_order_id",
+              "value": "={{ $json.order_id }}"
+            },
+            {
+              "name": "p_payment_method",
+              "value": "={{ $json.payment_method }}"
+            },
+            {
+              "name": "=p_product_id",
+              "value": "={{ $json.product_id }}"
+            },
+            {
+              "name": "=p_product_name",
+              "value": "={{ $json.product_name }}"
+            },
+            {
+              "name": "p_quantity",
+              "value": "={{ $json.quantity }}"
+            },
+            {
+              "name": "p_status",
+              "value": "={{ $json.status }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "d18fa6b9-344e-486e-b0e6-88352ff0c831",
+      "name": "[Supabase] - [cadastrar_instancia]",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1860,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.robotriz.com.br/message/sendText/Conde Trader",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "92296C17C4AB-4130-90AA-2CE1FB6603D1"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Switch').item.json.customer_phone }}"
+            },
+            {
+              "name": "text",
+              "value": "=Olá {{ $('Switch').item.json.customer_name }}.\nAgradecemos sua compra do produto {{ $('Switch').item.json.product_name }}.\n\nPara continuar, por favor, acesse o link abaixo e responda algumas perguntas bem rapidinhas.\n\nhttps://chat.robotriz.com.br/conde-trader-pagamento-confirmado?num_var={{ $json[\"data\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7cd9486d-34c8-4532-adc7-f6f80e891efa",
+      "name": "[EvoAPI]-[ENVIO DE LINK FORMULARIO 02]",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2100,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "authorized",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Compra Efetuada"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "0df8b46c-eb86-474f-aba1-b307282edebb",
+                    "leftValue": "{{ $json.status }}",
+                    "rightValue": "assinatura",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Assinatura"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4fb7b827-8639-4953-bf88-d650056b7f66",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        1560,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "878e90c0-8fe3-4036-84c9-f2fda9aa694c",
+        "options": {}
+      },
+      "id": "6439a705-be9b-4df5-b590-9cedb63c1ad2",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1140,
+        400
+      ],
+      "webhookId": "878e90c0-8fe3-4036-84c9-f2fda9aa694c"
+    }
+  ],
+  "connections": {
+    "Separar Dados": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[Supabase] - [cadastrar_instancia]": {
+      "main": [
+        [
+          {
+            "node": "[EvoAPI]-[ENVIO DE LINK FORMULARIO 02]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "[Supabase] - [cadastrar_instancia]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Separar Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "IXTZ6bRxfckDxFbU",
+    "saveExecutionProgress": true
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "PostmanRuntime/7.41.2",
+            "content-length": "3515",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "postman-token": "ac2492bf-aabd-4040-98bf-48835d0eef68",
+            "x-forwarded-for": "186.233.178.238",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "26d003ba2f40",
+            "x-real-ip": "186.233.178.238"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "version": "2.0",
+            "commission_type": "producer",
+            "status": "TESTE",
+            "status_date": "2024-09-03 11:56:03",
+            "token": "k9aNCEjfpmWlkWh0GHigmUm5J8yStQf5TQJL7IgZw9Zm3Da9xl1DRLFtgk8zHV3GULiragh0VwgOFaijMIjQDXBc6YFmstQmRbeP",
+            "payment_method": "pix",
+            "query_params": {
+              "code": "O4866D514",
+              "event": "PageView",
+              "currency": "brl",
+              "offer_code": "O4866D514",
+              "product_id": "61774",
+              "payment_method": "credit_card"
+            },
+            "tracking": {
+              "utm_source": "Não Informado",
+              "utm_medium": "Não Informado",
+              "utm_campaign": "Não Informado",
+              "utm_content": "Não Informado",
+              "utm_term": "Não Informado",
+              "src": "Não Informado",
+              "sck": "Não Informado",
+              "manychat_user_id": "Não Informado"
+            },
+            "checkout_url": "https://checkout.ticto.app/O4866D514",
+            "order": {
+              "id": 1395376,
+              "hash": "TOP2908MYQ891Q",
+              "transaction_hash": "TPP1A592908COA37RH2",
+              "paid_amount": 350,
+              "installments": 1,
+              "order_date": "2024-09-03 11:52:38"
+            },
+            "shipping": {
+              "amount": 0,
+              "type": null,
+              "method": null,
+              "delivery_days": null
+            },
+            "item": {
+              "product_name": "Conde Sinal O.B e Forex",
+              "product_id": 61774,
+              "refund_deadline": 7,
+              "offer_name": "Nova Oferta Teste Webhook",
+              "offer_id": 87142,
+              "offer_code": "O4866D514",
+              "coupon_id": null,
+              "coupon_name": null,
+              "quantity": 1,
+              "amount": 350,
+              "members_portal_id": null,
+              "members_classroom_id": null,
+              "days_of_access": 30,
+              "trial_days": 0
+            },
+            "subscriptions": [
+              {
+                "id": 209133,
+                "interval": 1,
+                "successful_charges": 0,
+                "failed_charges": 0,
+                "max_charges": null,
+                "next_charge": "2024-08-29 00:00:00",
+                "canceled_at": null
+              }
+            ],
+            "transaction": {
+              "hash": "TPP1A592908COA37RH2",
+              "pix_qr_code": "00020126580014br.gov.bcb.pix013611b4fcd8-23d4-4561-9445-3c806d777f3b52040000530398654043.505802BR5908GPS698176009Sao Paulo62240520mpqrinter8616149159363044DB5",
+              "pix_url": "https://checkout.ticto.app/thanks/TOP2908MYQ891Q"
+            },
+            "customer": {
+              "cpf": "27891452881",
+              "cnpj": null,
+              "name": "Acácio Franca de Araujo",
+              "type": "person",
+              "email": "acacio@gmail.com",
+              "country": {
+                "flag": {
+                  "src": "countries_flags/br.svg"
+                },
+                "name": "Brazil",
+                "region": "Americas",
+                "currency": "BRL",
+                "iso_code": "BR",
+                "dial_code": "+55",
+                "languages": [
+                  "Portuguese"
+                ]
+              },
+              "is_foreign": false,
+              "phone": {
+                "ddd": "999",
+                "ddi": "+55",
+                "number": "995682466"
+              },
+              "recaptcha_score": 0.9,
+              "language": "pt-BR",
+              "code": "UCFFB6E0D"
+            },
+            "producer": {
+              "id": 1471195,
+              "name": "Patrick Silva Santos",
+              "email": "tricksilva46@gmail.com",
+              "phone": "",
+              "amount": 76,
+              "cms": "0.76",
+              "document": null
+            },
+            "affiliates": [],
+            "coproducers": [],
+            "marketplace_commission": 25
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/878e90c0-8fe3-4036-84c9-f2fda9aa694c",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "9b28ab97-1698-4194-83e0-f79b0b13290e",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-08-29T12:46:14.140Z",
+      "updatedAt": "2024-08-29T12:46:14.140Z",
+      "id": "eocVvbKElZAXBdU4",
+      "name": "CONDE TRADER"
+    }
+  ]
+}
