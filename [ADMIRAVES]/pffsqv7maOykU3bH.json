@@ -1,0 +1,330 @@
+{
+  "createdAt": "2024-10-31T00:57:28.129Z",
+  "updatedAt": "2024-10-31T00:57:28.129Z",
+  "id": "pffsqv7maOykU3bH",
+  "name": "[ADMIRAVES]-[CONSULTA USUARIO MANYCHAT]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bd5874b8-ac9d-4b2c-b3ff-a8242172fddb",
+              "name": "api_key",
+              "value": "app-o9cQbcGHuKviiEwq53jZQiqa",
+              "type": "string"
+            },
+            {
+              "id": "9361ff68-0556-43d2-a964-fe5e2ebd879c",
+              "name": "query",
+              "value": "={{ $json.body.query }}",
+              "type": "string"
+            },
+            {
+              "id": "21c03e64-b4d1-43bf-8468-34425c2a7bc0",
+              "name": "conversation_id",
+              "value": "={{ $json.body.conversation_id }}",
+              "type": "string"
+            },
+            {
+              "id": "7405febb-251b-4881-b544-3e323c712dee",
+              "name": "subscriber_id",
+              "value": "={{ $json.body.subscriber_id }}",
+              "type": "string"
+            },
+            {
+              "id": "d6b83beb-3b26-406b-9380-eeb915f96fc6",
+              "name": "whatsapp_id",
+              "value": "={{ $json.body.whatsapp_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ae561549-73c3-4f0d-ba90-c11935fb97b8",
+      "name": "Campos",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        680,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dify-api.robotriz.com.br/v1/chat-messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.api_key }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"inputs\": {},\n  \"query\": \"{{ $json.query }}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"{{ $json.conversation_id }}\",\n  \"user\": \"{{ $json.whatsapp_id }}\",\n  \"files\": [\n    {\n      \"type\": \"image\",\n      \"transfer_method\": \"remote_url\",\n      \"url\": \"https://cloud.dify.ai/logo/logo-site.png\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "id": "11ab1e38-903e-4ed2-ac93-f4ca54024dcb",
+      "name": "Dify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        860,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/setCustomField",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 105279079302671:025dd321daee1104cc212d3584b9b1a2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "subscriber_id",
+              "value": "={{ $('Campos').item.json.subscriber_id }}"
+            },
+            {
+              "name": "field_id",
+              "value": "11945648"
+            },
+            {
+              "name": "field_value",
+              "value": "={{ $json.answer }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "2711117e-4097-4496-b66e-79b90f308c9b",
+      "name": "Manychat Resposta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1040,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/setCustomField",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 105279079302671:025dd321daee1104cc212d3584b9b1a2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "subscriber_id",
+              "value": "={{ $('Campos').item.json.subscriber_id }}"
+            },
+            {
+              "name": "field_id",
+              "value": "11945647"
+            },
+            {
+              "name": "field_value",
+              "value": "={{ $('Dify').item.json.conversation_id }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "301f19b4-8c6e-4f08-9aae-cb9a0154d97b",
+      "name": "Manychat conversation_id",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1460,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ff410974-c8e7-4ad2-a42a-bc912c82531a",
+              "leftValue": "={{ $('Campos').item.json.conversation_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "73322184-5a51-4936-854a-d586a576b6a3",
+      "name": "Não tem conversation_id",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1220,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "81828155-d8a1-4e85-8a9e-7de3599f57ff",
+        "options": {
+          "responseData": "sucesso"
+        }
+      },
+      "id": "0dd8ab99-9095-460c-a03d-74a180ce287e",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        460,
+        360
+      ],
+      "webhookId": "81828155-d8a1-4e85-8a9e-7de3599f57ff"
+    }
+  ],
+  "connections": {
+    "Campos": {
+      "main": [
+        [
+          {
+            "node": "Dify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dify": {
+      "main": [
+        [
+          {
+            "node": "Manychat Resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manychat Resposta": {
+      "main": [
+        [
+          {
+            "node": "Não tem conversation_id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Não tem conversation_id": {
+      "main": [
+        [
+          {
+            "node": "Manychat conversation_id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Campos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "ManyChat",
+            "content-length": "151",
+            "content-type": "application/json; charset=utf-8",
+            "x-forwarded-for": "3.73.77.26",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "9292266f8f54",
+            "x-real-ip": "3.73.77.26",
+            "accept-encoding": "gzip"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "query": "Quando são as aulas do minicurso?",
+            "conversation_id": "",
+            "subscriber_id": "1518928469",
+            "whatsapp_id": "5535997638844"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/dabcab54-0b37-4a54-95da-4258c3c5f892",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "2e3af83c-310f-4780-8da3-86b0f6c46bcd",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-07-16T19:34:32.785Z",
+      "updatedAt": "2024-07-16T19:34:32.785Z",
+      "id": "OYw06Py1CLDhVhe0",
+      "name": "Admiraves"
+    }
+  ]
+}
