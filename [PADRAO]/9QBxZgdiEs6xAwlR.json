@@ -1,0 +1,300 @@
+{
+  "createdAt": "2024-07-17T19:53:05.450Z",
+  "updatedAt": "2024-08-01T21:03:21.125Z",
+  "id": "9QBxZgdiEs6xAwlR",
+  "name": "[2][NicoChat] Google Agendamento 2/2",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "372ee352-7066-4f7d-abd2-380ca87b0574",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        547.390332244134,
+        700
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "### Busca todos horários ocupados do Google Agenda\n- Buscar todos horários ocupados entre um intervalo. \n- Não é possível buscar os horários disponíveis, por isso eu faço a engenharia reserva.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDesenvolvido por Kaique Grigoletto (@k.grigoletto)",
+        "height": 617.9453692877324,
+        "width": 1753.1007616251438,
+        "color": 7
+      },
+      "id": "e856fe25-6de0-4385-bc52-d92c21faf760",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        460,
+        460
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.status }}",
+              "value2": "confirmed"
+            },
+            {
+              "value1": "={{ $json.start.dateTime }}",
+              "operation": "notEqual",
+              "value2": "={{undefined}}"
+            }
+          ]
+        }
+      },
+      "id": "e40dea85-a9ee-4b92-a5e4-ba90794c3e51",
+      "name": "Filtrar confirmados e horário definidos",
+      "type": "n8n-nodes-base.filter",
+      "position": [
+        1067.390332244134,
+        700
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "### Filtro para extrair somente as datas que possuem horário definido.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDesenvolvido por Kaique Grigoletto (@k.grigoletto)",
+        "height": 274.62287400174426,
+        "width": 266.8545216050091,
+        "color": 4
+      },
+      "id": "c28ef92a-3df9-4040-a5b1-d3ef02e9a61f",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        987.390332244134,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "start"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4e7f336c-0ba1-4ed7-9a75-20af9fc90740",
+      "name": "Reordenar Ascendente",
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        1527.390332244134,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "response",
+        "options": {}
+      },
+      "id": "ba531e41-cd01-4807-a858-82c4c64c0a54",
+      "name": "Formatar Resposta",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1747.390332244134,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "start",
+              "value": "={{ $json.start.dateTime }}"
+            },
+            {
+              "name": "end",
+              "value": "={{ $json.end.dateTime }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4e9c1777-1985-4c16-a600-bbb7de6ea6eb",
+      "name": "Extrair Data Start/End",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1307.390332244134,
+        701
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "contato@robotriz.com.br",
+          "mode": "list",
+          "cachedResultName": "contato@robotriz.com.br"
+        },
+        "returnAll": true,
+        "options": {
+          "timeMin": "={{ $now.toISO() }}",
+          "timeMax": "={{ $now.plus(7, 'day').toISO() }}",
+          "singleEvents": true
+        }
+      },
+      "id": "c7e03691-ca7f-43ea-a047-4c9b68284ddb",
+      "name": "Google Calendar",
+      "type": "n8n-nodes-base.googleCalendar",
+      "position": [
+        807.390332244134,
+        700
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "3GG2eQ6gqQRM9ikU",
+          "name": "Google Calendar account [2]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "response",
+              "value": "={{ JSON.stringify($json.response) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e2cd5d65-2d1f-479a-a5f6-6aa3f8619df6",
+      "name": "Tratar Resposta",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1987.390332244134,
+        700
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "content": "### Transforma um objeto JavaScript em uma string JSON.\nIsso pode melhorar a clareza e a precisão da resposta do agente.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDesenvolvido por Kaique Grigoletto (@k.grigoletto)",
+        "height": 310.9554620555801,
+        "width": 282.65129901972045,
+        "color": 4
+      },
+      "id": "b0264a0d-9d83-437c-9aa5-834a5fa42db9",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1887.390332244134,
+        560
+      ]
+    }
+  ],
+  "connections": {
+    "Filtrar confirmados e horário definidos": {
+      "main": [
+        [
+          {
+            "node": "Extrair Data Start/End",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reordenar Ascendente": {
+      "main": [
+        [
+          {
+            "node": "Formatar Resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrair Data Start/End": {
+      "main": [
+        [
+          {
+            "node": "Reordenar Ascendente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar": {
+      "main": [
+        [
+          {
+            "node": "Filtrar confirmados e horário definidos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatar Resposta": {
+      "main": [
+        [
+          {
+            "node": "Tratar Resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "5cfcca0b-c027-4310-8d8b-6120de5ac47e",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2024-07-11T00:21:16.296Z",
+      "updatedAt": "2024-07-11T00:21:16.296Z",
+      "id": "929Cq0MPDYxfq67l",
+      "name": "Google Agenda"
+    },
+    {
+      "createdAt": "2024-07-11T00:21:27.828Z",
+      "updatedAt": "2024-07-11T00:21:27.828Z",
+      "id": "quj3fHETQNpIwE0v",
+      "name": "Patrick Raul"
+    }
+  ]
+}
