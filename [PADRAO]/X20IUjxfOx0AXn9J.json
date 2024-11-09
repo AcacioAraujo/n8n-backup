@@ -1,0 +1,523 @@
+{
+  "createdAt": "2024-07-11T22:40:58.674Z",
+  "updatedAt": "2024-07-11T23:09:03.388Z",
+  "id": "X20IUjxfOx0AXn9J",
+  "name": "[7] Fluxo de Status (Cancelar, Confirmar e Avaliar Atendimento)",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Cores Google Calendar\n\ncolorId: 1 - #a4bdfc (Azul claro)\ncolorId: 2 - #7ae7bf (Verde claro)\ncolorId: 3 - #dbadff (Roxo claro)\ncolorId: 4 - #ff887c (Rosa claro)\ncolorId: 5 - #fbd75b (Amarelo claro)\ncolorId: 6 - #ffb878 (Laranja claro)\ncolorId: 7 - #46d6db (Ciano)\ncolorId: 8 - #e1e1e1 (Cinza)\ncolorId: 9 - #5484ed (Azul escuro)\ncolorId: 10 - #51b749 (Verde escuro)\ncolorId: 11 - #dc2127 (Vermelho)\n\n\n\n\n\n\n\n\n\n\n\n\nDesenvolvido por Kaique Grigoletto (@k.grigoletto)",
+        "height": 308.14814814814827,
+        "width": 309.9588477366254,
+        "color": 2
+      },
+      "id": "9a0e6b20-f726-466a-b1a8-33a4a077476c",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Status\n\n**Agendado:**\ncolorId: 5 - #fbd75b (Amarelo claro)\n\n**Confirmado:**\ncolorId: 2 - #7ae7bf (Verde claro)\n\n**Compareceu:**\ncolorId: 10 - #51b749 (Verde escuro)\n\n**Faltou:**\ncolorId: 11 - #dc2127 (Vermelho)\n\n\n\n\n\n\n\n\n\n\nDesenvolvido por Kaique Grigoletto (@k.grigoletto)",
+        "height": 306.42567901234605,
+        "width": 304.79012345678984
+      },
+      "id": "e4b2781c-8654-4ed0-a6cd-47bc2a401d7a",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1500,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "422679a3-177a-4500-9a5c-9ce3cc27bcb5",
+              "name": "Status",
+              "value": "={{ $json.body.Status }}",
+              "type": "string"
+            },
+            {
+              "id": "8b3f7585-e9a5-4c6b-8b43-aadbbc9ffe6e",
+              "name": "Event ID",
+              "value": "={{ $json.body['Event ID'] }}",
+              "type": "string"
+            },
+            {
+              "id": "fdbd19bf-175e-4a47-9804-ebfcc5eb1583",
+              "name": "Nome",
+              "value": "={{ $json.body.Nome }}",
+              "type": "string"
+            },
+            {
+              "id": "69f60e86-5d12-40a4-82d6-f8606cf6a709",
+              "name": "Nota NPS",
+              "value": "={{ $json.body.Nota }}",
+              "type": "string"
+            },
+            {
+              "id": "27bfe894-42c0-4ab0-b461-9ac87c8f9887",
+              "name": "Feedback",
+              "value": "={{ $json.body.Feedback }}",
+              "type": "string"
+            },
+            {
+              "id": "1fe75a75-28b7-4f7e-9c55-5ff3ea28a84b",
+              "name": "ID",
+              "value": "={{ $json.body.ID }}",
+              "type": "string"
+            },
+            {
+              "id": "7ef4bc82-2703-4c97-8d25-56329ee02542",
+              "name": "WhatsApp",
+              "value": "={{ $json.body.Telefone }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b547362c-b400-46bf-9fb3-7e7d765cd7bc",
+      "name": "Dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1460,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "calendar": {
+          "__rl": true,
+          "value": "contato@robotriz.com.br",
+          "mode": "list",
+          "cachedResultName": "contato@robotriz.com.br"
+        },
+        "eventId": "={{ $json['Event ID'] }}",
+        "useDefaultReminders": false,
+        "updateFields": {
+          "color": "2"
+        }
+      },
+      "id": "b9fb6206-2136-4de7-a466-056fd23b84a8",
+      "name": "Confirmar Agendamento",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.1,
+      "position": [
+        2180,
+        200
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "27WinJTE9Con8wAf",
+          "name": "[ROBOTRIZ] GOOGLE CALENDAR"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "048c841d-6062-4c72-a814-64c570ad56a9",
+      "name": "Confirmar",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1960,
+        200
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "bf61811c-8bad-467c-9242-6d11e01c63d1",
+      "name": "Avaliar",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1960,
+        880
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "f787385b-a7d2-4655-bdb3-cccde936f155",
+      "name": "Desmarcar",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1960,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Observação\n\nAqui você pode apenas alterar a cor do evento ao invés de excluir. \n\n\n\n\n\n\n\n\n\n\n\n\n\nDesenvolvido por Kaique Grigoletto (@k.grigoletto)",
+        "height": 291.75308641975346,
+        "width": 250.60082304526753,
+        "color": 7
+      },
+      "id": "edfe9432-6d55-4d29-b6fd-da3aabab0c56",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2100,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "contato@robotriz.com.br",
+          "mode": "list",
+          "cachedResultName": "contato@robotriz.com.br"
+        },
+        "eventId": "={{ $json['Event ID'] }}",
+        "options": {}
+      },
+      "id": "9790b804-cf9b-4e34-ac6f-5de18d667c99",
+      "name": "Desmarcar Agendamento",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.1,
+      "position": [
+        2180,
+        560
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "27WinJTE9Con8wAf",
+          "name": "[ROBOTRIZ] GOOGLE CALENDAR"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1PR11TO52bJkKXXZx4QtOMvdbwpaHHTAD4rX0LnxOGIY/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "AVALIAÇÕES",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PR11TO52bJkKXXZx4QtOMvdbwpaHHTAD4rX0LnxOGIY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $json[\"Event ID\"] }}",
+            "NOME": "={{ $json.Nome }}",
+            "TELEFONE": "={{ $json.WhatsApp }}",
+            "NOTA": "={{ $json[\"Nota NPS\"] }}",
+            "FEEDBACK": "={{ $json.Feedback }}",
+            "DATA": "={{$now.format('dd/MM/yy HH:mm')}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "DATA",
+              "displayName": "DATA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "NOME",
+              "displayName": "NOME",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TELEFONE",
+              "displayName": "TELEFONE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "NOTA",
+              "displayName": "NOTA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "FEEDBACK",
+              "displayName": "FEEDBACK",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cc056788-5e8d-43c4-b54d-766af4baa160",
+      "name": "Registrar Avaliações",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        2200,
+        880
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Link da Planilha\n\nhttps://docs.google.com/spreadsheets/d/1SzgYzsZ8pZWRTaSgfI3fF77tfH9NZgCtduzuH7ImYnM/edit?usp=sharing\n\nFaça uma cópia para você. (Arquivo > Fazer uma cópia)\n\n\n\n\n\n\n\n\n\n\n\n\nDesenvolvido por Kaique Grigoletto (@k.grigoletto)",
+        "height": 193.2225913621263,
+        "width": 261.2624584717607
+      },
+      "id": "af799841-0440-450f-9ab3-e81f8334900d",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2400,
+        820
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Status }}",
+                    "rightValue": "Confirmar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "5be8250d-e414-4878-8839-56f1ea1aad5e",
+                    "leftValue": "={{ $json.Status }}",
+                    "rightValue": "Desmarcar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "88e292b8-9266-4f63-8ec3-411a8ed530aa",
+                    "leftValue": "={{ $json.Status }}",
+                    "rightValue": "Avaliar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "646b58ef-8436-4e34-b803-6f5525c92f57",
+      "name": "Status",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        1720,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "744a76d4-38de-423a-a869-17d45d83f8fc",
+        "options": {}
+      },
+      "id": "8e1ba603-0a88-4439-8240-b412982d336f",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        560
+      ],
+      "webhookId": "744a76d4-38de-423a-a869-17d45d83f8fc"
+    }
+  ],
+  "connections": {
+    "Dados": {
+      "main": [
+        [
+          {
+            "node": "Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confirmar": {
+      "main": [
+        [
+          {
+            "node": "Confirmar Agendamento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Desmarcar": {
+      "main": [
+        [
+          {
+            "node": "Desmarcar Agendamento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Avaliar": {
+      "main": [
+        [
+          {
+            "node": "Registrar Avaliações",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Status": {
+      "main": [
+        [
+          {
+            "node": "Confirmar",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Desmarcar",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Avaliar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "4e685473-681f-4469-87ab-094d443eb23c",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-07-11T00:21:16.296Z",
+      "updatedAt": "2024-07-11T00:21:16.296Z",
+      "id": "929Cq0MPDYxfq67l",
+      "name": "Google Agenda"
+    },
+    {
+      "createdAt": "2024-07-11T00:21:27.828Z",
+      "updatedAt": "2024-07-11T00:21:27.828Z",
+      "id": "quj3fHETQNpIwE0v",
+      "name": "Patrick Raul"
+    }
+  ]
+}
