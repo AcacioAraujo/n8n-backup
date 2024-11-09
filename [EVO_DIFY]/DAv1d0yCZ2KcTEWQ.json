@@ -1,0 +1,2022 @@
+{
+  "createdAt": "2024-09-18T18:36:18.673Z",
+  "updatedAt": "2024-09-25T21:31:22.195Z",
+  "id": "DAv1d0yCZ2KcTEWQ",
+  "name": "[EVO_DIFY]-[LE IMAGEM OUVE AUDIO]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "audio64",
+        "options": {
+          "fileName": "transcricao.ogg",
+          "mimeType": "audio/ogg"
+        }
+      },
+      "id": "d3c400f9-2525-4e39-8203-200be22ca467",
+      "name": "Converter em Audio",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1305.7372192896119,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "image64",
+        "options": {
+          "fileName": "imagem.jpeg",
+          "mimeType": "image/jpeg"
+        }
+      },
+      "id": "61ad4a4e-9b60-44d0-b89d-a67cecd40e78",
+      "name": "Converter em Imagem",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1360,
+        1120
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Variáveis Globais').item.json['dominio-evolution'] }}message/sendText/{{ $('Webhook').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Variáveis Globais').item.json['api-evolution'] }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Webhook').item.json.body.data.key.remoteJid }}\",\n  \"options\": {\n    \"delay\": {{ $json.mensagens.length * 35 }},\n    \"presence\": \"composing\"\n  },\n  \"textMessage\": {\n    \"text\": \"{{ $json.mensagens }}\"\n  },\n  \"text\": \"{{ $json.mensagens }}\"\n}",
+        "options": {}
+      },
+      "id": "aa80af9c-6b4b-4f20-8fc2-39e3c0e11aca",
+      "name": "Responde Evolution-API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4605.737219289612,
+        1020
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "amount": "={{ $('Variáveis Globais').item.json.timeout }}"
+      },
+      "id": "dc1364e3-056d-45e9-bd8a-7d71b8bc78d8",
+      "name": "Timeout1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2225.737219289612,
+        600
+      ],
+      "webhookId": "981807bf-8bb1-42b1-9ada-6fe0639688f7"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Variáveis Globais').item.json['dominio-dify'] }}v1/chat-messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Variáveis Globais').item.json['api-dify'] }} "
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"inputs\": {},\n    \"query\": {{ JSON.stringify($json.message) }},\n    \"response_mode\": \"streaming\",\n    \"conversation_id\": \"{{ $json.convID }}\",\n    \"user\": \"{{ $json.id}}\"\n}\n",
+        "options": {}
+      },
+      "id": "9a6d1160-8da5-42af-8ab3-b0cc5e9d658c",
+      "name": "Envia Mensagem para API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2640,
+        600
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b6cd097d-3a3a-4cdc-a6f1-13c118a4618c",
+              "name": "audio64",
+              "value": "={{ $('Webhook').item.json.body.data.message.base64 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "40fc8f18-bc55-4a0e-adbe-4b0e522ffa26",
+      "name": "Salva Informações do Audio",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1020,
+        1280
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b6cd097d-3a3a-4cdc-a6f1-13c118a4618c",
+              "name": "image64",
+              "value": "={{ $('Webhook').item.json.body.data.message.base64 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fb67f880-4299-47bd-9db6-573fd8053f92",
+      "name": "Salva Informações da Imagem",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1860,
+        1280
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "b50066ef-17e2-4cb5-8447-f3c3f4693521",
+              "leftValue": "={{ $now.toLocal() }}",
+              "rightValue": "={{ $json.timeout.toDateTime().toLocal()}}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "293935de-1e02-4730-9554-a7727901eb03",
+      "name": "Verifica se Mandou outra Mensagem",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        2505.737219289612,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "0319287d-769b-4325-84a8-96c17bae3456",
+              "leftValue": "={{ $('Webhook').item.json.body.data.key.fromMe }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "41476341-2a7e-4ce9-b422-01a3ebd94a71",
+      "name": "Usuário Enviou?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -314.26278071038814,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "tableId": "Conversas",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "id",
+              "fieldValue": "={{ $('Variáveis Globais').item.json.mobile }}"
+            }
+          ]
+        }
+      },
+      "id": "95ec8555-6fb2-4cbf-9434-6612b3395e76",
+      "name": "Supabase1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        825.7372192896119,
+        780
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Mensagens Dify"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "Conversas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $('Variáveis Globais').item.json.mobile }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "timeout",
+              "fieldValue": "={{ $now.plus($('Variáveis Globais').item.json.timeout , 'seconds')}}"
+            }
+          ]
+        }
+      },
+      "id": "bc70b176-7669-4aff-acf5-04db0e19a896",
+      "name": "Define Timeout1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        660,
+        620
+      ],
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "maxTries": 5,
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Mensagens Dify"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "Conversas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $('Variáveis Globais').item.json.mobile }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "message",
+              "fieldValue": "={{ $json.mensagem }}"
+            }
+          ]
+        }
+      },
+      "id": "397c3fae-e71f-496e-81cb-1856be34342b",
+      "name": "Sobe Mensagem",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2085.737219289612,
+        600
+      ],
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "maxTries": 5,
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Mensagens Dify"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "Conversas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $('Variáveis Globais').item.json.mobile }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "message",
+              "fieldValue": "={{ null }}"
+            },
+            {
+              "fieldId": "convID",
+              "fieldValue": "={{ $('Formatar').item.json.convID }}"
+            }
+          ]
+        }
+      },
+      "id": "56805785-0091-426d-bd98-2a9d1cf15cac",
+      "name": "Limpa Mensagem e Seta o Conversation ID3",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        4320,
+        600
+      ],
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "maxTries": 5,
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Mensagens Dify"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "Conversas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $('Variáveis Globais').item.json.mobile }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "timeout",
+              "fieldValue": "={{ $now.plus($('Variáveis Globais').item.json['timeout-atendimento'], 'minutes').setZone('America/Sao_Paulo').toUTC() }}"
+            }
+          ]
+        }
+      },
+      "id": "b94bb23d-e580-439d-a27b-0e549e754fb2",
+      "name": "Define Timeout",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        1080
+      ],
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Mensagens Dify"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "Conversas",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "id",
+              "fieldValue": "={{ $('Variáveis Globais').item.json.mobile }}"
+            }
+          ]
+        }
+      },
+      "id": "dc9df08c-1397-49e9-80a5-97ef52c074d1",
+      "name": "Supabase",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        220,
+        1080
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Mensagens Dify"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "b44b9ba6-4a51-46ee-94ff-ba85994069e2",
+              "leftValue": "={{ $json.isEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "6424a406-3ef2-4174-a040-1ce60f5d4810",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        45.73721928961186,
+        1080
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "35fa457c-66ec-469e-bcff-e138580a8137",
+              "name": "mensagem",
+              "value": "={{   $('Pega Mensagem').item.json.message }} {{ \n  typeof $node['Webhook'].json.body.data.message.conversation === 'string' ? \n  $node['Webhook'].json.body.data.message.conversation : \n  (\n    $node['Webhook'].json.body.data.contextInfo?.quotedMessage?.conversation ? \n    `Menção: ${$node['Webhook'].json.body.data.contextInfo.quotedMessage.conversation}, Mensagem: ${$node['Webhook'].json.body.data.message.extendedTextMessage?.text || ''}` : \n    $node['Webhook'].json.body.data.message.extendedTextMessage?.text || \n    $node['Webhook'].json.body.data.message.editedMessage?.message?.protocolMessage?.editedMessage?.conversation+'*' || \n    ''\n  )\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "91175546-a813-469d-830a-eaca2f046200",
+      "name": "Mensagem",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1485.7372192896119,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "1a1a777b-77e6-42c4-abf0-db8d513eeb45",
+              "leftValue": "={{ $now.plus($('Variáveis Globais').item.json.timeout, 'seconds').setZone('America/Sao_Paulo').toUTC() }}",
+              "rightValue": "={{ $('Pega Timeout').item.json.timeout.toDateTime().setZone('America/Sao_Paulo').toUTC() }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
+              }
+            },
+            {
+              "id": "45a72a89-d9e3-44d0-9545-6720d2af6793",
+              "leftValue": "={{ $('Pega Timeout').item.json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "239d4124-4a96-4c8c-8607-b84fb8d4c959",
+      "name": "Em atendimento?",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        465.73721928961186,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "Conversas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "keyValue": "={{ $json.mobile }}"
+            }
+          ]
+        }
+      },
+      "id": "e284bac8-7703-4bbc-9b5d-775f797bdf62",
+      "name": "Pega Timeout",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        620
+      ],
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Mensagens Dify"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "mensagens",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "id": "4b342af6-7c60-4d32-9806-71f19a100a4f",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3700,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "fa7fb938-6644-4e95-bda8-cd7b52185991",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        4145.737219289612,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f24a4657-42af-4443-bc4d-420de885c65c",
+              "name": "data",
+              "value": "={{ ($json.data).split(\"\\n\\n\") }}",
+              "type": "array"
+            },
+            {
+              "id": "48fb41c6-ae44-4bc2-a438-71828e9244e7",
+              "name": "convID",
+              "value": "={{ $json.data.match(/\"conversation_id\":\\s*\"(.*?)\"/)[1]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5207d3cf-a3ed-4669-aa01-448ef7f0fe76",
+      "name": "Formatar",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2945.737219289612,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f9ccdc77-cba8-4740-84f3-0ecbf9cfb5da",
+              "name": "message",
+              "value": "={{ ($json.data.map(item => item.match(/\"answer\":\\s*\"(.*?)\"/) !== null ? item.match(/\"answer\":\\s*\"(.*?)\"/)[1] : '' ).join(\"\"))}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0094af31-db7e-4626-8c75-10995ca3b24e",
+      "name": "Juntar Letras",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3145.737219289612,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Variáveis Globais').item.json['dominio-evolution'] }}message/sendMedia/{{ $('Webhook').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Variáveis Globais').item.json['api-evolution'] }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Webhook').item.json.body.data.key.remoteJid }}\",\n  \"options\": {\n    \"delay\": {{ $json.mensagens.length * 1 }},\n    \"presence\": \"composing\"\n  },\n  \"mediaMessage\": {\n    \"mediatype\": \"image\",\n    \"fileName\": \"image.jpg\",\n    \"media\": \"{{ $json.mensagens.match(/https:\\/\\/[^\\s]+?\\.(jpeg|jpg|png|webp)/)[0] }}\"\n  }\n}",
+        "options": {}
+      },
+      "id": "9358efa1-e2c2-451e-a365-d64608fe90f3",
+      "name": "Responde Evolution-API Imagem",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4605.737219289612,
+        820
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "bd6c6ac4-8ebd-4d14-9935-1fd270106c48",
+                    "leftValue": "={{ $json.mensagens.match(/https:\\/\\/.*\\.(jpeg|jpg|png|webp)/g) !== null }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Imagem"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "8a8907db-2f29-4fc3-a50d-264a2c5d015e",
+                    "leftValue": "={{ $json.mensagens.match(/https:\\/\\/.*\\.(wmv|mp4|mov|mkv)/g)}}",
+                    "rightValue": "=",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Video"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.mensagens.toBoolean() && $json.mensagens.isEmpty() == false && $json.mensagens.replace(/\\s+/g, '').isUrl() == false && $json.mensagens !== '\\n\\n'}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Texto"
+            },
+            {
+              "renameOutput": true,
+              "outputKey": "Vazio"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cbf7612a-b355-4291-908a-59999dee4099",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        4305.737219289612,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Pausa a automação\n\nCaso o próprio atendente que enviou a mensagem, pausa a automação pelo tempo definido em variáveis globais",
+        "height": 331.58146193074447,
+        "width": 578.2605963777531,
+        "color": 7
+      },
+      "id": "99547320-0d09-4f4f-8886-227eda6e922b",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -194.26278071038814,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Cria a fila de Mensagens\n\nCom base no timeout definido, vai criar uma data dentro do Supabase, que será usada para verificar se a pessoa mandou alguma mensagem posteriormente",
+        "height": 523.997815667365,
+        "width": 513.3047572182568
+      },
+      "id": "05122398-ddc3-4ea9-bf40-2b45217da985",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        460.0000000000001,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Escuta áudios e Lê Imagens\n\nUtilizando o messageType recebido no Webhook, encaminha e transcreve/descreve o áudio/imagem da mensagem",
+        "height": 703.2425786454166,
+        "width": 1035.7671979895283,
+        "color": 4
+      },
+      "id": "2041d55c-53e6-4d52-8142-556924c37363",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        999.7007680941392,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Verifica a Fila de Mensagens\n\nSobe a mensagem dentro do Supabase, e com base no Retorno do Supabase, verifica se o Timeout mudou, pois se mudou, significa se foi enviada uma nova mensagem, pausando assim a automação\n",
+        "height": 301.60790336687955,
+        "width": 765.4862800134772,
+        "color": 5
+      },
+      "id": "7389fc60-de29-4f96-b1b4-ecea8e5d516c",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2025.7372192896119,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Faz o tratamento da Resposta da Dify\n\nPor conta do modelo de \"Agent\" só aceitar o modo de \"Streaming\", temos que juntar palavra por palavra da resposta da Dify, e depois fazer a Divisão dos Parágrafos, para enviar as mensagens uma a uma. ",
+        "height": 301.60790336687955,
+        "width": 924.7540974773208,
+        "color": 6
+      },
+      "id": "6d4c2477-dee7-4bc1-8b29-012bc4d60ecb",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2905.737219289612,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Mensagem de Texto",
+        "height": 236.14594123051722,
+        "width": 351.80036783655424,
+        "color": 4
+      },
+      "id": "51da8491-fa70-47c9-b620-cee264266d57",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1305.7372192896119,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# ALTERE ISSO!",
+        "height": 236.14594123051722,
+        "width": 255.0422981636305,
+        "color": 3
+      },
+      "id": "ed61147a-ce3b-45b9-87f1-6a92b3a542c2",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -614.2627807103881,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "95f8e223-1bfa-4238-9868-f102a604cac9",
+              "name": "mobile",
+              "value": "={{ $json.body.data.key.remoteJid.replace(/\\D/g, '').replace(/^55(\\d{2})(\\d{8})$/, '55$19$2') }}",
+              "type": "string"
+            },
+            {
+              "id": "e341c5eb-49b3-4bee-bf2a-8ef896448c12",
+              "name": "timeout",
+              "value": 4,
+              "type": "number"
+            },
+            {
+              "id": "7e6b12c3-ccc0-48f3-9354-33b27e3d8704",
+              "name": "dominio-evolution",
+              "value": "https://evolution.robotriz.com.br/",
+              "type": "string"
+            },
+            {
+              "id": "809f5a25-1900-4e8c-b54b-b6156d5c47f8",
+              "name": "dominio-dify",
+              "value": "https://dify-api.robotriz.com.br/",
+              "type": "string"
+            },
+            {
+              "id": "4209cccb-9957-4757-bbe1-36bbdcc65b0a",
+              "name": "api-dify",
+              "value": "app-4nGugjlcQWdcG6g7QT6SatzI",
+              "type": "string"
+            },
+            {
+              "id": "ee62f502-1b02-49fd-ab88-aeecd77ebafc",
+              "name": "api-evolution",
+              "value": "mox0pmcrk5bee9x906ohiqj2refn9g7i",
+              "type": "string"
+            },
+            {
+              "id": "5fa2eeea-d911-4b73-bb69-2f618bc775b4",
+              "name": "timeout-atendimento",
+              "value": 30,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "06f9a3c6-3bcc-4ad1-bad2-a06632d66f17",
+      "name": "Variáveis Globais",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        -540,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "7abc8a6b-f066-487c-b7ba-acbf7112d568",
+                    "leftValue": "={{ $json }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Achou"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Não Achou"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "de35e160-004e-4945-8e72-41e758110579",
+      "name": "Telefone existe?1",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        45.73721928961186,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "Conversas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "keyValue": "={{ $('Variáveis Globais').item.json.mobile }}"
+            }
+          ]
+        }
+      },
+      "id": "c3e226c2-7941-432a-8eb0-5168b1e05c1b",
+      "name": "Pega Timeout1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2365.737219289612,
+        600
+      ],
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Mensagens Dify"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "899368fc-d217-4ec6-a7b1-20a979f46591",
+              "leftValue": "={{ $json.body.data.key.remoteJid.replace(/\\D/g, '').replace(/^55(\\d{2})(\\d{8})$/, '55$19$2') }}",
+              "rightValue": "5511942126333",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "8c5be0fb-44ee-438d-9257-345a1f9e3c41",
+      "name": "Filter1",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        -840,
+        820
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "Conversas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "keyValue": "={{ $('Variáveis Globais').item.json.mobile }}"
+            }
+          ]
+        }
+      },
+      "id": "2f2437db-da39-4257-8541-e7c7f865c115",
+      "name": "Pega Mensagem",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1345.7372192896119,
+        600
+      ],
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Mensagens Dify"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "Conversas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "keyValue": "={{ $('Variáveis Globais').item.json.mobile }}"
+            }
+          ]
+        }
+      },
+      "id": "e079742d-f25a-41d8-9168-c997e1b07a08",
+      "name": "Pega Mensagem1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        900
+      ],
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Mensagens Dify"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "35fa457c-66ec-469e-bcff-e138580a8137",
+              "name": "mensagem",
+              "value": "={{   $('Pega Mensagem1').item.json.message }} {{ $('Transcrição').item.json.transcricao }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "50be180c-839e-4b15-92e2-bec447cff647",
+      "name": "Mensagem2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1885.7372192896119,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b6cd097d-3a3a-4cdc-a6f1-13c118a4618c",
+              "name": "transcricao",
+              "value": "={{   $('Define Timeout1').item.json.message }} \n{{\n  $node['Webhook'].json.body.data.message.imageMessage?.caption\n    ? (\n        $json.content \n          ? `${$json.content} Legenda: ${$node['Webhook'].json.body.data.message.imageMessage.caption } }` \n          : 'Erro: json.content ausente para imagem com legenda'\n      ) \n    : `${$json.content || ''} ${$json.text ? ' Transcrição: ' + $json.text : ''}`\n}}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "76e98edc-303c-4a89-ab91-e6cb8d09c6e3",
+      "name": "Transcrição",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1585.7372192896119,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5e411cab-40c5-4a28-ba12-677ec666c8d1",
+              "name": "mensagens",
+              "value": "={{ \n    $json.message\n        .split(/(https:\\/\\/[^\\s]+?\\.(?:jpeg|jpg|png|webp))/gi)\n        .map(item => item === 'jpg' ? '' : item)// Remove espaços em branco no início e fim de cada item\n        .filter(item => item !== '\\\\n\\\\n') // Remove itens vazios, nulos ou que sejam '\\\\n\\\\n'\n        .filter(item => item !== '  ')\n        .filter(item => item !== '   ')\n        .filter(item => item !== '    ')\n}}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e7d57bc4-81b2-440c-a633-a0ab5d817cbd",
+      "name": "Divide Mídias",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3345.737219289612,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d6343bd2-1d5f-47a0-8dab-f8f5797c790f",
+              "name": "mensagens",
+              "value": "={{\n  $json.mensagens\n    .flatMap(item => \n      item.split('\\\\n\\\\n')\n        .map(s => s.trim())\n        .filter(Boolean)\n    )\n}}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c0c0633e-1333-4a0f-8a5f-3b131cc89c4b",
+      "name": "Divide Linhas",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3525.737219289612,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook').item.json.body.data.messageType }}",
+                    "rightValue": "conversation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Mensagem de Texto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "86e7e773-8586-458f-a1fb-2890f2030230",
+                    "leftValue": "={{ $('Webhook').item.json.body.data.messageType }}",
+                    "rightValue": "extendedTextMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Mensagem"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "7f108034-a1be-4e90-b42e-e4f8a719e311",
+                    "leftValue": "={{ $('Webhook').item.json.body.data.messageType }}",
+                    "rightValue": "editedMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Mensagem Editada"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "256e7cf8-be54-4c41-ba80-2d9eb0a07563",
+                    "leftValue": "={{ $('Webhook').item.json.body.data.messageType }}",
+                    "rightValue": "audioMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Áudio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "da03e413-3422-419c-af1a-71ff87c307e2",
+                    "leftValue": "={{ $('Webhook').item.json.body.data.messageType }}",
+                    "rightValue": "imageMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Imagem"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a31b31cc-04e2-45ee-8d4a-49030e8923aa",
+      "name": "Tipo da Mensagem",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        980,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini-2024-07-18",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI-2024-07-18"
+        },
+        "text": "Descreva todo o conteúdo da imagem, sem Acentos e sem hífens",
+        "inputType": "base64",
+        "options": {}
+      },
+      "id": "077db0e0-46b5-4c1f-9f35-f3fe96ee4bf6",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [
+        1514,
+        1120
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "qTcKDeG1l7aS58Jy",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {
+          "language": "pt"
+        }
+      },
+      "id": "7f04d914-a5b6-42ab-9366-a75e59c04cbb",
+      "name": "OpenAI1",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        1440,
+        900
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "openAiApi": {
+          "id": "qTcKDeG1l7aS58Jy",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Webhook').item.json.body.data.message.mediaUrl }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "2f36ebe1-41cb-4ec2-847a-72e9fd508b26",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1020,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "setAllData": false,
+        "destinationKey": "audio64",
+        "options": {
+          "encoding": "base64"
+        }
+      },
+      "id": "c73e3d30-9c1e-44c9-9c00-5d088f0d51e5",
+      "name": "Move Binary Data",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Webhook').item.json.body.data.message.mediaUrl }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "b5534573-ce33-4746-87f6-dbec6c4bc945",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1020,
+        1120
+      ]
+    },
+    {
+      "parameters": {
+        "setAllData": false,
+        "destinationKey": "image64",
+        "options": {
+          "encoding": "base64"
+        }
+      },
+      "id": "853ba280-7458-4788-9607-b1be58ef5736",
+      "name": "Move Binary Data1",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        1120
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": ":Amanda",
+        "options": {}
+      },
+      "id": "641fd1f9-a3a7-47d9-ba1e-2cb76494d967",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -980,
+        620
+      ],
+      "webhookId": "d3352a5f-ba91-4df0-89d0-3ef7a4c00f1d"
+    }
+  ],
+  "connections": {
+    "Converter em Audio": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Converter em Imagem": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Timeout1": {
+      "main": [
+        [
+          {
+            "node": "Pega Timeout1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envia Mensagem para API": {
+      "main": [
+        [
+          {
+            "node": "Formatar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifica se Mandou outra Mensagem": {
+      "main": [
+        [
+          {
+            "node": "Envia Mensagem para API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Usuário Enviou?": {
+      "main": [
+        [
+          {
+            "node": "Pega Timeout",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Define Timeout",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase1": {
+      "main": [
+        [
+          {
+            "node": "Define Timeout1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define Timeout1": {
+      "main": [
+        [
+          {
+            "node": "Tipo da Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sobe Mensagem": {
+      "main": [
+        [
+          {
+            "node": "Timeout1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Responde Evolution-API": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define Timeout": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase": {
+      "main": [
+        [
+          {
+            "node": "Define Timeout",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem": {
+      "main": [
+        [
+          {
+            "node": "Sobe Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Em atendimento?": {
+      "main": [
+        [
+          {
+            "node": "Define Timeout1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pega Timeout": {
+      "main": [
+        [
+          {
+            "node": "Telefone existe?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Limpa Mensagem e Seta o Conversation ID3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatar": {
+      "main": [
+        [
+          {
+            "node": "Juntar Letras",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Juntar Letras": {
+      "main": [
+        [
+          {
+            "node": "Divide Mídias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Responde Evolution-API Imagem": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Responde Evolution-API Imagem",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [
+          {
+            "node": "Responde Evolution-API",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Variáveis Globais": {
+      "main": [
+        [
+          {
+            "node": "Usuário Enviou?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telefone existe?1": {
+      "main": [
+        [
+          {
+            "node": "Em atendimento?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Supabase1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pega Timeout1": {
+      "main": [
+        [
+          {
+            "node": "Verifica se Mandou outra Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pega Mensagem": {
+      "main": [
+        [
+          {
+            "node": "Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pega Mensagem1": {
+      "main": [
+        [
+          {
+            "node": "Mensagem2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem2": {
+      "main": [
+        [
+          {
+            "node": "Sobe Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcrição": {
+      "main": [
+        [
+          {
+            "node": "Pega Mensagem1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Divide Mídias": {
+      "main": [
+        [
+          {
+            "node": "Divide Linhas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Divide Linhas": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tipo da Mensagem": {
+      "main": [
+        [
+          {
+            "node": "Pega Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pega Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pega Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Transcrição",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "Transcrição",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Move Binary Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move Binary Data": {
+      "main": [
+        [
+          {
+            "node": "Converter em Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Move Binary Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move Binary Data1": {
+      "main": [
+        [
+          {
+            "node": "Converter em Imagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Variáveis Globais",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "158b2e3b-8199-4cec-a696-cd90d5a96e7f",
+  "triggerCount": 1,
+  "tags": []
+}
