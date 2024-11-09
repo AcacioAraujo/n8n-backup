@@ -1,0 +1,1059 @@
+{
+  "createdAt": "2024-10-13T13:23:30.286Z",
+  "updatedAt": "2024-10-18T14:13:22.804Z",
+  "id": "cBwsEUrjf1yiUyco",
+  "name": "[AHM] - [BD][1a Conversão RD Station]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 372405182,
+          "mode": "list",
+          "cachedResultName": "lead",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44/edit#gid=372405182"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "id",
+              "lookupValue": "={{ $json.body.id_lead }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "30707fb0-7e43-4974-88b8-c868d9dedfdd",
+      "name": "Dados Lead",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -220,
+        660
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "2a4d5da4-326e-4434-bba2-e007db06da9c",
+              "leftValue": "={{ $json.uuid }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "bb38730c-ff5c-44dd-92b9-99f651fec650",
+      "name": "Existe Contato",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fb8ce367-8e8a-4ada-b041-b29985e88070",
+              "name": "access_token",
+              "value": "={{ $json.access_token }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3890ad06-ba6f-4899-b4f1-5cb6a182df64",
+      "name": "RD Station",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        420,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.rd.services/platform/contacts/email:{{ $('dados_lead').item.json.email }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.access_token }}"
+            },
+            {
+              "name": "cookie",
+              "value": "__rdsid=c4b1279aef06335f54df0daba66ce30a;"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "6d016379-fa5a-4183-b6fa-2d8f5b2fd646",
+      "name": "Dados Contato",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        660
+      ],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.rd.services/platform/contacts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5yZC5zZXJ2aWNlcyIsInN1YiI6InFXbUN1SmpVeGN6cExTMHdOekY0bmp4RmRhdnpBUEo1M0xlbVZhZFJ5b01AY2xpZW50cyIsImF1ZCI6Imh0dHBzOi8vYXBwLnJkc3RhdGlvbi5jb20uYnIvYXBpL3YyLyIsImFwcF9uYW1lIjoiQUhNIC0gbjhuIC0gVHlwZWJvdCIsImV4cCI6MTcyODY3MDczNCwiaWF0IjoxNzI4NTg0MzM0LCJzY29wZSI6IiJ9.e-hE2js7-fSEAVCa9Ea4Dne1qszGoMjjNvgdOJUXWOpZbUwOwkeWhD29jaHMOK3QOUdNVr3h9RitHd9Bg-nW-bYLiat-cdcCkU9H7N8WcMbB5igiK67HOLpu0oe-16bu9ynstbYWe8vwTFmaunFEjGuqx9NCJEPrQWekJM5ql-d8UrbMlJBQkvW1DCTOQemgIFy6olRx7qCNVG0Gr8VEVMm60Glq3FAAFOjKoyRn5z2z581fWhW-pl8gbFwzz_xVMxVqb7GVPshQ0R7P8CVsReUJAzxlh3vXSdvRudOqMWXexQjRUtbgN5CvFL2qJ75eflIyYqRy0xap6PjRkIFRNQ"
+            },
+            {
+              "name": "cookie",
+              "value": "__rdsid=c4b1279aef06335f54df0daba66ce30a;"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "={{ $('Campos Lead Formulario').item.json.nome_completo }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $('Campos Lead Formulario').item.json.email }}"
+            },
+            {
+              "name": "mobile_phone",
+              "value": "={{ $('Campos Lead Formulario').item.json.celular }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "447fd865-f0a4-4d66-9a1c-00c5c0527c04",
+      "name": "Cadastrar Contato",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1180,
+        720
+      ],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.rd.services/auth/token",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "cookie",
+              "value": "__rdsid=c4b1279aef06335f54df0daba66ce30a;"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "client_id",
+              "value": "dbb1c821-3da9-4cd9-9a39-c45f87253d39"
+            },
+            {
+              "name": "client_secret",
+              "value": "c040e4917087446a8ab4db781cab520a"
+            },
+            {
+              "name": "refresh_token",
+              "value": "2DXRfvmFYW8abZ5eqLdGDLHDJwj8jyHr1R0Rl5OkdRs"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "b240123b-8336-4a8c-b00e-98133142629b",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        199,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Integração RD Station",
+        "height": 1026.0379976503104,
+        "width": 1772.033948766346
+      },
+      "id": "fa1d76d9-be72-4d6d-a685-c6423b726240",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        140,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 522310173,
+          "mode": "list",
+          "cachedResultName": "perguntas_respostas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44/edit#gid=522310173"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "id_formulario",
+              "lookupValue": "={{ $('dados_lead').item.json.id_formulario_atual }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0027b354-a017-40f1-a9e7-3bd0f6182c8d",
+      "name": "Perguntas e Respostas",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        718,
+        1220
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "specifiedFields",
+        "fieldsToInclude": "pergunta, resposta",
+        "options": {}
+      },
+      "id": "7dd84e46-f3bd-416d-8313-fb35954ed966",
+      "name": "Aggregate",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1098,
+        1200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.rd.services/platform/events",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "event_type",
+              "value": "conversion"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "authorization",
+              "value": "=Bearer {{ $('RD Station').item.json.access_token }}"
+            },
+            {
+              "name": "cookie",
+              "value": "__rdsid=c4b1279aef06335f54df0daba66ce30a;"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"event_type\": \"CONVERSION\",\n  \"event_family\": \"CDP\",\n  \"payload\": {\n    \"conversion_identifier\": \"formulario-captacao-qualificacao-de-leads\",\n    \"email\": \"{{ $('dados_lead').item.json.email }}\",\n    \"tags\": [\n      \"[BOT - INICIADO]\"\n    ]\n  }\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "01070a72-eef1-4156-9604-a6fe0f268392",
+      "name": "Cadastrar Conversão",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1440,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ce1fa994-24ca-4239-9320-68aed24be9a9",
+              "leftValue": "={{ $json.finalizado.toString() }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "0c0d71b2-823c-4c88-b44b-0721526569f7",
+      "name": "Já finalizado",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        380,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 851274605,
+          "mode": "list",
+          "cachedResultName": "formulario",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44/edit#gid=851274605"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "id_formulario",
+              "lookupValue": "={{ $('dados_lead').item.json.id_formulario_atual }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b76a3ae5-b694-4315-9367-d5b7dfca022e",
+      "name": "Dados formulario",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        200,
+        900
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "35854f8f-3202-46f3-aa55-311f2e587a1c",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "7a6027b8-d650-4ce3-aac7-96528eb1031b",
+              "name": "nome_completo",
+              "value": "={{ $json.nome_completo }}",
+              "type": "string"
+            },
+            {
+              "id": "f9a3b685-e709-4653-8e65-0f99b3a83f3a",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "94ddf3a6-6182-4266-bf30-66e52939a304",
+              "name": "celular",
+              "value": "={{ $json.celular }}",
+              "type": "number"
+            },
+            {
+              "id": "41a6bf24-4b23-47b0-9d73-d13fb6da55df",
+              "name": "razao_social",
+              "value": "={{ $json.razao_social }}",
+              "type": "string"
+            },
+            {
+              "id": "8a45b5e9-a45b-498d-864c-cfd686c992a3",
+              "name": "id_formulario_atual",
+              "value": "={{ $json.id_formulario_atual }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9b81c8a5-613f-4b39-b40e-f2b682e5c850",
+      "name": "dados_lead",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -20,
+        660
+      ],
+      "notesInFlow": false,
+      "notes": "TESTE 1 2 3"
+    },
+    {
+      "parameters": {
+        "amount": 15,
+        "unit": "minutes"
+      },
+      "id": "edae32b1-6571-4cc0-bdd0-2ac251be2cec",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1720,
+        640
+      ],
+      "webhookId": "691745ee-8326-4d03-98f9-6fcd21115f6e"
+    },
+    {
+      "parameters": {
+        "content": "## Integração Z-API",
+        "height": 399.26744186046506,
+        "width": 829.9047156621943,
+        "color": 5
+      },
+      "id": "5077561d-0f52-46ad-84ab-93422364dc3a",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        1140
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4bdd9205-de2b-4dd8-b962-15da64b28321",
+              "name": "id_instancia",
+              "value": "3CFB358F8D7410CF3F9572B70F2FFCF9",
+              "type": "string"
+            },
+            {
+              "id": "02665c63-8a10-4650-9d14-5c0aff287d54",
+              "name": "token",
+              "value": "59FDBAEE8A3934EFCD13FCF2",
+              "type": "string"
+            },
+            {
+              "id": "06639bb9-8dcd-431e-b47d-52cbd962fe0a",
+              "name": "token_seguranca",
+              "value": "Fbff2c4f1afd343bd9e0e22cbebf35e09S",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "614b3f42-8e1b-4555-a089-08f5b6a3f31c",
+      "name": "Dados Z-API",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        558,
+        1220
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.z-api.io/instances/{{ $('Dados Z-API').item.json.id_instancia }}/token/{{ $('Dados Z-API').item.json.token }}/send-text",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "client-token",
+              "value": "={{ $('Dados Z-API').item.json.token_seguranca }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "phone",
+              "value": "5511981588224"
+            },
+            {
+              "name": "message",
+              "value": "=FORMULÁRIO ABANDONADO\n\nNome do Lead: {{ $('dados_lead').item.json.nome_completo }}\n\nTelefone: {{ $('dados_lead').item.json.celular }}\n\nE-mail: {{ $('dados_lead').item.json.email }}\n\nEmpresa: {{ $('dados_lead').item.json.razao_social }}\n\nId Formulário: {{ $('dados_lead').item.json.id_formulario_atual }}\n\nData: {{ \n\n(()=>{\n    const data = new Date( $('Dados formulario').item.json.data_cadastro );\n    \n    const dia = String(data.getDate()).padStart(2, '0');\n    const mes = String(data.getMonth() + 1).padStart(2, '0'); // Meses começam do zero em JavaScript\n    const ano = data.getFullYear();\n    const horas = String(data.getHours()).padStart(2, '0');\n    const minutos = String(data.getMinutes()).padStart(2, '0');\n    const segundos = String(data.getSeconds()).padStart(2, '0');\n\n    return `${dia}/${mes}/${ano} ${horas}:${minutos}:${segundos}`;\n})()\n\n}}\n\nSolução: {{ $('Dados formulario').item.json.solucao }}\n\n{{ $('OpenAI').item.json.message.content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5dbf1ca6-f181-4f00-a43a-ab629394286c",
+      "name": "Z-API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1618,
+        1200
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b953b7bf-568f-45bb-acf7-a5de6c9ecaf2",
+              "leftValue": "={{ $json.row_number }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "460a643c-0571-464c-840d-6084ccb1ee2a",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        878,
+        1220
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.z-api.io/instances/{{ $('Dados Z-API').item.json.id_instancia }}/token/{{ $('Dados Z-API').item.json.token }}/send-text\n",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "client-token",
+              "value": "={{ $('Dados Z-API').item.json.token_seguranca }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "phone",
+              "value": "5511981588224"
+            },
+            {
+              "name": "message",
+              "value": "=FORMULÁRIO ABANDONADO\n\nNome do Lead: {{ $('dados_lead').item.json.nome_completo }}\n\nTelefone: {{ $('dados_lead').item.json.celular }}\n\nE-mail: {{ $('dados_lead').item.json.email }}\n\nEmpresa: {{ $('dados_lead').item.json.razao_social }}\n\nId Formulário: {{ $('dados_lead').item.json.id_formulario_atual }}\n\nLead apenas cadastrou os dados de contato."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "608ab3b7-24d2-4a2a-9791-7e4a7340060c",
+      "name": "Z-API1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1098,
+        1380
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=<Quem Você>\nVocê é um assistente de chatbot que organiza as informações de um formulário de perguntas e respostas.\nVocê não responde e nem tem contato com o cliente. \n</Quem Você>\n<Objetivo>\nSeu objetivo é apenas organizar as informações de um formulario de perguntas e respostas.\n</Objetivo>\n<Instruções>\nLimpar e organizar as perguntas e respostas que estão no campo \"perguntas_respostas\", numerando uma a uma, no seguinte formato:\n\n01. Pergunta\nResposta\n\nCaso não tenha dados no campo \"perguntas_respostas\", retornar que o lead apenas cadastrou os dados de contato.\n\n\"perguntas_respostas\": {{ JSON.stringify($('Aggregate').item.json.data) }}\n\n</Instruções>\n<Restrições>\nMANTER AS PERGUNTAS E RESPOSTAS ORIGINAIS, JAMAIS ALTERAR ESSAS INFORMAÇÕES.\n</Restrições>",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "39ec620d-d40b-4199-bb96-f59d04443396",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.5,
+      "position": [
+        1278,
+        1200
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "qTcKDeG1l7aS58Jy",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 372405182,
+          "mode": "list",
+          "cachedResultName": "lead",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44/edit#gid=372405182"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "id",
+              "lookupValue": "={{ $('dados_lead').item.json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "467802c7-6c1a-48ef-9df5-d79f1ad71e3e",
+      "name": "Dados Lead1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        600,
+        940
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "cee7752e-4624-4c6a-8e0f-31bfbb612f0f",
+        "options": {}
+      },
+      "id": "48979ac4-f8f8-4abd-a603-6dc32ce76ff7",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -400,
+        660
+      ],
+      "webhookId": "cee7752e-4624-4c6a-8e0f-31bfbb612f0f"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1f4983c-2964-43a2-b8dc-dde1ba1925a3",
+              "leftValue": "={{ $json.id_formulario_atual }}",
+              "rightValue": "={{ $('dados_lead').item.json.id_formulario_atual }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "e3c13d66-854b-4f27-a9fb-dfafa4909e59",
+      "name": "Mesmo formulário?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        940
+      ]
+    }
+  ],
+  "connections": {
+    "Existe Contato": {
+      "main": [
+        [
+          {
+            "node": "Cadastrar Conversão",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cadastrar Contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RD Station": {
+      "main": [
+        [
+          {
+            "node": "Dados Contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Contato": {
+      "main": [
+        [
+          {
+            "node": "Existe Contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cadastrar Contato": {
+      "main": [
+        [
+          {
+            "node": "Cadastrar Conversão",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "RD Station",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perguntas e Respostas": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cadastrar Conversão": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Já finalizado": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Dados Lead1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados formulario": {
+      "main": [
+        [
+          {
+            "node": "Já finalizado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Lead": {
+      "main": [
+        [
+          {
+            "node": "dados_lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dados_lead": {
+      "main": [
+        []
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Dados formulario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Z-API": {
+      "main": [
+        [
+          {
+            "node": "Perguntas e Respostas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Z-API1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Z-API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Lead1": {
+      "main": [
+        [
+          {
+            "node": "Mesmo formulário?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Dados Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mesmo formulário?": {
+      "main": [
+        [
+          {
+            "node": "Dados Z-API",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "PostmanRuntime/7.42.0",
+            "content-length": "49",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "postman-token": "a00b99d8-bd44-4033-af09-35d822d6993b",
+            "prefer": "return=minimal",
+            "x-forwarded-for": "186.233.178.180",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "9292266f8f54",
+            "x-real-ip": "186.233.178.180"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "id_lead": "lgazat5h5gjdqp7qibp09iwg"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/cee7752e-4624-4c6a-8e0f-31bfbb612f0f",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "c333b262-9687-4405-9d9d-a890f72dd50f",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-10-04T21:45:49.751Z",
+      "updatedAt": "2024-10-04T21:45:49.751Z",
+      "id": "keSXrdIlim8rvA8S",
+      "name": "AHM Solution"
+    }
+  ]
+}
