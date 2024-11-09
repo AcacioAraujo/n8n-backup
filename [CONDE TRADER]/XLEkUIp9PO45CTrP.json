@@ -1,0 +1,113 @@
+{
+  "createdAt": "2024-09-03T18:42:06.927Z",
+  "updatedAt": "2024-09-04T00:33:34.303Z",
+  "id": "XLEkUIp9PO45CTrP",
+  "name": "[CONDE TRADER] - [RETORNA DADOS INSTANCIA]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://xuxuslxmlmipcezvvyjs.supabase.co/rest/v1/rpc/dados_instancia",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh1eHVzbHhtbG1pcGNlenZ2eWpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQzNTk3NDQsImV4cCI6MjAzOTkzNTc0NH0.asxtzY3BeCzETG5-xiB_iTuoUBISvCA60KupVvr1IfA"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"p_id_usuario_instancia\":\"{{ $json.body.p_id_usuario_instancia }}\"\n} ",
+        "options": {}
+      },
+      "id": "da96437d-c624-4bed-b574-a056f66042af",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        780,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"nome\": \"{{ $json.nome }}\",\n  \"produto\": \"{{ $json.produto }}\",\n  \"id_pedido\": {{ $json.id_pedido }},\n  \"contratado_em\": \"{{ $json.contratado_em }}\",\n  \"id_produto_plataforma\": {{ $json.id_produto_plataforma }},\n  \"servidor\": \"{{ $json.servidor }}\",\n  \"id_meta_trade\": \"{{ $json.id_meta_trade }}\"\n}     ",
+        "options": {}
+      },
+      "id": "3c5220f9-3d18-4960-b334-3562e0f9849e",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        980,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "18764bed-6525-420f-9605-466af31e61bd",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "c16b9167-bace-4898-9d04-fb7890e93038",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        580,
+        340
+      ],
+      "webhookId": "18764bed-6525-420f-9605-466af31e61bd"
+    }
+  ],
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "IXTZ6bRxfckDxFbU"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "242e5220-93a5-47dd-ab68-e73da5891e6c",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-08-29T12:46:14.140Z",
+      "updatedAt": "2024-08-29T12:46:14.140Z",
+      "id": "eocVvbKElZAXBdU4",
+      "name": "CONDE TRADER"
+    }
+  ]
+}
