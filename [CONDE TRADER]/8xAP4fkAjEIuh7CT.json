@@ -1,0 +1,131 @@
+{
+  "createdAt": "2024-09-03T20:00:52.243Z",
+  "updatedAt": "2024-09-03T20:28:51.842Z",
+  "id": "8xAP4fkAjEIuh7CT",
+  "name": "[CONDE TRADER] - [ATUALIZAR SERVIDOR E ID_META_TRADE]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "usuario_instancia",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id_usuario_instancia",
+              "condition": "eq",
+              "keyValue": "={{ $json.body.p_id_usuario_instancia }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "id_meta_trade",
+              "fieldValue": "={{ $json.body.p_id_meta_trade }}"
+            },
+            {
+              "fieldId": "servidor",
+              "fieldValue": "={{ $json.body.p_servidor }}"
+            }
+          ]
+        }
+      },
+      "id": "e71a1f69-67e8-4b68-8829-11b1d8ec2005",
+      "name": "Supabase",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        360
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "P4tt7CVrYDnKVmYD",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "4c0325bd-96b4-4fde-816a-461360497dd0",
+        "options": {}
+      },
+      "id": "1e3a8c7f-56b4-4102-a88e-8045a0213dc8",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        820,
+        360
+      ],
+      "webhookId": "4c0325bd-96b4-4fde-816a-461360497dd0"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "IXTZ6bRxfckDxFbU"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "PostmanRuntime/7.41.2",
+            "content-length": "142",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "postman-token": "61e175af-9951-4bdb-8326-17ee020202ed",
+            "x-forwarded-for": "186.233.178.238",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "26d003ba2f40",
+            "x-real-ip": "186.233.178.238"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "p_id_usuario_instancia": "2cb18bfc-ea9c-4630-ba42-39fe414d4b6f",
+            "p_id_meta_trade": "987654321",
+            "p_servidor": "servidor01"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/4c0325bd-96b4-4fde-816a-461360497dd0",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "d5059f0d-9305-429c-817b-4d4118e4b265",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-08-29T12:46:14.140Z",
+      "updatedAt": "2024-08-29T12:46:14.140Z",
+      "id": "eocVvbKElZAXBdU4",
+      "name": "CONDE TRADER"
+    }
+  ]
+}
