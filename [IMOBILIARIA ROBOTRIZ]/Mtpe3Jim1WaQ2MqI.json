@@ -1,0 +1,90 @@
+{
+  "createdAt": "2024-11-04T18:56:36.071Z",
+  "updatedAt": "2024-11-04T19:08:39.479Z",
+  "id": "Mtpe3Jim1WaQ2MqI",
+  "name": "[IMOBILIARIA ROBOTRIZ]-[MVP][ENCAMINHAR CONTATO]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.robotriz.com.br/message/sendText/Imobiliaria%20Robotriz",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "1D0689F15C1B-47B8-81ED-BC6D2D4B0424"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "557398251408"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.body.mensagem }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "3be7472d-22c7-4a0a-aa51-996ec9942e8c",
+      "name": "Envia msg",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b3ec9a90-8693-48fd-8e08-27df2df2e76b",
+        "options": {}
+      },
+      "id": "f65d4ffd-50e5-4bd1-9197-42a84696d8e2",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        780,
+        360
+      ],
+      "webhookId": "b3ec9a90-8693-48fd-8e08-27df2df2e76b"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Envia msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "2e92667a-9073-4e02-b592-adeb51f87d09",
+  "triggerCount": 1,
+  "tags": []
+}
