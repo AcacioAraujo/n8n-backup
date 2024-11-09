@@ -1,0 +1,269 @@
+{
+  "createdAt": "2024-07-10T12:31:44.812Z",
+  "updatedAt": "2024-07-11T00:24:21.294Z",
+  "id": "GrjgjRWJTvDOgJrd",
+  "name": "Teste Raul",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "627080a3-5b52-43ca-81e8-c67cbe989b6d",
+        "options": {}
+      },
+      "id": "32500bda-e172-4ad8-8184-9e24ecfcdf13",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        860,
+        360
+      ],
+      "webhookId": "627080a3-5b52-43ca-81e8-c67cbe989b6d"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1df11123-b382-4c78-a586-37a4e638c3f7",
+              "name": "chatInput",
+              "value": "={{ $json.body.Input }}",
+              "type": "string"
+            },
+            {
+              "id": "c3fb7e42-9d65-414a-8399-86f4822064f1",
+              "name": "sessionId",
+              "value": "={{ $json.body.Telefone }}",
+              "type": "string"
+            },
+            {
+              "id": "23dda5e0-c557-4172-b0ab-3a3baad38544",
+              "name": "ID Botconversa",
+              "value": "={{ $json.body.ID }}",
+              "type": "string"
+            },
+            {
+              "id": "b9bd24f5-1109-4b24-9b87-5d29a6595345",
+              "name": "Nome",
+              "value": "={{ $json.body.Nome }}",
+              "type": "string"
+            },
+            {
+              "id": "1617dc83-4abc-406b-a80a-c7e40de88e17",
+              "name": "Flow",
+              "value": "4650250",
+              "type": "string"
+            },
+            {
+              "id": "917ff249-f50f-44ad-a4bb-e6ff4b22d492",
+              "name": "ID Resposta_Agendamento",
+              "value": "2618385",
+              "type": "string"
+            },
+            {
+              "id": "f38e5b80-02af-43be-b65f-87af72ee4784",
+              "name": "ID DataConsulta",
+              "value": "2621798",
+              "type": "string"
+            },
+            {
+              "id": "48576c0a-2a11-4eac-a4c1-17a62338ecf0",
+              "name": "ID Event ID",
+              "value": "2621799",
+              "type": "string"
+            },
+            {
+              "id": "d4c67412-21ad-49d4-b651-6d60b818c74c",
+              "name": "ID HorarioConsulta",
+              "value": "2621800",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "92ee615d-e517-4cf2-b901-9ddb45eaa13d",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1080,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "sessionTTL": 900
+      },
+      "id": "ebe0025f-9963-496f-939d-171a41ea48e2",
+      "name": "Redis Chat Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.2,
+      "position": [
+        1380,
+        560
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gpt-3.5-turbo-16k-0613",
+        "options": {
+          "maxTokens": 1000,
+          "temperature": 0.1
+        }
+      },
+      "id": "356fbb25-85bb-4c7d-9525-709439289f27",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1260,
+        560
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "dzYygIxqvia4nmz4",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "CalendarAvailability",
+        "description": "Buscar os horários ocupados na agenda e retornar em uma string.",
+        "workflowId": "sMhHcUf4MXTFlSIJ"
+      },
+      "id": "52e15dda-b150-48db-94c5-bbdbfb674a6f",
+      "name": "Custom n8n Workflow Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.1,
+      "position": [
+        1500,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "options": {
+          "systemMessage": ""
+        }
+      },
+      "id": "d554235f-d89f-4690-89cd-4b4489f6b48c",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        1260,
+        360
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Custom n8n Workflow Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "python-requests/2.26.0",
+            "content-length": "112",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate",
+            "content-type": "application/json",
+            "sentry-trace": "5f64ddd936554f9caadb4cd050c6a669-bc2a97f44f190ba5-0",
+            "x-forwarded-for": "15.228.213.138",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "26d003ba2f40",
+            "x-real-ip": "15.228.213.138"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "ID": "500262771",
+            "Nome": "Patrick Raul",
+            "Input": "Quais os horários disponíveis para essa semana?",
+            "Telefone": "27996058633"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/627080a3-5b52-43ca-81e8-c67cbe989b6d",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "fbc7d339-e6cb-4da6-9737-1805cbc6f425",
+  "triggerCount": 0,
+  "tags": []
+}
