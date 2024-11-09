@@ -1,0 +1,667 @@
+{
+  "createdAt": "2024-10-16T19:16:17.470Z",
+  "updatedAt": "2024-11-04T01:15:09.999Z",
+  "id": "UeTwXXgFqOJBo9dg",
+  "name": "[ADMIRAVES]-[CAPTURA DE LEAD]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "email",
+              "lookupValue": "={{ $json.Email }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "34c23a1f-5b36-422b-a29b-b5583a96b874",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        980,
+        360
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gqjvAzQ2yoOC6JTy",
+          "name": "[ADMIRAVES] - [Google Sheets]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "866633e5-e246-424e-9e66-021f8d0d7529",
+              "name": "Nome",
+              "value": "={{ $json.body.Nome }}",
+              "type": "string"
+            },
+            {
+              "id": "c38531b3-340a-4147-b80d-02a77c441d42",
+              "name": "Email",
+              "value": "={{ $json.body.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "888b49dc-3db9-4d27-a314-59c2ff2ed91c",
+              "name": "Phone",
+              "value": "={{ $json.body.Phone }}",
+              "type": "string"
+            },
+            {
+              "id": "ee40a602-3a6e-4e7d-aed9-42bff27f6c57",
+              "name": "Date",
+              "value": "={{ $json.body.Date }}",
+              "type": "string"
+            },
+            {
+              "id": "1a5857f0-49f5-477e-9e6d-d2ecc51c46e4",
+              "name": "Time",
+              "value": "={{ $json.body.Time }}",
+              "type": "string"
+            },
+            {
+              "id": "3f51293a-22db-45da-a476-627a29d37e8a",
+              "name": "Page_URL",
+              "value": "={{ $json.body['Page URL'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5cbf3cb3-a238-4c5d-82d2-3e9f5e44700d",
+      "name": "Campos",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        820,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4112a899-0643-4de3-9e99-304cceca137d",
+              "leftValue": "={{ $json.row_number }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "599eabd6-26ad-450d-b1d2-ed0d33bec49c",
+      "name": "Novo lead?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1140,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nome": "={{ $('Campos').item.json.Nome }}",
+            "email": "={{ $('Campos').item.json.Email }}",
+            "telefone": "={{ $('Campos').item.json.Phone }}",
+            "data_inscricao": "={{ $('Campos').item.json.Date }}",
+            "horario_inscricao": "={{ $('Campos').item.json.Time }}",
+            "pagina": "={{ $('Campos').item.json.Page_URL }}",
+            "status": "novo"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data_inscricao",
+              "displayName": "data_inscricao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "horario_inscricao",
+              "displayName": "horario_inscricao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pagina",
+              "displayName": "pagina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "45921d57-4f2d-44e5-bb0a-15dd78fabad3",
+      "name": "Cadastra lead",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1380,
+        260
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gqjvAzQ2yoOC6JTy",
+          "name": "[ADMIRAVES] - [Google Sheets]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "866633e5-e246-424e-9e66-021f8d0d7529",
+              "name": "Nome",
+              "value": "={{ \n(()=>{\n  let nome_completo = $json.nome\n    const indiceEspaco = nome_completo.indexOf(' ');\n    if (indiceEspaco === -1) {\n        return nome_completo;\n    }\n    const nome = nome_completo.substring(0, indiceEspaco);\n    const sobrenome = nome_completo.substring(indiceEspaco + 1);\n    return nome;\n})()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "c38531b3-340a-4147-b80d-02a77c441d42",
+              "name": "Email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "888b49dc-3db9-4d27-a314-59c2ff2ed91c",
+              "name": "Phone",
+              "value": "={{ \n(()=>{\n  let phoneNumber = $json.telefone.toString()\n  // Verifica se tem 14 caracteres e começa com +\n  if (phoneNumber.length === 14 && phoneNumber[0] === '+') {\n      // Remove o + e continua o processamento com o resto do número\n      phoneNumber = phoneNumber.substring(1);\n  }\n\n  // Extrai o DDD (posições 2 e 3 do número)\n  const ddd = parseInt(phoneNumber.substring(2, 4));\n\n  // Verifica se o DDD está nos intervalos especificados\n  const isSpecialDDD = (ddd >= 11 && ddd <= 19) || \n                      (ddd >= 21 && ddd <= 24) || \n                      (ddd >= 27 && ddd <= 28);\n\n  if (isSpecialDDD) {\n      return phoneNumber;\n  } else {\n      // Remove o dígito 9 da 5ª posição (índice 4)\n      return phoneNumber.substring(0, 4) + phoneNumber.substring(5);\n  }\n})()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "ee40a602-3a6e-4e7d-aed9-42bff27f6c57",
+              "name": "Date",
+              "value": "={{ $json.data_inscricao }}",
+              "type": "string"
+            },
+            {
+              "id": "1a5857f0-49f5-477e-9e6d-d2ecc51c46e4",
+              "name": "Time",
+              "value": "={{ $json.horario_inscricao }}",
+              "type": "string"
+            },
+            {
+              "id": "3f51293a-22db-45da-a476-627a29d37e8a",
+              "name": "Page_URL",
+              "value": "={{ $json.pagina }}",
+              "type": "string"
+            },
+            {
+              "id": "e41f14ba-1751-43fa-91f7-85c8f795e397",
+              "name": "sobrenome",
+              "value": "={{ \n(()=>{\n  let nome_completo = $json.nome\n    const indiceEspaco = nome_completo.indexOf(' ');\n    if (indiceEspaco === -1) {\n        return nome_completo;\n    }\n    const nome = nome_completo.substring(0, indiceEspaco);\n    const sobrenome = nome_completo.substring(indiceEspaco + 1);\n    return sobrenome;\n})()\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a9a63cbc-45ac-44ba-9831-cd78b18708e3",
+      "name": "Campos Botconversa",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1560,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "aae34e54-5c5c-4530-bd0a-9f0250bdb8c4",
+        "options": {}
+      },
+      "id": "f313b195-1add-429a-90d1-eabea1eb8d69",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        660,
+        360
+      ],
+      "webhookId": "aae34e54-5c5c-4530-bd0a-9f0250bdb8c4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://backend.botconversa.com.br/api/v1/webhook/subscriber/{{ $json.id }}/tags/11325923/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "API-KEY",
+              "value": "24cf724e-af9b-4074-b80f-696bc5b3a694"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "241a7921-f134-4de8-a1c4-40459a87842e",
+      "name": "Botconversa - adicionar tag",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1920,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://backend.botconversa.com.br/api/v1/webhook/subscriber/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "API-KEY",
+              "value": "24cf724e-af9b-4074-b80f-696bc5b3a694"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \"phone\": \"{{ $json.Phone }}\", \"first_name\": \"{{ $json.Nome }}\", \"last_name\": \"{{ $json.sobrenome }}\"}",
+        "options": {}
+      },
+      "id": "69a6f10f-4f7f-4c7b-bcf5-6d1e8130927c",
+      "name": "Botconversa  - Cadastrar lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1740,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "email": "={{ $('Campos Botconversa').item.json.Email }}",
+            "status": "PixelApp01"
+          },
+          "matchingColumns": [
+            "email"
+          ],
+          "schema": [
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data_inscricao",
+              "displayName": "data_inscricao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "horario_inscricao",
+              "displayName": "horario_inscricao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pagina",
+              "displayName": "pagina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0e58ae3a-b3ac-4439-8560-3c267a21f848",
+      "name": "Atualizar planilha",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2100,
+        260
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gqjvAzQ2yoOC6JTy",
+          "name": "[ADMIRAVES] - [Google Sheets]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://backend.botconversa.com.br/api/v1/webhook/subscriber/{{ $('Botconversa  - Cadastrar lead').item.json.id }}/send_message/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "API-KEY",
+              "value": "24cf724e-af9b-4074-b80f-696bc5b3a694"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \"type\": \"text\", \"value\": \"Oi {{ $('Botconversa  - Cadastrar lead').item.json.first_name }},\\n\\nSua participação está oficialmente confirmada e garantida.\\n\\nLinks de aula, sorteio, gravações e livros digitais - você receberá AQUI MESMO.\\n\\nNossa comunicação será por este canal e também pelo e-mail que você acabou de me dar.\\n\\nSALVE meu número para garantir que você receberá tudo que prometi.\\n\\nEsteja atento(a) aos avisos por aqui, o Minicurso Gratuito sobre Observação de aves já ajudou muitos amantes de aves a se conectarem com a natureza, gerando tranquilidade e muita satisfação.\\n\\nObrigada por confiar seu tempo para a sua agora professora Melissa Alves - Admiraves\\n\\n#passarinhartransforma\"}",
+        "options": {}
+      },
+      "id": "016fdb54-f3ff-4ecd-8f0e-c3c64907fe2a",
+      "name": "Botconversa - Msg boas vindas",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2280,
+        260
+      ]
+    }
+  ],
+  "connections": {
+    "Campos": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Novo lead?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Novo lead?": {
+      "main": [
+        [
+          {
+            "node": "Cadastra lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campos Botconversa": {
+      "main": [
+        [
+          {
+            "node": "Botconversa  - Cadastrar lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Campos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cadastra lead": {
+      "main": [
+        [
+          {
+            "node": "Campos Botconversa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Botconversa - adicionar tag": {
+      "main": [
+        [
+          {
+            "node": "Atualizar planilha",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Botconversa  - Cadastrar lead": {
+      "main": [
+        [
+          {
+            "node": "Botconversa - adicionar tag",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualizar planilha": {
+      "main": [
+        [
+          {
+            "node": "Botconversa - Msg boas vindas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "WordPress/6.6.2; https://admiraves.com.br",
+            "content-length": "392",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip, br",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-forwarded-for": "162.241.2.153",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "9292266f8f54",
+            "x-real-ip": "162.241.2.153"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "Nome": "Acacio Franca de Araujo",
+            "Email": "acacio@gmail.com",
+            "Phone": "+5535997638844",
+            "Date": "03/11/2024",
+            "Time": "12:00",
+            "Page URL": "https://admiraves.com.br/inscrever/",
+            "User Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+            "Remote IP": "186.233.178.103",
+            "Powered by": "Elementor",
+            "form_id": "5b0a7cd",
+            "form_name": "Inscricao"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/aae34e54-5c5c-4530-bd0a-9f0250bdb8c4",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "b9f75765-371f-4a5c-a5da-aba516d1b561",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-07-16T19:34:32.785Z",
+      "updatedAt": "2024-07-16T19:34:32.785Z",
+      "id": "OYw06Py1CLDhVhe0",
+      "name": "Admiraves"
+    }
+  ]
+}
