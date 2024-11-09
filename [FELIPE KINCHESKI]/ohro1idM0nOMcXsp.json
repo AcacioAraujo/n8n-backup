@@ -1,0 +1,347 @@
+{
+  "createdAt": "2024-09-20T22:26:07.616Z",
+  "updatedAt": "2024-09-26T23:54:15.629Z",
+  "id": "ohro1idM0nOMcXsp",
+  "name": "[FELIPE KINCHESKI] - [AC][METRICAS DE CAMPANHA]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1--g1Mp8zIHUptUveex3_BW9xjdXM07FJSTzBUG6WyTc",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Campanhas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1--g1Mp8zIHUptUveex3_BW9xjdXM07FJSTzBUG6WyTc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "NOME": "={{ $('Separar Campanhas').item.json.name }}",
+            "PAGINA": "={{ $('Separar Campanhas').item.json.links.links }}",
+            "ENVIOS": "={{ $('Separar Campanhas').item.json.send_amt }}",
+            "ABERTURA": "={{ $('Separar Campanhas').item.json.uniqueopens }}",
+            "CLIQUES": "={{ $('Separar Campanhas').item.json.uniquelinkclicks }}",
+            "ASSUNTO": "={{ $json.message.subject.trim() }}",
+            "TX. ABERTURA": "={{ $('Separar Campanhas').item.json.uniqueopens / $('Separar Campanhas').item.json.send_amt }}",
+            "TX. CLIQUE": "={{ $('Separar Campanhas').item.json.uniquelinkclicks / $('Separar Campanhas').item.json.send_amt }}"
+          },
+          "matchingColumns": [
+            "NOME"
+          ],
+          "schema": [
+            {
+              "id": "NOME",
+              "displayName": "NOME",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ASSUNTO",
+              "displayName": "ASSUNTO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PAGINA",
+              "displayName": "PAGINA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ENVIOS",
+              "displayName": "ENVIOS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ABERTURA",
+              "displayName": "ABERTURA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TX. ABERTURA",
+              "displayName": "TX. ABERTURA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CLIQUES",
+              "displayName": "CLIQUES",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TX. CLIQUE",
+              "displayName": "TX. CLIQUE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "VENDAS",
+              "displayName": "VENDAS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "RECEITA",
+              "displayName": "RECEITA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ca2628b9-94b2-4df5-9b86-aabd594cbed8",
+      "name": "Exportar Campanhas",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1440,
+        320
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://bionaturedigital.api-us1.com/api/3/messages/{{ $json.message_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "826da1614b5899162102184284b59dad2dfb7d6c2d8fd23bfccfd1a4d181e83531621fcc"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "42a552b7-1f0c-4e34-b80f-4f2a633ebde4",
+      "name": "Mensagem",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1280,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://bionaturedigital.api-us1.com/api/3/campaigns?orders[sdate]=DESC&filters[seriesid]=0",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "826da1614b5899162102184284b59dad2dfb7d6c2d8fd23bfccfd1a4d181e83531621fcc"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5581a98b-9688-4e5d-a2a0-9a640907795a",
+      "name": "Campanhas",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Campanhas\n",
+        "height": 283,
+        "width": 1001
+      },
+      "id": "426c4cdc-8d56-446a-817a-5755851811ee",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        590,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "campaigns",
+        "options": {}
+      },
+      "id": "06e15caf-e9c0-4e5c-a408-b15a6a18a2d0",
+      "name": "Separar Campanhas",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        320
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "4de8bf2d-8855-44ec-9bac-69389abae291",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        640,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "clear",
+        "documentId": {
+          "__rl": true,
+          "value": "1--g1Mp8zIHUptUveex3_BW9xjdXM07FJSTzBUG6WyTc",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Campanhas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1--g1Mp8zIHUptUveex3_BW9xjdXM07FJSTzBUG6WyTc/edit#gid=0"
+        },
+        "keepFirstRow": true
+      },
+      "id": "f42a5905-7b3e-4890-8da5-48ba9ee44e2f",
+      "name": "Limpar Planilha",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        800,
+        320
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Mensagem": {
+      "main": [
+        [
+          {
+            "node": "Exportar Campanhas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separar Campanhas": {
+      "main": [
+        [
+          {
+            "node": "Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campanhas": {
+      "main": [
+        [
+          {
+            "node": "Separar Campanhas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Limpar Planilha",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limpar Planilha": {
+      "main": [
+        [
+          {
+            "node": "Campanhas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "565f0d42-ce93-4218-9656-446ad02fdd43",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2024-09-20T23:42:06.240Z",
+      "updatedAt": "2024-09-20T23:42:06.240Z",
+      "id": "8orOBMJ9K1GhnPVE",
+      "name": "Felipe Kincheski"
+    }
+  ]
+}
