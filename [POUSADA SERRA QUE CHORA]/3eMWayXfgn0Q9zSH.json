@@ -1,0 +1,142 @@
+{
+  "createdAt": "2024-11-08T12:50:27.913Z",
+  "updatedAt": "2024-11-08T21:52:43.902Z",
+  "id": "3eMWayXfgn0Q9zSH",
+  "name": "[POUSADA SERRA QUE CHORA]-[CONSULTA / CADASTRO DE LEADS]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "d67dd26c-058d-4cfd-be3f-892cd3027f1f",
+        "options": {}
+      },
+      "id": "9bbf8b0d-8e8e-435e-93fb-b8ca0d7d568f",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        600,
+        360
+      ],
+      "webhookId": "d67dd26c-058d-4cfd-be3f-892cd3027f1f"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "5511981588224",
+        "options": {}
+      },
+      "id": "5741f6ba-e54a-4fce-971b-0a2d5e298b09",
+      "name": "Consulta msg",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        360
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Variaveis').item.json.celular }}"
+      },
+      "id": "5745347e-8262-47be-958a-7d4215a25b0e",
+      "name": "Limpa msgs2",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        360
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5ae3e1cc-b62c-4932-b175-3267e4847c6b",
+              "name": "celular",
+              "value": "5511981588224",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4357f61f-e4a5-46b4-a7aa-6ed9ee02afdc",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        880,
+        360
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta msg": {
+      "main": [
+        [
+          {
+            "node": "Limpa msgs2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Consulta msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "aea85e80-2839-4f51-85e2-a28ae3aa8840",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2024-11-08T12:45:44.820Z",
+      "updatedAt": "2024-11-08T12:45:44.820Z",
+      "id": "PhnwDtvybcxUVs1k",
+      "name": "Serra que Chora"
+    }
+  ]
+}
