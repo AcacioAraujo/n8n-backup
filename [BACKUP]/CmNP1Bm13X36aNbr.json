@@ -1,0 +1,480 @@
+{
+  "createdAt": "2024-11-09T12:25:24.842Z",
+  "updatedAt": "2024-11-09T16:54:34.256Z",
+  "id": "CmNP1Bm13X36aNbr",
+  "name": "[BACKUP]-[GITHUB]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "id": "43d1e1a4-0ec2-485b-9a52-28f024df3b70",
+      "name": "Extract from File",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('Variaveis').item.json.github_owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('Variaveis').item.json.github_repository }}",
+          "mode": "name"
+        },
+        "filePath": "={{ $json.name.split('-')[0] }}/{{ $json.id }}.json",
+        "additionalParameters": {}
+      },
+      "id": "1f09d37e-b2b0-4606-b0b2-572d8332a509",
+      "name": "GitHub",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        200
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "kY9uIxRjnjND9zxr",
+          "name": "Acacio - GitHub account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "data.id",
+              "field2": "data.id"
+            }
+          ]
+        },
+        "resolve": "preferInput2",
+        "options": {}
+      },
+      "id": "0d0cc8ab-0dcd-418f-baf2-516b657f5d58",
+      "name": "Compare Datasets",
+      "type": "n8n-nodes-base.compareDatasets",
+      "typeVersion": 2.3,
+      "position": [
+        1500,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "mode": "each",
+        "options": {
+          "format": true,
+          "fileName": "={{ $json.id }}.json"
+        }
+      },
+      "id": "2c5bc194-0c66-49b0-81f5-9e1768e02777",
+      "name": "Convert to File1",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1940,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $json.data }}",
+        "options": {}
+      },
+      "id": "a406bdc8-8554-41f1-ac0c-2568cf6c7068",
+      "name": "workflow1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1760,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $json.data }}",
+        "options": {}
+      },
+      "id": "4238464c-76a2-4947-8ad3-b563f6082b31",
+      "name": "workflow",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1760,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bb136c52-ef74-4c81-b86d-750b6cae8d57",
+              "name": "file_path",
+              "value": "={{ (()=>{\n\n    const nome = $('workflow').item.json.name.split(/ - |-/);\n    return nome.length > 1 ? nome[0] : \"[PADRAO]\";\n\n})()\n}}/{{ $('workflow').item.json.id }}.json",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "765b1014-cd18-4590-8fc4-097773b72a7b",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2120,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "810802e1-e69c-4cc4-9463-5e7e8dcbc17f",
+              "name": "github_owner",
+              "value": "AcacioAraujo",
+              "type": "string"
+            },
+            {
+              "id": "2405ea48-7873-4dce-8df9-34110cf90141",
+              "name": "github_repository",
+              "value": "n8n-backup",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "08c52175-a410-4048-a70e-6624bd507fcd",
+      "name": "Variaveis",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2361655c-2320-4772-a902-83355ce5bac8",
+              "name": "data",
+              "value": "={{ $json }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5ed6f66c-cb88-4b06-8204-e00d2a13b624",
+      "name": "Dados do workflow",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1080,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "id": "e153eee8-34b5-4485-baae-b6322c6407dc",
+      "name": "Todos os fluxos",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        760,
+        340
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "vA77NkMKIpa1LwYe",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('Variaveis').first().json.github_owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('Variaveis').first().json.github_repository }}",
+          "mode": "name"
+        },
+        "filePath": "={{ (()=>{\n\n    const nome = $('workflow1').item.json.name.split(/ - |-/);\n    return nome.length > 1 ? nome[0] : \"[PADRAO]\";\n\n})()\n}}/{{ $('workflow1').item.json.id }}.json",
+        "binaryData": true,
+        "commitMessage": "={{ $('workflow1').item.json.name }}[{{ $now.toString() }}]"
+      },
+      "id": "3820ae89-f749-41d1-8b79-aea519cf412a",
+      "name": "Editar arquivo",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        2120,
+        460
+      ],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "kY9uIxRjnjND9zxr",
+          "name": "Acacio - GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('Variaveis').first().json.github_owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('Variaveis').first().json.github_repository }}",
+          "mode": "name"
+        },
+        "filePath": "={{ $json.file_path }}",
+        "binaryData": true,
+        "commitMessage": "={{ $('workflow').item.json.name }}[{{ $now.toString() }}]"
+      },
+      "id": "a8f3c41f-2826-4e97-9588-8f27704d4624",
+      "name": "Criar arquivo",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        2300,
+        620
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "kY9uIxRjnjND9zxr",
+          "name": "Acacio - GitHub account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "mode": "each",
+        "options": {
+          "format": true,
+          "fileName": "={{ $json.id }}.json"
+        }
+      },
+      "id": "dcfe87f0-a133-4a4d-92d4-b743438f5ac8",
+      "name": "Convert to File",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1940,
+        620
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "4f6216bf-619b-4c50-84f4-32e4c88b97aa",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        360,
+        340
+      ]
+    }
+  ],
+  "connections": {
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compare Datasets": {
+      "main": [
+        [],
+        [],
+        [
+          {
+            "node": "workflow1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "Editar arquivo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "workflow1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "workflow": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Variaveis": {
+      "main": [
+        [
+          {
+            "node": "Todos os fluxos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados do workflow": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Todos os fluxos": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Dados do workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Variaveis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Criar arquivo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "47e59551-9408-4081-b53d-2bc9bab5fbca",
+  "triggerCount": 0,
+  "tags": []
+}
