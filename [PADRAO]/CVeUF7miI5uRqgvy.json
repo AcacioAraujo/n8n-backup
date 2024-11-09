@@ -1,0 +1,521 @@
+{
+  "createdAt": "2024-07-16T19:34:24.264Z",
+  "updatedAt": "2024-07-18T15:21:43.132Z",
+  "id": "CVeUF7miI5uRqgvy",
+  "name": "Automação de Mensagens",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "8e73d1bc-8df5-4247-84b5-b0480016bab4",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        720,
+        740
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "=1BQK3kE24A37RDX9ZJwXeMoCWZYMTRvOAeir_Jyo2gu8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 987618127,
+          "mode": "list",
+          "cachedResultName": "Agendamento",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQK3kE24A37RDX9ZJwXeMoCWZYMTRvOAeir_Jyo2gu8/edit#gid=987618127"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Data",
+              "lookupValue": "={{ $now.toFormat('dd/MM/yyyy') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "aa6c2a10-903c-4064-920a-950cd608781c",
+      "name": "Consulta mensagens para hoje",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        660,
+        400
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gqjvAzQ2yoOC6JTy",
+          "name": "[ADMIRAVES] - [Google Sheets]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b407177e-9374-4ffd-8e80-7e78ece1c977",
+              "name": "etiqueta",
+              "value": "={{ $json.Etiqueta }}",
+              "type": "string"
+            },
+            {
+              "id": "4777c56b-e498-49fd-8220-ba4b7444d1ae",
+              "name": "mensagem",
+              "value": "={{ $json.Mensagem }}",
+              "type": "string"
+            },
+            {
+              "id": "f574ea2f-be5c-4271-9dff-e90b969abd62",
+              "name": "link",
+              "value": "={{ $json['Link da aula'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7b836674-20a5-448d-8b28-82a027dc18bd",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        940,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "=1BQK3kE24A37RDX9ZJwXeMoCWZYMTRvOAeir_Jyo2gu8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1707753648,
+          "mode": "list",
+          "cachedResultName": "ALUNOS",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQK3kE24A37RDX9ZJwXeMoCWZYMTRvOAeir_Jyo2gu8/edit#gid=1707753648"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Acesso",
+              "lookupValue": "Ativo"
+            }
+          ]
+        },
+        "options": {
+          "returnAllMatches": "returnAllMatches"
+        }
+      },
+      "id": "2e45dc09-99b9-4328-957b-2d6e8c27a804",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        1220,
+        400
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gqjvAzQ2yoOC6JTy",
+          "name": "[ADMIRAVES] - [Google Sheets]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "58d8f36b-2364-4794-8d96-e06f3d6469d9",
+              "name": "id_sheet",
+              "value": "1BQK3kE24A37RDX9ZJwXeMoCWZYMTRvOAeir_Jyo2gu8",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8c015ec9-874c-44d7-9f95-364e026f1be7",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "4a0917d2-556b-43cc-a9ae-5f3e65a5d893",
+              "leftValue": "={{ $json.Etiqueta }}",
+              "rightValue": "=#manual",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b1be1ad6-7356-4571-9126-a505d88e92bb",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "14zZPP6Pf3LuhpeD0a5QPa2IoYziHlO1UEfA6hQBSIqM",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Marco Zero",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14zZPP6Pf3LuhpeD0a5QPa2IoYziHlO1UEfA6hQBSIqM/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "row_number": "={{ $json.row_number }}",
+            "nome_completo": "={{ $json.nome_completo }}"
+          },
+          "matchingColumns": [
+            "nome_completo"
+          ],
+          "schema": [
+            {
+              "id": "nome_completo",
+              "displayName": "nome_completo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "instagram",
+              "displayName": "instagram",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "genero",
+              "displayName": "genero",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "idade",
+              "displayName": "idade",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "municipio",
+              "displayName": "municipio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "uf",
+              "displayName": "uf",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "filhos",
+              "displayName": "filhos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "profissao",
+              "displayName": "profissao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "38b91465-5d2a-44b8-ac86-657f4038ed3d",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        1240,
+        740
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gqjvAzQ2yoOC6JTy",
+          "name": "[ADMIRAVES] - [Google Sheets]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "96e4ccb7-110b-4738-af59-5304339c1a86",
+              "name": "nome_completo",
+              "value": "Raul",
+              "type": "string"
+            },
+            {
+              "id": "d0b22b42-900f-4424-a3e8-0c9761bdee91",
+              "name": "instagram",
+              "value": "@teste_Raul",
+              "type": "string"
+            },
+            {
+              "id": "c195ea96-4580-47db-a8e5-beda1c2c23e8",
+              "name": "genero",
+              "value": "M",
+              "type": "string"
+            },
+            {
+              "id": "f41e89f3-a554-4257-a0bf-3392bcd1b8bf",
+              "name": "idade",
+              "value": "31",
+              "type": "string"
+            },
+            {
+              "id": "3134c385-3a29-49be-ac6f-41279c47a369",
+              "name": "municipio",
+              "value": "Vila Velha",
+              "type": "string"
+            },
+            {
+              "id": "ec29d580-1425-4f91-9d78-451349b47881",
+              "name": "uf",
+              "value": "ES",
+              "type": "string"
+            },
+            {
+              "id": "4ee29ce9-d09f-49d6-b569-8b7dd33475e4",
+              "name": "filhos",
+              "value": "0",
+              "type": "string"
+            },
+            {
+              "id": "ba64c8d5-72cf-49b8-b4f2-36cc6d44bc96",
+              "name": "profissao",
+              "value": "MAgo das automacoes",
+              "type": "string"
+            },
+            {
+              "id": "dface153-fce8-4190-8c9c-b8675e29f3dd",
+              "name": "celular",
+              "value": "11999999999",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "45e258e1-5513-47c2-8d26-bfce97679ae9",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        740
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "14zZPP6Pf3LuhpeD0a5QPa2IoYziHlO1UEfA6hQBSIqM",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Marco Zero",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14zZPP6Pf3LuhpeD0a5QPa2IoYziHlO1UEfA6hQBSIqM/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "id": "2f0ec46c-649c-4c88-9eba-f9e3ec03629f",
+      "name": "Google Sheets2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        980,
+        960
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gqjvAzQ2yoOC6JTy",
+          "name": "[ADMIRAVES] - [Google Sheets]"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta mensagens para hoje": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Consulta mensagens para hoje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "e7e35bc0-cf3c-4604-8b7f-cfb7a91419ab",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2024-07-16T19:34:32.785Z",
+      "updatedAt": "2024-07-16T19:34:32.785Z",
+      "id": "OYw06Py1CLDhVhe0",
+      "name": "Admiraves"
+    }
+  ]
+}
