@@ -1,0 +1,1859 @@
+{
+  "createdAt": "2024-10-09T23:15:54.219Z",
+  "updatedAt": "2024-10-28T17:54:02.699Z",
+  "id": "XdsDUWyIagaAuIFg",
+  "name": "[AHM] - [BD][FINALIZAR FORMULARIO]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 851274605,
+          "mode": "list",
+          "cachedResultName": "formulario",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44/edit#gid=851274605"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "id_formulario",
+              "lookupValue": "={{ $('Campos').item.json.body.id_formulario }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1f92ce28-35dd-4268-a014-431b264ede57",
+      "name": "Dados formulario",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -920,
+        180
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 372405182,
+          "mode": "list",
+          "cachedResultName": "lead",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44/edit#gid=372405182"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "id",
+              "lookupValue": "={{ $json.body.id_lead }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9bed010a-1af3-4e8c-b9bf-2b338eda2e7b",
+      "name": "Dados Lead",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -1080,
+        180
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "2a4d5da4-326e-4434-bba2-e007db06da9c",
+              "leftValue": "={{ $json.uuid }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "6749f90b-7416-4cb4-8c0b-ac7f805c24cc",
+      "name": "Existe Contato",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1080,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fb8ce367-8e8a-4ada-b041-b29985e88070",
+              "name": "access_token",
+              "value": "={{ $json.access_token }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "26fb85cc-ed45-4053-b689-727f0d7d1704",
+      "name": "RD Station",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.rd.services/platform/contacts/email:{{ $('Campos Lead Formulario').item.json.email }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.access_token }}"
+            },
+            {
+              "name": "cookie",
+              "value": "__rdsid=c4b1279aef06335f54df0daba66ce30a;"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "5c41b178-c70b-4312-bb4b-8ddbe8c165dd",
+      "name": "Dados Contato",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        300
+      ],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.rd.services/platform/contacts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5yZC5zZXJ2aWNlcyIsInN1YiI6InFXbUN1SmpVeGN6cExTMHdOekY0bmp4RmRhdnpBUEo1M0xlbVZhZFJ5b01AY2xpZW50cyIsImF1ZCI6Imh0dHBzOi8vYXBwLnJkc3RhdGlvbi5jb20uYnIvYXBpL3YyLyIsImFwcF9uYW1lIjoiQUhNIC0gbjhuIC0gVHlwZWJvdCIsImV4cCI6MTcyODY3MDczNCwiaWF0IjoxNzI4NTg0MzM0LCJzY29wZSI6IiJ9.e-hE2js7-fSEAVCa9Ea4Dne1qszGoMjjNvgdOJUXWOpZbUwOwkeWhD29jaHMOK3QOUdNVr3h9RitHd9Bg-nW-bYLiat-cdcCkU9H7N8WcMbB5igiK67HOLpu0oe-16bu9ynstbYWe8vwTFmaunFEjGuqx9NCJEPrQWekJM5ql-d8UrbMlJBQkvW1DCTOQemgIFy6olRx7qCNVG0Gr8VEVMm60Glq3FAAFOjKoyRn5z2z581fWhW-pl8gbFwzz_xVMxVqb7GVPshQ0R7P8CVsReUJAzxlh3vXSdvRudOqMWXexQjRUtbgN5CvFL2qJ75eflIyYqRy0xap6PjRkIFRNQ"
+            },
+            {
+              "name": "cookie",
+              "value": "__rdsid=c4b1279aef06335f54df0daba66ce30a;"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "={{ $('Campos Lead Formulario').item.json.nome_completo }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $('Campos Lead Formulario').item.json.email }}"
+            },
+            {
+              "name": "mobile_phone",
+              "value": "={{ $('Campos Lead Formulario').item.json.celular }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "03b1db26-c6bc-4bcc-bbf4-03d0d82186d5",
+      "name": "Cadastrar Contato",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1300,
+        360
+      ],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.rd.services/auth/token",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "cookie",
+              "value": "__rdsid=c4b1279aef06335f54df0daba66ce30a;"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "client_id",
+              "value": "dbb1c821-3da9-4cd9-9a39-c45f87253d39"
+            },
+            {
+              "name": "client_secret",
+              "value": "c040e4917087446a8ab4db781cab520a"
+            },
+            {
+              "name": "refresh_token",
+              "value": "2DXRfvmFYW8abZ5eqLdGDLHDJwj8jyHr1R0Rl5OkdRs"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "7b03343f-e7ff-4c59-90b7-5f5b005c7d52",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        520,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Integração RD Station",
+        "height": 280.5581395348836,
+        "width": 1543.7728379806483
+      },
+      "id": "8c8d0a97-1751-46c1-a562-4c1d6a06afc7",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        461.25581395348763,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Integração Z-API",
+        "height": 217.76744186046506,
+        "width": 566.5551303174102,
+        "color": 5
+      },
+      "id": "150cc5cd-2061-4fb6-9b23-966ef275f234",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        460,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Integração Pipedrive",
+        "height": 473.9534883720929,
+        "width": 1789.0553154951822,
+        "color": 3
+      },
+      "id": "c933f483-3fdf-485c-8da6-63446d3f5f3d",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        460,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "organization",
+        "name": "={{ $('Campos Lead Formulario').item.json.razao_social }}",
+        "additionalFields": {}
+      },
+      "id": "3dea4ffe-ae61-4d6b-b9d4-bab384e2ab3c",
+      "name": "Cadastrar Empresa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        860
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "M0LF99Z4bN1fNIRC",
+          "name": "Pipedrive - AHM Solution"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "id": "5fc61c39-6a9b-4b13-8aaa-5238fa08785e",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1260,
+        860
+      ],
+      "webhookId": "112ca143-951b-4c55-88b6-4cb1370829f1"
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "search",
+        "limit": 1,
+        "term": "={{ $('Campos Lead Formulario').item.json.email }}",
+        "additionalFields": {
+          "exactMatch": true
+        }
+      },
+      "id": "1cf082be-a605-4484-8458-82f4d17dce69",
+      "name": "Consultar Pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1320,
+        680
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "M0LF99Z4bN1fNIRC",
+          "name": "Pipedrive - AHM Solution"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "efb180f8-43ac-4848-93cd-34c12b6da4af",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "61469d7c-27b4-44ab-8300-bd2074d0a11e",
+      "name": "Existe Pessoa",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1480,
+        680
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "name": "={{ $('Campos Lead Formulario').item.json.nome_completo }}",
+        "additionalFields": {
+          "email": [
+            "={{ $('Campos Lead Formulario').item.json.email }}"
+          ],
+          "org_id": "={{ $('Dados Empresa').item.json.organization_id }}"
+        }
+      },
+      "id": "ea87f8d2-8f60-4071-b29f-7baa6a3bb6b7",
+      "name": "Cadastrar Pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        860
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "M0LF99Z4bN1fNIRC",
+          "name": "Pipedrive - AHM Solution"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 851274605,
+          "mode": "list",
+          "cachedResultName": "formulario",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44/edit#gid=851274605"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id_formulario": "={{ $('Campos').item.json.body.id_formulario }}",
+            "integracao_pipedrive": "true"
+          },
+          "matchingColumns": [
+            "id_formulario"
+          ],
+          "schema": [
+            {
+              "id": "id_formulario",
+              "displayName": "id_formulario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "id_lead",
+              "displayName": "id_lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "solucao",
+              "displayName": "solucao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data_cadastro",
+              "displayName": "data_cadastro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "finalizado",
+              "displayName": "finalizado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "integracao_z_api",
+              "displayName": "integracao_z_api",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "integracao_rdstation",
+              "displayName": "integracao_rdstation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "integracao_pipedrive",
+              "displayName": "integracao_pipedrive",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8d76b2df-af8e-4eba-9ca8-9d25ef5e6490",
+      "name": "Pipedrive OK",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2040,
+        740
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 851274605,
+          "mode": "list",
+          "cachedResultName": "formulario",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44/edit#gid=851274605"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id_formulario": "={{ $('Campos').item.json.body.id_formulario }}",
+            "integracao_rdstation": "true"
+          },
+          "matchingColumns": [
+            "id_formulario"
+          ],
+          "schema": [
+            {
+              "id": "id_formulario",
+              "displayName": "id_formulario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "id_lead",
+              "displayName": "id_lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "solucao",
+              "displayName": "solucao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data_cadastro",
+              "displayName": "data_cadastro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "finalizado",
+              "displayName": "finalizado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "integracao_z_api",
+              "displayName": "integracao_z_api",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "integracao_rdstation",
+              "displayName": "integracao_rdstation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "integracao_pipedrive",
+              "displayName": "integracao_pipedrive",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4093d1a9-1203-40b8-8113-00bd46c4e639",
+      "name": "RD Station OK",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1740,
+        280
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4bdd9205-de2b-4dd8-b962-15da64b28321",
+              "name": "id_instancia",
+              "value": "3CFB358F8D7410CF3F9572B70F2FFCF9",
+              "type": "string"
+            },
+            {
+              "id": "02665c63-8a10-4650-9d14-5c0aff287d54",
+              "name": "token",
+              "value": "59FDBAEE8A3934EFCD13FCF2",
+              "type": "string"
+            },
+            {
+              "id": "06639bb9-8dcd-431e-b47d-52cbd962fe0a",
+              "name": "token_seguranca",
+              "value": "Fbff2c4f1afd343bd9e0e22cbebf35e09S",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "71c984fb-4748-46b4-939d-2b813337c879",
+      "name": "Dados Z-API",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        20
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 851274605,
+          "mode": "list",
+          "cachedResultName": "formulario",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44/edit#gid=851274605"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id_formulario": "={{ $('Campos').item.json.body.id_formulario }}",
+            "integracao_z_api": "true"
+          },
+          "matchingColumns": [
+            "id_formulario"
+          ],
+          "schema": [
+            {
+              "id": "id_formulario",
+              "displayName": "id_formulario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "id_lead",
+              "displayName": "id_lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "solucao",
+              "displayName": "solucao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data_cadastro",
+              "displayName": "data_cadastro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "finalizado",
+              "displayName": "finalizado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "integracao_z_api",
+              "displayName": "integracao_z_api",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "integracao_rdstation",
+              "displayName": "integracao_rdstation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "integracao_pipedrive",
+              "displayName": "integracao_pipedrive",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "abbca7c1-a3fb-4f39-9562-d5a25438ea40",
+      "name": "Z-API OK",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        840,
+        20
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6b9ac63b-8dee-4eda-9c9f-ff7a307441be",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a47b6e08-194e-417c-acdc-3b861e81ba88",
+      "name": "Existe Empresa",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        960,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 522310173,
+          "mode": "list",
+          "cachedResultName": "perguntas_respostas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44/edit#gid=522310173"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "id_formulario",
+              "lookupValue": "={{ $('Campos').item.json.body.id_formulario }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7f7aa6aa-54b8-4b71-b776-4da6efe76aba",
+      "name": "Perguntas e Respostas",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -280,
+        300
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 851274605,
+          "mode": "list",
+          "cachedResultName": "formulario",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-D_t9j8wi_CRrnufoY_s82B5RwN746kjuwgPYeL1u44/edit#gid=851274605"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id_formulario": "={{ $('Campos').item.json.body.id_formulario }}",
+            "finalizado": "true"
+          },
+          "matchingColumns": [
+            "id_formulario"
+          ],
+          "schema": [
+            {
+              "id": "id_formulario",
+              "displayName": "id_formulario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "id_lead",
+              "displayName": "id_lead",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "solucao",
+              "displayName": "solucao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data_cadastro",
+              "displayName": "data_cadastro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "finalizado",
+              "displayName": "finalizado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "integracao_z_api",
+              "displayName": "integracao_z_api",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "integracao_rdstation",
+              "displayName": "integracao_rdstation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "integracao_pipedrive",
+              "displayName": "integracao_pipedrive",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4e4c5a58-c7f5-41af-88f1-a58d0afe4831",
+      "name": "Finalizado OK",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -440,
+        300
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3f6b25d6-221b-492f-a763-ce272482d9f9",
+              "name": "organization_id",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6375589d-f3ec-40f8-bea1-205ed931e6f7",
+      "name": "Dados Empresa",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1160,
+        680
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "organization",
+        "operation": "search",
+        "limit": 1,
+        "term": "={{ $('Campos Lead Formulario').item.json.razao_social }}",
+        "additionalFields": {
+          "exactMatch": true
+        }
+      },
+      "id": "850ad488-210f-46dc-b2eb-f2679864c4ab",
+      "name": "Consultar Empresa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        760,
+        700
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "M0LF99Z4bN1fNIRC",
+          "name": "Pipedrive - AHM Solution"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ce1fa994-24ca-4239-9320-68aed24be9a9",
+              "leftValue": "={{ $json.finalizado }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "9bf27028-efe8-44a4-adb6-64ef1bd84517",
+      "name": "Já finalizado",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -600,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "59dd6ee7-6f8c-4c01-b0bc-f416e0352ad2",
+              "name": "body.id_formulario",
+              "value": "={{ $json.body.id_formulario }}",
+              "type": "string"
+            },
+            {
+              "id": "125945f8-4abc-4be1-8236-e2940d20bbd8",
+              "name": "body.id_lead",
+              "value": "={{ $json.body.id_lead }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9abfa8da-c260-47b4-aaab-b4914aedc17c",
+      "name": "Campos",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1240,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "specifiedFields",
+        "fieldsToInclude": "pergunta, resposta",
+        "options": {}
+      },
+      "id": "50109e38-cd29-40a5-b25b-8338ec1669e2",
+      "name": "Aggregate",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "08e0f719-7ec0-4f87-ad49-5962b2e13f68",
+              "name": "nome_completo",
+              "value": "={{ $('Dados Lead').item.json.nome_completo }}",
+              "type": "string"
+            },
+            {
+              "id": "a734af7d-c22e-4d0d-9452-56fc4f2e423b",
+              "name": "email",
+              "value": "={{ $('Dados Lead').item.json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "e72688eb-1756-4beb-aa1f-920aecfc58bd",
+              "name": "celular",
+              "value": "={{ $('Dados Lead').item.json.celular }}",
+              "type": "number"
+            },
+            {
+              "id": "87379d8c-a823-4396-a132-b2c314223f0c",
+              "name": "razao_social",
+              "value": "={{ $('Dados Lead').item.json.razao_social }}",
+              "type": "string"
+            },
+            {
+              "id": "a86123ea-5715-4394-ad5b-af29fa512b33",
+              "name": "data_cadastro",
+              "value": "={{ $('Dados Lead').item.json.data_cadastro }}",
+              "type": "string"
+            },
+            {
+              "id": "86460a13-10a4-4b11-8a13-fbb8c28e2f62",
+              "name": "finalizado",
+              "value": "={{ $json.finalizado }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2ec30894-a3ad-4091-8911-e5bad3f27b78",
+      "name": "Campos Lead Formulario",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -760,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.z-api.io/instances/{{ $json.id_instancia }}/token/{{ $json.token }}/send-text",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "client-token",
+              "value": "={{ $json.token_seguranca }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "phone",
+              "value": "5511986114138"
+            },
+            {
+              "name": "message",
+              "value": "=Nome do Lead: {{ $('Dados Lead').item.json.nome_completo }}\n\nData: {{ \n\n(()=>{\n    const data = new Date( $('Dados formulario').item.json.data_cadastro );\n    \n    const dia = String(data.getDate()).padStart(2, '0');\n    const mes = String(data.getMonth() + 1).padStart(2, '0'); // Meses começam do zero em JavaScript\n    const ano = data.getFullYear();\n    const horas = String(data.getHours()).padStart(2, '0');\n    const minutos = String(data.getMinutes()).padStart(2, '0');\n    const segundos = String(data.getSeconds()).padStart(2, '0');\n\n    return `${dia}/${mes}/${ano} ${horas}:${minutos}:${segundos}`;\n})()\n\n}}\n\nSolução: {{ $('Dados formulario').item.json.solucao }}\n\nId Formulário: {{ $('Dados formulario').item.json.id_formulario }}\n\n{{ $('OpenAI').item.json.message.content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2962af5b-bf5b-4c4c-865b-ccdceaf63b2b",
+      "name": "Z-API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        20
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "deccf1c6-4834-4b23-8b1b-9c54a7fb0976",
+              "leftValue": "={{ $('Dados Lead').item.json.razao_social }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d47bc600-e46b-4d78-8a84-639b9f9aab72",
+      "name": "Valida Razão Social",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        520,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "title": "={{ $('Campos Lead Formulario').item.json.nome_completo }} - {{ $('Campos Lead Formulario').item.json.razao_social }} - {{ $('Dados formulario').item.json.solucao }}",
+        "org_id": "={{ $json.organization.id }}",
+        "additionalFields": {
+          "person_id": "={{ $('Consultar Pessoa').item.json.id }}",
+          "stage_id": 125,
+          "status": "open"
+        }
+      },
+      "id": "a9cc4550-2fe4-4acb-b779-5625a4de7b4a",
+      "name": "Criar Novo Negócio",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        660
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "M0LF99Z4bN1fNIRC",
+          "name": "Pipedrive - AHM Solution"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "title": "={{ $('Campos Lead Formulario').item.json.nome_completo }} - {{ $('Campos Lead Formulario').item.json.razao_social }} - {{ $('Dados formulario').item.json.solucao }}",
+        "org_id": "={{ $json.organization.id }}",
+        "additionalFields": {
+          "person_id": "={{ $json.id }}",
+          "stage_id": 125,
+          "status": "open"
+        }
+      },
+      "id": "3c897988-65ae-46b9-990f-93874d69ae15",
+      "name": "Criar Negócio",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1860,
+        860
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "M0LF99Z4bN1fNIRC",
+          "name": "Pipedrive - AHM Solution"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.rd.services/platform/events",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "event_type",
+              "value": "conversion"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "authorization",
+              "value": "=Bearer {{ $('RD Station').item.json.access_token }}"
+            },
+            {
+              "name": "cookie",
+              "value": "__rdsid=c4b1279aef06335f54df0daba66ce30a;"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"event_type\": \"CONVERSION\",\n  \"event_family\": \"CDP\",\n  \"payload\": {\n    \"conversion_identifier\": \"formulario-captacao-qualificacao-de-leads\",\n    \"email\": \"{{ $('Campos Lead Formulario').item.json.email }}\",\n    \"tags\": [\n      \"FINALIZADO\"\n    ],\n    \"traffic_medium\": \"Monitoramento no Transporte\",\n    \"cf_custom_field_name\": \"cf_mensagem\",\n    \"cf_mensagem\":\"{{ \n\n(() => {\n  let inputText = $('OpenAI').item.json.message.content;\n\n  // Remover o primeiro e o último caractere se ambos forem aspas duplas\n  inputText = inputText.replace(/^\"(.+)\"$/, \"$1\");\n\n  return inputText\n    .replace(/\\n/g, \" \\r \") // Substitui \\n por \\r\n    .replace(/\\s{2,}/g, \" \") // Remove espaços desnecessários (mais de um espaço)\n    .trim(); // Remove espaços no início e no final\n})();\n\n}}\"\n  }\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "9e16d1ee-4a4c-4bbc-81da-97ffbe00ab45",
+      "name": "Cadastrar Conversão",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1520,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "61dc498f-b359-4d01-95c3-371d578a936e",
+        "options": {}
+      },
+      "id": "e7e1ad1d-dfa6-46b9-a65d-186344a1796a",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1420,
+        180
+      ],
+      "webhookId": "61dc498f-b359-4d01-95c3-371d578a936e"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=<Quem Você>\nVocê é um assistente de chatbot que organiza as informações de um formulário de perguntas e respostas.\nVocê não responde e nem tem contato com o cliente. \n</Quem Você>\n<Objetivo>\nSeu objetivo é apenas organizar as informações de um formulario de perguntas e respostas.\n</Objetivo>\n<Instruções>\nLimpar e organizar as perguntas e respostas que estão no campo \"perguntas_respostas\", numerando uma a uma, no seguinte formato:\n\n01. Pergunta\nResposta\n\n\"perguntas_respostas\": {{ JSON.stringify($json.data) }}\n\n</Instruções>\n<Restrições>\nMANTER AS PERGUNTAS E RESPOSTAS ORIGINAIS, JAMAIS ALTERAR ESSAS INFORMAÇÕES.\n</Restrições>",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3f494c68-3b73-4003-9e65-322568498ede",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.5,
+      "position": [
+        40,
+        300
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "qTcKDeG1l7aS58Jy",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Dados formulario": {
+      "main": [
+        [
+          {
+            "node": "Campos Lead Formulario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Lead": {
+      "main": [
+        [
+          {
+            "node": "Dados formulario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Existe Contato": {
+      "main": [
+        [
+          {
+            "node": "Cadastrar Conversão",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cadastrar Contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RD Station": {
+      "main": [
+        [
+          {
+            "node": "Dados Contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Contato": {
+      "main": [
+        [
+          {
+            "node": "Existe Contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cadastrar Contato": {
+      "main": [
+        [
+          {
+            "node": "Cadastrar Conversão",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "RD Station",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cadastrar Empresa": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Consultar Empresa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consultar Pessoa": {
+      "main": [
+        [
+          {
+            "node": "Existe Pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Existe Pessoa": {
+      "main": [
+        [
+          {
+            "node": "Criar Novo Negócio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cadastrar Pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cadastrar Pessoa": {
+      "main": [
+        [
+          {
+            "node": "Criar Negócio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Z-API": {
+      "main": [
+        [
+          {
+            "node": "Z-API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Existe Empresa": {
+      "main": [
+        [
+          {
+            "node": "Dados Empresa",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cadastrar Empresa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perguntas e Respostas": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finalizado OK": {
+      "main": [
+        [
+          {
+            "node": "Perguntas e Respostas",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Valida Razão Social",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Empresa": {
+      "main": [
+        [
+          {
+            "node": "Consultar Pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consultar Empresa": {
+      "main": [
+        [
+          {
+            "node": "Existe Empresa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Já finalizado": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Finalizado OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campos": {
+      "main": [
+        [
+          {
+            "node": "Dados Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campos Lead Formulario": {
+      "main": [
+        [
+          {
+            "node": "Já finalizado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Z-API": {
+      "main": [
+        [
+          {
+            "node": "Z-API OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Valida Razão Social": {
+      "main": [
+        [
+          {
+            "node": "Consultar Empresa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Novo Negócio": {
+      "main": [
+        [
+          {
+            "node": "Pipedrive OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Negócio": {
+      "main": [
+        [
+          {
+            "node": "Pipedrive OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cadastrar Conversão": {
+      "main": [
+        [
+          {
+            "node": "RD Station OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Campos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Dados Z-API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "9214054e-d2c6-4635-bd3f-5729cdb68085",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-10-04T21:45:49.751Z",
+      "updatedAt": "2024-10-04T21:45:49.751Z",
+      "id": "keSXrdIlim8rvA8S",
+      "name": "AHM Solution"
+    }
+  ]
+}
