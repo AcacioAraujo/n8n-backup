@@ -1,0 +1,242 @@
+{
+  "createdAt": "2024-09-23T14:33:30.954Z",
+  "updatedAt": "2024-09-25T17:40:14.610Z",
+  "id": "nDmHFjHOVyiV69mf",
+  "name": "[ROBOTRIZ]-[DB][AGENDAR CONSULTA]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $('Agendar Consulta').item.json.status }}",
+        "options": {}
+      },
+      "id": "a420dfd2-b77b-4142-a890-4acac8affd9c",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        2040,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://supa-api.robotriz.com.br/rest/v1/rpc/fnagendarconsulta",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICJyb2xlIjogImFub24iLAogICJpc3MiOiAic3VwYWJhc2UiLAogICJpYXQiOiAxNzI0Mjk1NjAwLAogICJleHAiOiAxODgyMDYyMDAwCn0.3pFJIweJYqdbnpObPC78vX2I7grY9nMR7cIJlDcWAO0"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICJyb2xlIjogImFub24iLAogICJpc3MiOiAic3VwYWJhc2UiLAogICJpYXQiOiAxNzI0Mjk1NjAwLAogICJleHAiOiAxODgyMDYyMDAwCn0.3pFJIweJYqdbnpObPC78vX2I7grY9nMR7cIJlDcWAO0"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "p_agenda_id",
+              "value": "={{ $json.body.p_agenda_id }}"
+            },
+            {
+              "name": "p_observacoes",
+              "value": "={{ $json.body.p_observacoes }}"
+            },
+            {
+              "name": "p_paciente_id",
+              "value": "={{ $json.body.p_paciente_id }}"
+            },
+            {
+              "name": "p_profissional_id",
+              "value": "={{ $json.body.p_profissional_id }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "9a5640e0-fd05-49ae-ae17-d9abf6620760",
+      "name": "AGENDAR CONSULTA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1580,
+        400
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "sendTo": "acacio.araujo@robotriz.com.br",
+        "subject": "Consulta agendada!!!",
+        "message": "=<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Agendamento Clínica Robotriz</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            margin: 0;\n            padding: 0;\n            background-color: #f4f4f4;\n        }\n        .container {\n            width: 100%;\n            max-width: 600px;\n            margin: 0 auto;\n            background-color: #ffffff;\n            padding: 20px;\n            border-radius: 5px;\n            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n        }\n        .header {\n            text-align: center;\n            padding-bottom: 20px;\n        }\n        .header img {\n            width: 100px;\n            height: auto;\n        }\n        .content {\n            text-align: center;\n        }\n        .content h1 {\n            color: #416f8e;\n        }\n        .content p {\n            font-size: 18px;\n            color: #ff7f50;\n        }\n        .details {\n            background-color: #3d1b50;\n            color: white;\n            padding: 20px;\n            margin: 20px 0;\n            border-radius: 5px;\n        }\n        .details p {\n            font-size: 16px;\n            margin: 8px 0;\n        }\n        .details strong {\n            color: #ff7f50;\n        }\n        .footer {\n            text-align: center;\n            font-size: 14px;\n            color: #777777;\n            padding-top: 20px;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"header\">\n            <img src=\"https://minioback.robotriz.com.br/robotriz/Logo-Redonda-Robotriz.png\" alt=\"Clínica Robotriz\">\n        </div>\n        <div class=\"content\">\n            <h1>Olá, {{ $json.paciente_nome }}</h1>\n            <p>Esse é um Lembrete de Agendamento da Clínica Robotriz</p>\n        </div>\n        <div class=\"details\">\n            <p><strong>Profissional:</strong> {{ $json.profissional_nome }} - {{ $json.especialidade_nome }}</p>\n            <p><strong>Clínica:</strong> clinica</p>\n            <p><strong>Endereço:</strong> endereçco</p>\n            <p><strong>Data e Horário:</strong> {{ $json.data }} - {{ $json.horario_inicial }}</p>\n            <p><strong>Contato:</strong> contato</p>\n        </div>\n        <div class=\"footer\">\n            <p>Clínica Robotriz - Automação Inteligente</p>\n        </div>\n    </div>\n</body>\n</html>\n",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "974a6586-20af-4648-9712-4dd97a0f6cf0",
+      "name": "Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1680,
+        40
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "JcjdpdVRGEs0s5H7",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM fnAgendarConsulta(\n    $1,\n    $2,\n    $3,\n    $4\n);\n",
+        "options": {
+          "queryReplacement": "={{ $json.body.p_paciente_id }},{{ $json.body.p_profissional_id }},{{ $json.body.p_agenda_id }},{{ $json.body.p_observacoes.isEmpty() ? 'NULL' : $json.body.p_observacoes  }}"
+        }
+      },
+      "id": "ed2f6726-a819-48e7-b4f9-0d50b5068902",
+      "name": "Agendar Consulta",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        1180,
+        120
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "Ygk4OurDcLlzNVI3",
+          "name": "Postgres - Clinica Robotriz"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ba98c2cc-1425-4236-a2ad-fef41d79b0b1",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "8500a993-28dc-47cb-a091-76ef720943c2",
+      "name": "Agendamento com sucesso",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1400,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "93f81492-55d9-4ea8-84af-d5d56709e9b9",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "10c3a1a7-b09b-4bff-a646-af53f152074c",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        980,
+        120
+      ],
+      "webhookId": "93f81492-55d9-4ea8-84af-d5d56709e9b9"
+    }
+  ],
+  "connections": {
+    "Gmail": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agendar Consulta": {
+      "main": [
+        [
+          {
+            "node": "Agendamento com sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agendamento com sucesso": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Agendar Consulta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "8297b67d-50ba-4694-b349-8b2584f54717",
+  "triggerCount": 1,
+  "tags": []
+}
