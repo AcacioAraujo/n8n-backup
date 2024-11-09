@@ -1,0 +1,354 @@
+{
+  "createdAt": "2024-11-03T22:28:16.395Z",
+  "updatedAt": "2024-11-04T01:16:08.922Z",
+  "id": "bq8y7IR4738DSkRo",
+  "name": "[ADMIRAVES]-[Atualização lead Botconversa]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "d77e8506-dc0f-44c8-800d-d360c9b23547",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "email": "={{ $('Campos1').item.json.Email }}",
+            "status": "PixelApp01"
+          },
+          "matchingColumns": [
+            "email"
+          ],
+          "schema": [
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data_inscricao",
+              "displayName": "data_inscricao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "horario_inscricao",
+              "displayName": "horario_inscricao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pagina",
+              "displayName": "pagina",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ebe05c42-ac92-468a-9dc3-07ff39c002df",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        640,
+        540
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gqjvAzQ2yoOC6JTy",
+          "name": "[ADMIRAVES] - [Google Sheets]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "status",
+              "lookupValue": "=novo"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a98d4aa3-ff12-4532-9967-fbb136699f9e",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -60,
+        540
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gqjvAzQ2yoOC6JTy",
+          "name": "[ADMIRAVES] - [Google Sheets]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "866633e5-e246-424e-9e66-021f8d0d7529",
+              "name": "Nome",
+              "value": "={{ \n(()=>{\n  let nome_completo = $json.nome\n    const indiceEspaco = nome_completo.indexOf(' ');\n    if (indiceEspaco === -1) {\n        return nome_completo;\n    }\n    const nome = nome_completo.substring(0, indiceEspaco);\n    const sobrenome = nome_completo.substring(indiceEspaco + 1);\n    return nome;\n})()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "c38531b3-340a-4147-b80d-02a77c441d42",
+              "name": "Email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "888b49dc-3db9-4d27-a314-59c2ff2ed91c",
+              "name": "Phone",
+              "value": "={{ \n(()=>{\n  let phoneNumber = $json.telefone.toString()\n  // Verifica se tem 14 caracteres e começa com +\n  if (phoneNumber.length === 14 && phoneNumber[0] === '+') {\n      // Remove o + e continua o processamento com o resto do número\n      phoneNumber = phoneNumber.substring(1);\n  }\n\n  // Extrai o DDD (posições 2 e 3 do número)\n  const ddd = parseInt(phoneNumber.substring(2, 4));\n\n  // Verifica se o DDD está nos intervalos especificados\n  const isSpecialDDD = (ddd >= 11 && ddd <= 19) || \n                      (ddd >= 21 && ddd <= 24) || \n                      (ddd >= 27 && ddd <= 28);\n\n  if (isSpecialDDD) {\n      return phoneNumber;\n  } else {\n      // Remove o dígito 9 da 5ª posição (índice 4)\n      return phoneNumber.substring(0, 4) + phoneNumber.substring(5);\n  }\n})()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "ee40a602-3a6e-4e7d-aed9-42bff27f6c57",
+              "name": "Date",
+              "value": "={{ $json.data_inscricao }}",
+              "type": "string"
+            },
+            {
+              "id": "1a5857f0-49f5-477e-9e6d-d2ecc51c46e4",
+              "name": "Time",
+              "value": "={{ $json.horario_inscricao }}",
+              "type": "string"
+            },
+            {
+              "id": "3f51293a-22db-45da-a476-627a29d37e8a",
+              "name": "Page_URL",
+              "value": "={{ $json.pagina }}",
+              "type": "string"
+            },
+            {
+              "id": "e41f14ba-1751-43fa-91f7-85c8f795e397",
+              "name": "sobrenome",
+              "value": "={{ \n(()=>{\n  let nome_completo = $json.nome\n    const indiceEspaco = nome_completo.indexOf(' ');\n    if (indiceEspaco === -1) {\n        return nome_completo;\n    }\n    const nome = nome_completo.substring(0, indiceEspaco);\n    const sobrenome = nome_completo.substring(indiceEspaco + 1);\n    return sobrenome;\n})()\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "674b2227-fee7-4285-8c7d-9d0a7bb53dd4",
+      "name": "Campos1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        120,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://backend.botconversa.com.br/api/v1/webhook/subscriber/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "API-KEY",
+              "value": "24cf724e-af9b-4074-b80f-696bc5b3a694"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \"phone\": \"{{ $json.Phone }}\", \"first_name\": \"{{ $json.Nome }}\", \"last_name\": \"{{ $json.sobrenome }}\"}",
+        "options": {}
+      },
+      "id": "451c6f07-e2e6-45a3-acaf-9b3cb4058012",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        300,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://backend.botconversa.com.br/api/v1/webhook/subscriber/{{ $json.id }}/tags/11325923/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "API-KEY",
+              "value": "24cf724e-af9b-4074-b80f-696bc5b3a694"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c546d215-2566-44ca-9399-533aa8e7006d",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        540
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Campos1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campos1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "76827f4e-65b1-4143-b8d2-369e787d42f4",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2024-07-16T19:34:32.785Z",
+      "updatedAt": "2024-07-16T19:34:32.785Z",
+      "id": "OYw06Py1CLDhVhe0",
+      "name": "Admiraves"
+    }
+  ]
+}
