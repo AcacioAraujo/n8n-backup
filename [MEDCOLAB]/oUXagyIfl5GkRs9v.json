@@ -1,13 +1,13 @@
 {
   "createdAt": "2024-11-05T19:03:29.462Z",
-  "updatedAt": "2024-11-05T20:15:35.312Z",
+  "updatedAt": "2024-11-09T18:51:00.273Z",
   "id": "oUXagyIfl5GkRs9v",
   "name": "[MEDCOLAB] - [IG][Integração Pipedrive]",
   "active": true,
   "nodes": [
     {
       "parameters": {
-        "content": "## Integração Pipedrive",
+        "content": "## Integracao Pipedrive",
         "height": 521.3757645691085,
         "width": 1170.458500878585,
         "color": 3
@@ -102,78 +102,6 @@
       "typeVersion": 1,
       "position": [
         2620,
-        600
-      ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "pipedriveApi": {
-          "id": "1zsyuy5qRFdVlrpi",
-          "name": "Pipedrive Medicolab"
-        }
-      },
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "title": "={{ $('Dados Lead').item.json.titulo }}",
-        "org_id": "={{ $('Dados Lead').item.json.organization_id }}",
-        "additionalFields": {
-          "customProperties": {
-            "property": [
-              {
-                "name": "44bb9c7fa9f96ad3af11c8097f950770141c26ec",
-                "value": "={{ $('Dados Lead').item.json.maior_dificuldade }}"
-              }
-            ]
-          },
-          "label": "={{ $('Dados Lead').item.json.automacao}}",
-          "person_id": "={{ $('Consultar Pessoa').item.json.id }}",
-          "stage_id": 11,
-          "status": "open"
-        }
-      },
-      "id": "0d86f6da-d981-4d25-b4f0-a9bda0ab762c",
-      "name": "Criar Novo Negócio",
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        2620,
-        440
-      ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "pipedriveApi": {
-          "id": "1zsyuy5qRFdVlrpi",
-          "name": "Pipedrive Medicolab"
-        }
-      },
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "title": "={{ $('Dados Lead').item.json.titulo }}",
-        "org_id": "={{ $('Dados Lead').item.json.organization_id }}",
-        "additionalFields": {
-          "customProperties": {
-            "property": [
-              {
-                "name": "44bb9c7fa9f96ad3af11c8097f950770141c26ec",
-                "value": "={{ $('Dados Lead').item.json.maior_dificuldade }}"
-              }
-            ]
-          },
-          "label": "={{ $('Dados Lead').item.json.automacao }}",
-          "person_id": "={{ $json.id }}",
-          "stage_id": 11,
-          "status": "open"
-        }
-      },
-      "id": "3e89e616-72b2-414c-a38b-35f054ea6e2e",
-      "name": "Criar Negócio",
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        2780,
         600
       ],
       "alwaysOutputData": true,
@@ -405,6 +333,78 @@
         520
       ],
       "webhookId": "179e06de-722c-4506-8974-fd6009ccf0d1"
+    },
+    {
+      "parameters": {
+        "title": "={{ $('Dados Lead').item.json.titulo }}",
+        "org_id": "={{ $('Dados Lead').item.json.organization_id }}",
+        "additionalFields": {
+          "customProperties": {
+            "property": [
+              {
+                "name": "44bb9c7fa9f96ad3af11c8097f950770141c26ec",
+                "value": "={{ $('Dados Lead').item.json.maior_dificuldade }}"
+              }
+            ]
+          },
+          "label": "={{ $('Dados Lead').item.json.automacao }}",
+          "person_id": "={{ $json.id }}",
+          "stage_id": 11,
+          "status": "open"
+        }
+      },
+      "id": "3e89e616-72b2-414c-a38b-35f054ea6e2e",
+      "name": "Criar Negocio",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2780,
+        600
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "1zsyuy5qRFdVlrpi",
+          "name": "Pipedrive Medicolab"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "title": "={{ $('Dados Lead').item.json.titulo }}",
+        "org_id": "={{ $('Dados Lead').item.json.organization_id }}",
+        "additionalFields": {
+          "customProperties": {
+            "property": [
+              {
+                "name": "44bb9c7fa9f96ad3af11c8097f950770141c26ec",
+                "value": "={{ $('Dados Lead').item.json.maior_dificuldade }}"
+              }
+            ]
+          },
+          "label": "={{ $('Dados Lead').item.json.automacao}}",
+          "person_id": "={{ $('Consultar Pessoa').item.json.id }}",
+          "stage_id": 11,
+          "status": "open"
+        }
+      },
+      "id": "0d86f6da-d981-4d25-b4f0-a9bda0ab762c",
+      "name": "Criar Novo Negocio",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2620,
+        440
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "1zsyuy5qRFdVlrpi",
+          "name": "Pipedrive Medicolab"
+        }
+      },
+      "onError": "continueRegularOutput"
     }
   ],
   "connections": {
@@ -423,7 +423,7 @@
       "main": [
         [
           {
-            "node": "Criar Novo Negócio",
+            "node": "Criar Novo Negocio",
             "type": "main",
             "index": 0
           }
@@ -441,7 +441,7 @@
       "main": [
         [
           {
-            "node": "Criar Negócio",
+            "node": "Criar Negocio",
             "type": "main",
             "index": 0
           }
@@ -508,7 +508,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "d7e18a91-ce93-4b17-a437-350db9c78043",
+  "versionId": "36e39dcd-0628-439b-b68b-ceed1764cb34",
   "triggerCount": 1,
   "tags": [
     {
