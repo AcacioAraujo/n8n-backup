@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-09T12:25:24.842Z",
-  "updatedAt": "2024-11-09T18:51:08.709Z",
+  "updatedAt": "2024-11-09T18:56:06.487Z",
   "id": "CmNP1Bm13X36aNbr",
   "name": "[BACKUP]-[GITHUB]",
   "active": false,
@@ -129,29 +129,6 @@
         "assignments": {
           "assignments": [
             {
-              "id": "bb136c52-ef74-4c81-b86d-750b6cae8d57",
-              "name": "file_path",
-              "value": "={{ (()=>{\n\n    const nome = $('workflow').item.json.name.split(/ - |-/);\n    return nome.length > 1 ? nome[0] : \"[PADRAO]\";\n\n})()\n}}/{{ $('workflow').item.json.id }}.json",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "765b1014-cd18-4590-8fc4-097773b72a7b",
-      "name": "Edit Fields",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2120,
-        800
-      ]
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
               "id": "810802e1-e69c-4cc4-9463-5e7e8dcbc17f",
               "name": "github_owner",
               "value": "AcacioAraujo",
@@ -172,8 +149,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        560,
-        340
+        300,
+        360
       ]
     },
     {
@@ -198,26 +175,6 @@
         1080,
         480
       ]
-    },
-    {
-      "parameters": {
-        "filters": {},
-        "requestOptions": {}
-      },
-      "id": "e153eee8-34b5-4485-baae-b6322c6407dc",
-      "name": "Todos os fluxos",
-      "type": "n8n-nodes-base.n8n",
-      "typeVersion": 1,
-      "position": [
-        760,
-        340
-      ],
-      "credentials": {
-        "n8nApi": {
-          "id": "vA77NkMKIpa1LwYe",
-          "name": "n8n account"
-        }
-      }
     },
     {
       "parameters": {
@@ -278,8 +235,84 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        360,
-        340
+        100,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bb136c52-ef74-4c81-b86d-750b6cae8d57",
+              "name": "file_path",
+              "value": "={{ (()=>{\n\n    const nome = $('workflow').item.json.name.split(/ - |-/);\n    return nome.length > 1 ? nome[0] : \"[PADRAO]\";\n\n})()\n}}/{{ $('workflow').item.json.id }}.json",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "765b1014-cd18-4590-8fc4-097773b72a7b",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2120,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "id": "e153eee8-34b5-4485-baae-b6322c6407dc",
+      "name": "Todos os fluxos",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        500,
+        360
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "vA77NkMKIpa1LwYe",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4a385969-a0a3-4908-822a-eb929786f2b7",
+              "leftValue": "={{ $json.updatedAt }}",
+              "rightValue": "2024-11-09T15:55:06",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a50f4aa7-271d-48b9-a5c4-64d23bd6d496",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        720,
+        360
       ]
     },
     {
@@ -416,22 +449,6 @@
         ]
       ]
     },
-    "Todos os fluxos": {
-      "main": [
-        [
-          {
-            "node": "GitHub",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Dados do workflow",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Convert to File": {
       "main": [
         [
@@ -458,6 +475,33 @@
           }
         ]
       ]
+    },
+    "Todos os fluxos": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Dados do workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -468,7 +512,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "248ce05e-550c-4e72-9c60-1348dc158a5e",
+  "versionId": "3c99bae8-6293-421d-90e4-209f86025b48",
   "triggerCount": 0,
   "tags": []
 }
