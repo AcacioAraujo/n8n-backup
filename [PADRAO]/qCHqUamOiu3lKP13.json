@@ -1,0 +1,426 @@
+{
+  "createdAt": "2024-07-11T12:27:58.740Z",
+  "updatedAt": "2024-11-04T00:41:50.384Z",
+  "id": "qCHqUamOiu3lKP13",
+  "name": "Teste Acacio",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1Nd3PPMZmNtroU2-I50FZ61IuOXaE09xeYYEbBnIYQoQ",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "base_clientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Nd3PPMZmNtroU2-I50FZ61IuOXaE09xeYYEbBnIYQoQ/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "ManychatId"
+            }
+          ]
+        },
+        "combineFilters": "OR",
+        "options": {
+          "returnAllMatches": "returnAllMatches"
+        }
+      },
+      "id": "5234f929-5b44-4f66-b4d1-075c7de51f91",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        -60,
+        260
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1YBksTL6XDSdvvJrJxcSTPCZOOAxgloXv9IrcCuxUemA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1546044827,
+          "mode": "list",
+          "cachedResultName": "teste",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YBksTL6XDSdvvJrJxcSTPCZOOAxgloXv9IrcCuxUemA/edit#gid=1546044827"
+        },
+        "options": {}
+      },
+      "id": "98e591c4-e152-41c1-ac19-672c75128057",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        900,
+        260
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "b998dca7-df47-40c4-bbcc-8eb5cb44d42e",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -280,
+        260
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "7c82fe0f-59bb-46ee-9e17-d66b2df5908f",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "f3c5af38-1e8c-4904-bc75-9ea75ee1877b",
+        "options": {}
+      },
+      "id": "c47d452b-d3d1-4cf8-9dac-f492b45c0c59",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        680,
+        520
+      ],
+      "webhookId": "f3c5af38-1e8c-4904-bc75-9ea75ee1877b"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "=contato",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "=dify_id",
+              "keyValue": "553597638844"
+            }
+          ]
+        }
+      },
+      "id": "03c2b60d-e9e6-4f80-9663-657f92f710fd",
+      "name": "Supabase",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        540
+      ],
+      "alwaysOutputData": false,
+      "credentials": {
+        "supabaseApi": {
+          "id": "enGtPLZwnuvtqfNc",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "profissional_saude",
+          "mode": "list",
+          "cachedResultName": "profissional_saude"
+        },
+        "options": {}
+      },
+      "id": "a00ae028-fea2-44f9-8b01-206fc6e9ae74",
+      "name": "Postgres",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        980,
+        720
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "Ygk4OurDcLlzNVI3",
+          "name": "Postgres - Clinica Robotriz"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "acacio.araujo@robotriz.com.br",
+        "subject": "Novo Teste n8n",
+        "emailType": "text",
+        "message": "Oi, isso é um teste de envio do n8n.",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "259bf5af-2fa1-4746-b49c-0b56933bd2fa",
+      "name": "Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        980,
+        920
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "JcjdpdVRGEs0s5H7",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "id": "ba0327de-ffac-4a4b-8613-6331780df731",
+      "name": "Aggregate",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        160,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6ee3200c-cc74-40f8-b872-8ac696d5c941",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Manacás",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "769bf9af-ef8d-44d3-8b6c-d95e47857a75",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Cancioneiro",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "5d25b314-a9e8-47ea-b875-650a7fcceadf",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Terras da Estancia",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "fead5a31-cdee-450c-97c4-5b8c32c2ff03",
+              "leftValue": "={{ $json.Local }}",
+              "rightValue": "Villa Lobos",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "b303f874-3016-478e-9661-296652a9c2b5",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        140,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "path": "3404c61f-3f1f-466b-9bb0-3eb50723686f",
+        "formFields": {
+          "values": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "id": "00c9a1ff-7fc3-4460-8f5b-bca7ad924a40",
+      "name": "n8n Form Trigger",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.1,
+      "position": [
+        640,
+        860
+      ],
+      "webhookId": "3404c61f-3f1f-466b-9bb0-3eb50723686f"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "b06d49f3-804a-448a-ae82-5f904dee08e1",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        -500,
+        760
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "n7uoPlnCt45Bzt6f",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toRecipients": "afonso.moreira@ahmsolution.com",
+        "subject": "teste",
+        "bodyContent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dapibus arcu ante, ut faucibus mauris tincidunt nec. Nunc lacinia, tortor non finibus hendrerit, ligula lectus posuere nibh, a pellentesque odio leo nec massa. Mauris facilisis nulla faucibus enim dictum dignissim. Pellentesque dignissim urna a nibh consequat, non tempus tortor sollicitudin. Aliquam eu consectetur magna. Vivamus pulvinar urna ex, tincidunt lacinia velit sollicitudin vitae. Duis porta arcu eros, ut consequat lacus congue nec. Etiam venenatis suscipit tortor vel lacinia. Morbi tortor ex, consequat ac diam quis, venenatis iaculis mi. Pellentesque ultrices sem in tincidunt iaculis. Ut diam erat, elementum et eleifend at, cursus id nisi. Maecenas elementum pellentesque est eu eleifend.\n\nAliquam erat volutpat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec tempor neque eget leo pellentesque aliquet. Maecenas ligula nibh, volutpat varius justo sed, laoreet sollicitudin nunc. Suspendisse accumsan ligula orci, vitae laoreet ligula aliquet scelerisque. Fusce vel tincidunt ipsum, vitae mattis nisi. Nulla ornare fermentum viverra. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean vel mattis nunc. Praesent nisl mi, porttitor ac volutpat ut, sodales vulputate nibh.",
+        "additionalFields": {
+          "attachments": {
+            "attachments": [
+              {}
+            ]
+          },
+          "bodyContentType": "Text"
+        }
+      },
+      "id": "185da78c-5ad8-421b-ab60-e2fc4e36f2c6",
+      "name": "Microsoft Outlook",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        140,
+        820
+      ],
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "sEZbSrXl9tvdOUNc",
+          "name": "Microsoft Outlook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://backend.botconversa.com.br/api/v1/webhook/subscriber/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "API-KEY",
+              "value": "24cf724e-af9b-4074-b80f-696bc5b3a694"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{ \"phone\": \"5511981588224\", \"first_name\": \"Acácio\", \"last_name\": \"Araujo\"}",
+        "options": {}
+      },
+      "id": "5cc7bc56-e611-4a1c-a55d-588e660be11e",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -120,
+        680
+      ]
+    }
+  ],
+  "connections": {
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "4b3f4c67-e862-4b3b-a1fd-cccb6b8b96d1",
+  "triggerCount": 1,
+  "tags": []
+}
