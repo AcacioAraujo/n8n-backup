@@ -1,0 +1,998 @@
+{
+  "createdAt": "2024-07-17T19:52:39.338Z",
+  "updatedAt": "2024-07-30T16:08:10.468Z",
+  "id": "bwGzgJWTbXeXmk1d",
+  "name": "[1][NicoChat] Google Agendamento 1/1",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "name": "CalendarAvailability",
+        "description": "Busca os horários ocupados na agenda e retorna uma string.",
+        "workflowId": "=9QBxZgdiEs6xAwlR"
+      },
+      "id": "a470018c-e6ad-4044-b111-463ee881e126",
+      "name": "Workflow Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "position": [
+        -300,
+        1140
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Secretária Agendamento",
+        "height": 241.36327107467457,
+        "width": 403.4636238200387,
+        "color": 7
+      },
+      "id": "d9ee3987-da2e-4957-b70d-c2b18de07832",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -640,
+        840
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.message.content.output.consulta.data }}",
+        "format": "custom",
+        "customFormat": "yyyy-MM-dd HH:mm:ss",
+        "outputFieldName": "Inicio consulta",
+        "options": {
+          "timezone": true
+        }
+      },
+      "id": "c93d7bb4-4dc1-426a-bdcd-68137a9b0520",
+      "name": "Início Consulta",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        580,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "addToDate",
+        "magnitude": "={{ $json['Inicio consulta'] }}",
+        "timeUnit": "hours",
+        "duration": 1,
+        "outputFieldName": "Final da consulta",
+        "options": {
+          "includeInputFields": false
+        }
+      },
+      "id": "c400db75-fc6b-42d7-81d2-86788bf99920",
+      "name": "Final da Consulta",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        820,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "contato@robotriz.com.br",
+          "mode": "list",
+          "cachedResultName": "contato@robotriz.com.br"
+        },
+        "start": "={{ $('Início Consulta').item.json['Inicio consulta'] }}",
+        "end": "={{ $json['Final da consulta'] }}",
+        "useDefaultReminders": false,
+        "additionalFields": {
+          "attendees": [],
+          "color": "5",
+          "description": "=Telefone: {{ $('Dados').item.json.sessionId }}",
+          "showMeAs": "opaque",
+          "summary": "={{ $('Dados').item.json.Nome }} | Consulta"
+        }
+      },
+      "id": "085164d1-7fad-4bc7-9d36-2806bd8a312d",
+      "name": "Criar Agendamento",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.1,
+      "position": [
+        1020,
+        900
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "27WinJTE9Con8wAf",
+          "name": "[ROBOTRIZ] GOOGLE CALENDAR"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "7c873c5d-8aee-4b63-bb10-fadf1ba27bb8",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "=confirmada com sucesso",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "971cadd6-6c8e-4845-87e1-ff711c0fba49",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "confirmado com sucesso",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "21b54a3d-b563-48aa-ba99-096ff450d4e8",
+      "name": "Agendou?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -120,
+        920
+      ]
+    },
+    {
+      "parameters": {
+        "sessionTTL": 900
+      },
+      "id": "d1abd76d-e260-43ff-8e9b-0d9bfa582f4c",
+      "name": "Redis Chat Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.2,
+      "position": [
+        -440,
+        1140
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "requestMethod": "POST",
+        "url": "=https://app.nicochat.com.br/api/subscriber/send-sub-flow",
+        "options": {},
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "sub_flow_ns",
+              "value": "={{ $('Dados').item.json[\"Flow\"] }}"
+            },
+            {
+              "name": "user_ns",
+              "value": "={{ $('Dados').item.json['ID NicoChat'] }}"
+            }
+          ]
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Authorization",
+              "value": "Bearer FRCdyComIyJ8scZUUnAK7KGiHrR7sjnFp06O3qJgVEmbvtDzjQr6gdhTOfbu"
+            }
+          ]
+        }
+      },
+      "id": "23e9ba22-5b7c-42fa-996e-93865900b8f9",
+      "name": "Enviar flow",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        320,
+        1120
+      ],
+      "typeVersion": 2,
+      "retryOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "kxD0dm9zWPsfDhOm",
+          "name": "[ID NICOCHAT 60845]"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "requestMethod": "PUT",
+        "url": "=https://app.nicochat.com.br/api/subscriber/set-user-field",
+        "options": {},
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "value",
+              "value": "={{ $json.output }}"
+            },
+            {
+              "name": "user_ns",
+              "value": "={{ $('Dados').item.json['ID NicoChat'] }}"
+            },
+            {
+              "name": "var_ns",
+              "value": "={{ $('Dados').item.json['ID Resposta_Agendamento'] }}"
+            }
+          ]
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Authorization",
+              "value": "Bearer FRCdyComIyJ8scZUUnAK7KGiHrR7sjnFp06O3qJgVEmbvtDzjQr6gdhTOfbu"
+            }
+          ]
+        }
+      },
+      "id": "0cfa5291-774b-4a6c-84d0-86f20726d5f6",
+      "name": "Campo Personalizado - Resposta_Agendamento",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        100,
+        1120
+      ],
+      "typeVersion": 2,
+      "retryOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "kxD0dm9zWPsfDhOm",
+          "name": "[ID NICOCHAT 60845]"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1fdc7d9f-f0fb-47d0-bda0-3f5535ebf5e6",
+              "name": "chatInput",
+              "value": "={{ $json.body.Input }}",
+              "type": "string"
+            },
+            {
+              "id": "1094ca87-fbc9-4922-80ff-9a5e8fd50fe2",
+              "name": "sessionId",
+              "value": "={{ $json.body.Telefone }}",
+              "type": "string"
+            },
+            {
+              "id": "1d7d3127-b857-4ce1-9f1c-42741def9c3a",
+              "name": "ID NicoChat",
+              "value": "={{ $json.body.ID }}",
+              "type": "string"
+            },
+            {
+              "id": "42d374ac-4421-41d0-a1c3-142b281a2a86",
+              "name": "Nome",
+              "value": "={{ $json.body.Nome }}",
+              "type": "string"
+            },
+            {
+              "id": "f1eaab43-4160-4da6-b6d7-a380033f7d86",
+              "name": "Flow",
+              "value": "f71235s740655",
+              "type": "string"
+            },
+            {
+              "id": "f30d47ee-bc9a-4080-ad53-74690a9fc771",
+              "name": "ID Resposta_Agendamento",
+              "value": "f71235v1139229",
+              "type": "string"
+            },
+            {
+              "id": "73a1cf98-ccfb-4e0f-975f-025361aeac45",
+              "name": "ID DataConsulta",
+              "value": "f71235v1138685",
+              "type": "string"
+            },
+            {
+              "id": "218e1c62-ce85-44ab-89ee-1308d6685b19",
+              "name": "ID Event ID",
+              "value": "f71235v1144123",
+              "type": "string"
+            },
+            {
+              "id": "394242fb-425c-4d9e-b403-d2c3c3c000bc",
+              "name": "ID HorarioConsulta",
+              "value": "=f71235v1138683",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0932332c-6717-4e68-b20e-59c3628ee50d",
+      "name": "Dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        -880,
+        920
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://app.nicochat.com.br/api/subscriber/set-user-field",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer FRCdyComIyJ8scZUUnAK7KGiHrR7sjnFp06O3qJgVEmbvtDzjQr6gdhTOfbu"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "value",
+              "value": "={{ $('Início Consulta').item.json['Inicio consulta'].toDateTime().format('HH:mm') }}"
+            },
+            {
+              "name": "user_ns",
+              "value": "={{ $('Dados').item.json['ID NicoChat'] }}"
+            },
+            {
+              "name": "=var_ns",
+              "value": "={{ $('Dados').item.json['ID HorarioConsulta'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a23c54ab-b0b3-47bd-8d03-94838054f369",
+      "name": "Campo Personalizado - Hora",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1020,
+        1120
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "kxD0dm9zWPsfDhOm",
+          "name": "[ID NICOCHAT 60845]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {
+          "maxTokens": 1000,
+          "temperature": 0.1
+        }
+      },
+      "id": "04085a25-bc5a-49bc-98ab-23a162f38e2e",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        -580,
+        1140
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "qTcKDeG1l7aS58Jy",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Status\n\n**Agendado:**\ncolorId: 5 - #fbd75b (Amarelo claro)\n\n**Confirmado:**\ncolorId: 2 - #7ae7bf (Verde claro)\n\n**Compareceu:**\ncolorId: 10 - #51b749 (Verde escuro)\n\n**Faltou:**\ncolorId: 11 - #dc2127 (Vermelho)\n\n\n\n\n\nDesenvolvido por Kaique Grigoletto (@k.grigoletto)",
+        "height": 288.3959141437429,
+        "width": 304.79012345678984
+      },
+      "id": "05f7d431-0165-44b6-932a-baa498ed0d06",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        840,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Cores Google Calendar\n\ncolorId: 1 - #a4bdfc (Azul claro)\ncolorId: 2 - #7ae7bf (Verde claro)\ncolorId: 3 - #dbadff (Roxo claro)\ncolorId: 4 - #ff887c (Rosa claro)\ncolorId: 5 - #fbd75b (Amarelo claro)\ncolorId: 6 - #ffb878 (Laranja claro)\ncolorId: 7 - #46d6db (Ciano)\ncolorId: 8 - #e1e1e1 (Cinza)\ncolorId: 9 - #5484ed (Azul escuro)\ncolorId: 10 - #51b749 (Verde escuro)\ncolorId: 11 - #dc2127 (Vermelho)\n\n\nDesenvolvido por Kaique Grigoletto (@k.grigoletto)",
+        "height": 288.2205132933765,
+        "width": 309.9588477366254,
+        "color": 2
+      },
+      "id": "90280466-bcc5-49ac-b036-ec01b6a8679c",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        460,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "content": "Alterar Variáveis",
+        "height": 233.77646090534978,
+        "width": 173.64325116552516,
+        "color": 4
+      },
+      "id": "83c4976f-6fe2-41f3-8207-92b2850f3f56",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -920,
+        840
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://app.nicochat.com.br/api/subscriber/set-user-field",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "value",
+              "value": "={{ $('Criar Agendamento').item.json[\"id\"] }}"
+            },
+            {
+              "name": "user_ns"
+            },
+            {
+              "name": "var_ns"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "60b60457-6348-4eff-964f-5200da96db48",
+      "name": "Campo Personalizado - Event ID 2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1960,
+        820
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "kxD0dm9zWPsfDhOm",
+          "name": "[ID NICOCHAT 60845]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "requestMethod": "PUT",
+        "url": "=https://app.nicochat.com.br/api/subscriber/set-user-field",
+        "options": {},
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "value",
+              "value": "={{ $json.output }}"
+            },
+            {
+              "name": "user_ns",
+              "value": "={{ $('Dados').item.json['ID NicoChat'] }}"
+            },
+            {
+              "name": "var_ns",
+              "value": "={{ $('Dados').item.json['ID Resposta_Agendamento'] }}"
+            }
+          ]
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Authorization",
+              "value": "Bearer FRCdyComIyJ8scZUUnAK7KGiHrR7sjnFp06O3qJgVEmbvtDzjQr6gdhTOfbu"
+            }
+          ]
+        }
+      },
+      "id": "71a60f2e-a0f1-4fd1-99dd-eb5f095c7505",
+      "name": "Campo Personalizado - Event ID",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        580,
+        1120
+      ],
+      "typeVersion": 2,
+      "retryOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "kxD0dm9zWPsfDhOm",
+          "name": "[ID NICOCHAT 60845]"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://app.nicochat.com.br/api/subscriber/set-user-field",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer FRCdyComIyJ8scZUUnAK7KGiHrR7sjnFp06O3qJgVEmbvtDzjQr6gdhTOfbu"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "value",
+              "value": "={{ $('Transforma Resposta em Json').item.json.message.content.output.mensagem }}"
+            },
+            {
+              "name": "user_ns",
+              "value": "={{ $('Dados').item.json['ID NicoChat'] }}"
+            },
+            {
+              "name": "var_ns",
+              "value": "={{ $('Dados').item.json['ID Resposta_Agendamento'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1d495030-ed10-47de-9514-9de3faaa4e48",
+      "name": "Campo Personalizado - Resposta_Agendamento1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        580,
+        1380
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "kxD0dm9zWPsfDhOm",
+          "name": "[ID NICOCHAT 60845]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://backend.botconversa.com.br/api/v1/webhook/subscriber/{{ $('Dados').item.json['ID Botconversa'] }}/send_flow/",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "flow",
+              "value": "={{ $('Dados').item.json[\"Flow\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d21b99f1-23e8-4eaf-99d8-242e1b5e94ab",
+      "name": "Enviar flow22",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1700,
+        1040
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XQVhWneh6SN0tBEr",
+          "name": "[ID-BC: 87973] LABORATORIO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "requestMethod": "POST",
+        "url": "=https://app.nicochat.com.br/api/subscriber/send-sub-flow",
+        "options": {},
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "sub_flow_ns",
+              "value": "={{ $('Dados').item.json[\"Flow\"] }}"
+            },
+            {
+              "name": "user_ns",
+              "value": "={{ $('Dados').item.json['ID NicoChat'] }}"
+            }
+          ]
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Authorization",
+              "value": "Bearer FRCdyComIyJ8scZUUnAK7KGiHrR7sjnFp06O3qJgVEmbvtDzjQr6gdhTOfbu"
+            }
+          ]
+        }
+      },
+      "id": "678f91c6-cbc5-4529-be9d-8cb82d4c3070",
+      "name": "Enviar flow1",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        780,
+        1380
+      ],
+      "typeVersion": 2,
+      "retryOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "kxD0dm9zWPsfDhOm",
+          "name": "[ID NICOCHAT 60845]"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://app.nicochat.com.br/api/subscriber/set-user-field",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer FRCdyComIyJ8scZUUnAK7KGiHrR7sjnFp06O3qJgVEmbvtDzjQr6gdhTOfbu"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "value",
+              "value": "={{ $('Início Consulta').item.json['Inicio consulta'].toDateTime().format('dd/MM/yy') }}"
+            },
+            {
+              "name": "var_ns",
+              "value": "={{ $('Dados').item.json['ID DataConsulta'] }}"
+            },
+            {
+              "name": "user_ns",
+              "value": "={{ $('Dados').item.json['ID NicoChat'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c210c99a-3223-4c2f-a610-31fa0ade9255",
+      "name": "Campo Personalizado - Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        820,
+        1120
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "kxD0dm9zWPsfDhOm",
+          "name": "[ID NICOCHAT 60845]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-2024-05-13",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-2024-05-13"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Você é uma assistente capaz de transformar o texto com informações da consulta de input em um Json formato no seguinte modelo:\n\n{\n  \"output\": {\n    \"consulta\": {\n      \"data\": \"2024-05-27T11:00:00\"\n    },\n    \"mensagem\": \"Sua consulta está confirmada com sucesso para segunda-feira, 27 de maio de 2024, às 11:00.\"\n  }\n}\n\nEm hipótese alguma gere uma output fora desse padrão do json\n",
+              "role": "system"
+            },
+            {
+              "content": "=Por favor, transforme o texto em um json válido:\n\n{{ $json.output }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "id": "61a3b78b-3aba-4427-b6f1-1f4948469de5",
+      "name": "Transforma Resposta em Json",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        160,
+        900
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "qTcKDeG1l7aS58Jy",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "options": {
+          "systemMessage": "=## *Role*\n\nVocê é uma secretária gentil e educada, responsável por fazer os agendamentos de uma clínica odontológica chamada Clínica XPTO.\n\n## *Tasks*\n\n- *Verifique a disponibilidade da agenda a partir das informações dos horários ocupados da agenda*. Ofereça horários, dias ou períodos DISPONÍVEIS como resposta. Retorne todas as opções de forma resumida e com emojis.\n- Ao verificar os horários, pule sempre uma hora após o último agendamento. Exemplo: Se tiver um agendamento às 15h, o próximo horário disponível é a partir das 16h.\n- Caso o paciente envie os horários que ele possua disponibilidade, verifique com os horários disponíveis da clínica e escolha a mais próxima.\n- Caso ele não envie nenhuma data e hora, sugira as opções mais próximas dentro dos próximos dois dias.\n- O horário de atendimento é das 09h às 17h de segunda a sexta-feira.\n- O período da manhã é das 9h até 12h e o período da tarde é das 13h até 17h.\n- A data e hora de hoje é: {{ $now.toISO() }}.\n- Os horários ocupados são: {{ JSON.stringify($json.response) }}\n- *quando* o usuario perguntar se tem disponivel um dia e um horario, verifique a data na nossa agenda e então se estiver disponibilidade confirme com ele se ele quer agendar na data que ele perguntou.\n- *Quando* houver confirmação por parte do usuario sobre a compatibilidade de agendamento com a data e horário solicitados da nossa agenda, a frase de resposta deve conter apenas \"Sua consulta foi confirmada com sucesso para o dia, mês, ano, hora e minuto.\" entre o texto contendo a data e hora completa.\n- Funcionamento da clinica é até as 18h, então o nosso agendamento final é das 17h até as 18h caso esse horario esteja disponivel. \n- Caso pergunte algo que não seja relacionado a agendamento, a frase de resposta deve ser \"hmm, não tenho certeza\".\n\n## *Communication Style*\n\n- Use um tom educado e acolhedor.\n- Responda de maneira clara, organizada e concisa.\n- Mantenha uma atitude positiva e prestativa.\n- Use Emojis na resposta.\n- Pule uma linha entre parágrafos.\n\n## *Interaction Examples*\n\n### Exemplo 1:\nPaciente: \"Olá, gostaria de marcar uma consulta\"\n\nSecretária: \" Estou verificando as nossas datas disponiveis e temos essa disponibilidade na terça-feira às 10h e na quinta-feira às 14h. Qual horário seria melhor para você?\"\n\n### Exemplo 2:\nPaciente: \"Quais são os horários no período da manhã da próxima semana?\"\n\nSecretária: \"Na próxima semana no período da manhã temos os seguintes horários:  \nSegunda-feira: 9h, 10h, 11h.  \nQuarta-feira: 9h, 10h, 11h.  \nQual dessas opções é melhor para você?\"\n\n### Exemplo 3:\nPaciente: \"Posso agendar para o dia 15 de julho às 14h?\"\n\nSecretária: \"Verifiquei a nossa agenda e temos disponibilidade.  \nSua consulta foi confirmada com sucesso para o dia 15 de julho de 2024 às 14h! 😊\"\n\n### Exemplo 4:\nPaciente: \"Quais são as especialidades?\"\n\nSecretária: \"hmm, não tenho certeza.\"\n\n## *Limitations and Restrictions*\n\n- Não agende sem antes pedir a confirmação do usuario. \n- Não responda nenhuma informação que não seja relacionada a agendamento.\n- Não confirme consultas sem verificar a disponibilidade real.\n- Não use em hipótese alguma \"confirmado com sucesso\" no texto caso o paciente esteja apenas verificando a disponibilidade e ainda não confirmou a data.\n- Não faça nenhuma saudação, responda apenas com as informações que você foi instruída a fazer.\n- Não deixe de pular uma linha entre parágrafos.\n- Não envie um horário que seja o início de outro evento. Exemplo: Se 14h está ocupado e a consulta leva 1h, *NUNCA* envie 14h como opção. Envie nesse caso, horário de manhã disponível 9h, 10h, 11h, 12h e de tarde 13h, 15h, 16h, 17h.\n- Não mencione nenhum horário entre 9h até 12h como período da tarde e nenhum horário entre 13h até 17h como período da manhã.\n- Não envie horários após 17h, já que a clínica fecha às 18h.\n- Não deixe de enviar nenhum horário disponível.\n"
+        }
+      },
+      "id": "a25dabd9-6a90-498d-8840-260043d2f7a5",
+      "name": "Secretária",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        -560,
+        920
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "6b91b311-0b37-462c-b859-0efb84f750f1",
+        "options": {}
+      },
+      "id": "6ef2ccc4-02f3-4b3c-b7c1-ca47d50f695c",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1140,
+        920
+      ],
+      "webhookId": "6b91b311-0b37-462c-b859-0efb84f750f1"
+    }
+  ],
+  "connections": {
+    "Início Consulta": {
+      "main": [
+        [
+          {
+            "node": "Final da Consulta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Final da Consulta": {
+      "main": [
+        [
+          {
+            "node": "Criar Agendamento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agendou?": {
+      "main": [
+        [
+          {
+            "node": "Transforma Resposta em Json",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Campo Personalizado - Resposta_Agendamento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Secretária",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Secretária",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campo Personalizado - Resposta_Agendamento": {
+      "main": [
+        [
+          {
+            "node": "Enviar flow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados": {
+      "main": [
+        [
+          {
+            "node": "Secretária",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Agendamento": {
+      "main": [
+        [
+          {
+            "node": "Campo Personalizado - Event ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campo Personalizado - Hora": {
+      "main": [
+        [
+          {
+            "node": "Campo Personalizado - Resposta_Agendamento1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Secretária",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campo Personalizado - Event ID": {
+      "main": [
+        [
+          {
+            "node": "Campo Personalizado - Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campo Personalizado - Resposta_Agendamento1": {
+      "main": [
+        [
+          {
+            "node": "Enviar flow1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campo Personalizado - Data": {
+      "main": [
+        [
+          {
+            "node": "Campo Personalizado - Hora",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transforma Resposta em Json": {
+      "main": [
+        [
+          {
+            "node": "Início Consulta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Secretária": {
+      "main": [
+        [
+          {
+            "node": "Agendou?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "0536fe81-dd27-48a7-b9e4-583d2207ed2e",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-07-11T00:21:16.296Z",
+      "updatedAt": "2024-07-11T00:21:16.296Z",
+      "id": "929Cq0MPDYxfq67l",
+      "name": "Google Agenda"
+    },
+    {
+      "createdAt": "2024-07-11T00:21:27.828Z",
+      "updatedAt": "2024-07-11T00:21:27.828Z",
+      "id": "quj3fHETQNpIwE0v",
+      "name": "Patrick Raul"
+    }
+  ]
+}
