@@ -1,0 +1,183 @@
+{
+  "createdAt": "2024-11-08T21:53:00.345Z",
+  "updatedAt": "2024-11-08T21:56:17.981Z",
+  "id": "IqkGOHmlVLDivp2o",
+  "name": "[REDIS]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $json.celular }}",
+        "options": {}
+      },
+      "id": "efdeb626-9408-4cd0-a56f-c2c099773451",
+      "name": "Consulta msg",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        360
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Edit Fields').item.json.celular }}"
+      },
+      "id": "49305394-e87c-418a-96b2-ddbc9a7d1ba6",
+      "name": "Limpa msgs2",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        360
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5ae3e1cc-b62c-4932-b175-3267e4847c6b",
+              "name": "celular",
+              "value": "={{ $json.telefone }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2e91c99e-1807-4168-b92b-aae44ce36d01",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        880,
+        360
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "2fc1ab14-d413-4e04-9e3b-da3cef2428f3",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        480,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "agente_ia",
+              "lookupValue": "=true"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": false
+        }
+      },
+      "id": "d6c02c54-1fab-4c19-acdd-b8670294c948",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        680,
+        360
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Consulta msg": {
+      "main": [
+        [
+          {
+            "node": "Limpa msgs2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Consulta msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "741503ea-896b-481c-bd98-9e4baf6e24e5",
+  "triggerCount": 0,
+  "tags": []
+}
