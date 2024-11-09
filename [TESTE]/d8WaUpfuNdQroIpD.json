@@ -1,0 +1,18 @@
+{
+  "createdAt": "2024-11-09T18:57:25.168Z",
+  "updatedAt": "2024-11-09T18:57:25.168Z",
+  "id": "d8WaUpfuNdQroIpD",
+  "name": "[TESTE]-[123]",
+  "active": false,
+  "nodes": [],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "89d7e8e8-235f-455f-b1b8-817b653a0fe5",
+  "triggerCount": 0,
+  "tags": []
+}
