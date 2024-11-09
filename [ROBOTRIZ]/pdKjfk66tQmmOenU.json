@@ -1,0 +1,77 @@
+{
+  "createdAt": "2024-09-05T19:44:09.701Z",
+  "updatedAt": "2024-09-05T20:30:18.129Z",
+  "id": "pdKjfk66tQmmOenU",
+  "name": "[ROBOTRIZ]-[AGENDAMENTO DE CONSULTA TESTE]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "01634ecf-fe50-4721-9d90-0760f22ea83f",
+        "options": {}
+      },
+      "id": "98476cd1-bb9f-49ef-8df9-f6fccfd381c6",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        820,
+        360
+      ],
+      "webhookId": "01634ecf-fe50-4721-9d90-0760f22ea83f"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "contato@robotriz.com.br",
+          "mode": "list",
+          "cachedResultName": "contato@robotriz.com.br"
+        },
+        "options": {
+          "timeMin": "2024-09-06T00:00:00",
+          "timeMax": "2024-09-06T15:00:00"
+        }
+      },
+      "id": "6a418727-be60-4a3d-94e6-8fd42bfde45e",
+      "name": "Google Calendar",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.1,
+      "position": [
+        1040,
+        360
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "27WinJTE9Con8wAf",
+          "name": "[ROBOTRIZ] GOOGLE CALENDAR"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Google Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "e75f86f7-ce83-4e01-bc3e-abf7b8df8a20",
+  "triggerCount": 0,
+  "tags": []
+}
