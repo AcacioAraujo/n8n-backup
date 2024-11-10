@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-09T12:25:24.842Z",
-  "updatedAt": "2024-11-09T19:25:52.265Z",
+  "updatedAt": "2024-11-09T19:27:01.527Z",
   "id": "CmNP1Bm13X36aNbr",
   "name": "[BACKUP]-[GITHUB]",
   "active": true,
@@ -122,40 +122,6 @@
         1940,
         620
       ]
-    },
-    {
-      "parameters": {
-        "authentication": "oAuth2",
-        "resource": "file",
-        "operation": "edit",
-        "owner": {
-          "__rl": true,
-          "value": "={{ $('Variaveis').first().json.github_owner }}",
-          "mode": "name"
-        },
-        "repository": {
-          "__rl": true,
-          "value": "={{ $('Variaveis').first().json.github_repository }}",
-          "mode": "name"
-        },
-        "filePath": "={{ (()=>{\n\n    const nome = $('workflow1').item.json.name.split(/ - |-/);\n    return nome.length > 1 ? nome[0] : \"[PADRAO]\";\n\n})()\n}}/{{ $('workflow1').item.json.id }}.json",
-        "binaryData": true,
-        "commitMessage": "={{ $('workflow1').item.json.name }}[{{ $now.toString() }}]"
-      },
-      "id": "3820ae89-f749-41d1-8b79-aea519cf412a",
-      "name": "Editar arquivo",
-      "type": "n8n-nodes-base.github",
-      "typeVersion": 1,
-      "position": [
-        2120,
-        460
-      ],
-      "credentials": {
-        "githubOAuth2Api": {
-          "id": "kY9uIxRjnjND9zxr",
-          "name": "Acacio - GitHub account"
-        }
-      }
     },
     {
       "parameters": {
@@ -325,6 +291,40 @@
           "name": "n8n account"
         }
       }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('Variaveis').first().json.github_owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('Variaveis').first().json.github_repository }}",
+          "mode": "name"
+        },
+        "filePath": "={{ (()=>{\n\n    const nome = $('workflow1').item.json.name.split(/ - |-/);\n    return nome.length > 1 ? nome[0] : \"[PADRAO]\";\n\n})()\n}}/{{ $('workflow1').item.json.id }}.json",
+        "binaryData": true,
+        "commitMessage": "={{ $('workflow1').item.json.name }}[{{ $now.toString() }}]"
+      },
+      "id": "3820ae89-f749-41d1-8b79-aea519cf412a",
+      "name": "Editar arquivo",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        2120,
+        460
+      ],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "kY9uIxRjnjND9zxr",
+          "name": "Acacio - GitHub account"
+        }
+      }
     }
   ],
   "connections": {
@@ -474,14 +474,16 @@
   },
   "staticData": {
     "node:Schedule Trigger": {
-      "recurrenceRules": []
+      "recurrenceRules": [
+        0
+      ]
     }
   },
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "67ec7575-5442-40b5-893e-35b437a3fbba",
+  "versionId": "e66e19c1-f252-4d4e-9ae9-6ad4319597b2",
   "triggerCount": 1,
   "tags": []
 }
