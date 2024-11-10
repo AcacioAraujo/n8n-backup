@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-07T20:25:28.880Z",
-  "updatedAt": "2024-11-09T16:46:06.621Z",
+  "updatedAt": "2024-11-10T00:01:10.635Z",
   "id": "UDAyEzXoUBXhZThh",
   "name": "[ADMIRAVES]-[EVOLUTION_DIFY]",
   "active": true,
@@ -38,7 +38,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1080,
+        1100,
         200
       ],
       "credentials": {
@@ -1198,22 +1198,6 @@
     },
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "85a77fa9-e3c2-4185-af32-22632864dfd4",
-        "options": {}
-      },
-      "id": "8687804a-27ea-43d2-984e-30a5640fdb8c",
-      "name": "Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        -760,
-        400
-      ],
-      "webhookId": "85a77fa9-e3c2-4185-af32-22632864dfd4"
-    },
-    {
-      "parameters": {
         "conditions": {
           "options": {
             "caseSensitive": true,
@@ -1245,6 +1229,22 @@
         540,
         1020
       ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "85a77fa9-e3c2-4185-af32-22632864dfd4",
+        "options": {}
+      },
+      "id": "8687804a-27ea-43d2-984e-30a5640fdb8c",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -760,
+        400
+      ],
+      "webhookId": "85a77fa9-e3c2-4185-af32-22632864dfd4"
     }
   ],
   "connections": {
@@ -1606,22 +1606,22 @@
         ]
       ]
     },
-    "Webhook": {
+    "Sender não é Melissa": {
       "main": [
         [
           {
-            "node": "Sender não é Melissa",
+            "node": "Variaveis",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Sender não é Melissa": {
+    "Webhook": {
       "main": [
         [
           {
-            "node": "Variaveis",
+            "node": "Sender não é Melissa",
             "type": "main",
             "index": 0
           }
@@ -1701,7 +1701,7 @@
       }
     ]
   },
-  "versionId": "58e625e6-e5aa-41d2-977c-536770fdb57b",
+  "versionId": "dc4b5744-7a05-4d58-99b0-81fa03d3061c",
   "triggerCount": 1,
   "tags": [
     {
