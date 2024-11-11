@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-07-11T12:27:58.740Z",
-  "updatedAt": "2024-11-04T00:41:50.384Z",
+  "updatedAt": "2024-11-11T10:10:12.253Z",
   "id": "qCHqUamOiu3lKP13",
   "name": "Teste Acacio",
   "active": false,
@@ -375,6 +375,32 @@
         -120,
         680
       ]
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendar": {
+          "__rl": true,
+          "value": "contato@robotriz.com.br",
+          "mode": "list",
+          "cachedResultName": "contato@robotriz.com.br"
+        },
+        "options": {}
+      },
+      "id": "ccf78898-9b3a-464d-8373-f04ad7612fbf",
+      "name": "Google Calendar",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.2,
+      "position": [
+        460,
+        460
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "3GG2eQ6gqQRM9ikU",
+          "name": "Google Calendar account [2]"
+        }
+      }
     }
   ],
   "connections": {
@@ -420,7 +446,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "4b3f4c67-e862-4b3b-a1fd-cccb6b8b96d1",
+  "versionId": "66cb7663-249c-4cdf-bec8-5caebe5997d4",
   "triggerCount": 1,
   "tags": []
 }
