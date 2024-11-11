@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-16T19:16:17.470Z",
-  "updatedAt": "2024-11-04T01:15:09.999Z",
+  "updatedAt": "2024-11-10T21:47:38.490Z",
   "id": "UeTwXXgFqOJBo9dg",
   "name": "[ADMIRAVES]-[CAPTURA DE LEAD]",
   "active": true,
@@ -494,7 +494,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={ \"type\": \"text\", \"value\": \"Oi {{ $('Botconversa  - Cadastrar lead').item.json.first_name }},\\n\\nSua participação está oficialmente confirmada e garantida.\\n\\nLinks de aula, sorteio, gravações e livros digitais - você receberá AQUI MESMO.\\n\\nNossa comunicação será por este canal e também pelo e-mail que você acabou de me dar.\\n\\nSALVE meu número para garantir que você receberá tudo que prometi.\\n\\nEsteja atento(a) aos avisos por aqui, o Minicurso Gratuito sobre Observação de aves já ajudou muitos amantes de aves a se conectarem com a natureza, gerando tranquilidade e muita satisfação.\\n\\nObrigada por confiar seu tempo para a sua agora professora Melissa Alves - Admiraves\\n\\n#passarinhartransforma\"}",
+        "jsonBody": "={ \"type\": \"text\", \"value\": \"Oi, muito prazer {{ $('Botconversa  - Cadastrar lead').item.json.first_name}}\\n\\nSua participação está oficialmente confirmada e garantida.\\n\\nEu sou a LAURA assistente da sua professora Melissa Alves, que vai ministrar o Minicurso de Observação de aves.\\n\\nMinha missão é resolver todas as suas dúvidas relacionadas ao Minicurso como\\n\\nData\\nHora\\nQuantas aulas\\nLink das aulas\\nSorteio\\nCertificado\\nGravação\\nLivros digitais\\n\\nDúvidas técnicas você pode perguntar para a professora Melissa ou durante as LIVES todos os dias às 15h, ou nas AULAS AO VIVO ou nas redes sociais YouTube e Instagram durante o Minicurso, ok?\\n\\nSALVE meu número para não perder nada.\\n\\nAgora é a sua vez!\\n\\nMe faça uma pergunta agora 😉\"}",
         "options": {}
       },
       "id": "016fdb54-f3ff-4ecd-8f0e-c3c64907fe2a",
@@ -504,6 +504,33 @@
       "position": [
         2280,
         260
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://backend.botconversa.com.br/api/v1/webhook/subscriber/{{ $('Botconversa  - Cadastrar lead').item.json.id }}/send_message/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "API-KEY",
+              "value": "24cf724e-af9b-4074-b80f-696bc5b3a694"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \"type\": \"text\", \"value\": \"Oi, muito prazer {{ $('Botconversa  - Cadastrar lead').item.json.first_name}}\\n\\nSua participação está oficialmente confirmada e garantida.\\n\\nEu sou a LAURA assistente da sua professora Melissa Alves, que vai ministrar o Minicurso de Observação de aves.\\n\\nMinha missão é resolver todas as suas dúvidas relacionadas ao Minicurso como\\n\\nData\\nHora\\nQuantas aulas\\nLink das aulas\\nSorteio\\nCertificado\\nGravação\\nLivros digitais\\nDúvidas técnicas você pode perguntar para a professora Melissa durante as LIVES todos os dias às 15h, AULAS AO VIVO ou por e-mail (melissa.alves@admiraves.com.br) e nas redes sociais YouTube e Instagram durante o Minicurso, ok?\\n\\nSALVE meu número para garantir que você receberá tudo o que foi prometido.\\n\\nAgora é a sua vez!\\n\\nMe faça uma pergunta agora 😉\"}",
+        "options": {}
+      },
+      "id": "54884375-c133-457e-b8a0-e354ec372764",
+      "name": "Botconversa - Msg boas vindas1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1280,
+        560
       ]
     }
   ],
@@ -654,7 +681,7 @@
       }
     ]
   },
-  "versionId": "b9f75765-371f-4a5c-a5da-aba516d1b561",
+  "versionId": "94a1fd43-4411-4980-b5a8-fc2222c5d694",
   "triggerCount": 1,
   "tags": [
     {
