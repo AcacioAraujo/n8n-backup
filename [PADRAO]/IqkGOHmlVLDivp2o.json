@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-08T21:53:00.345Z",
-  "updatedAt": "2024-11-08T21:56:17.981Z",
+  "updatedAt": "2024-11-11T00:00:16.558Z",
   "id": "IqkGOHmlVLDivp2o",
   "name": "[REDIS]",
   "active": false,
@@ -76,7 +76,7 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        480,
+        320,
         360
       ]
     },
@@ -121,20 +121,29 @@
           "name": "[ROBOTRIZ] GOOGLE SHEETS"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "=5511981588224"
+      },
+      "id": "b6c11299-f859-452a-a2c6-ef6f60afa090",
+      "name": "Limpa msgs",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        480,
+        220
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
     }
   ],
   "connections": {
-    "Consulta msg": {
-      "main": [
-        [
-          {
-            "node": "Limpa msgs2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Edit Fields": {
       "main": [
         [
@@ -150,7 +159,7 @@
       "main": [
         [
           {
-            "node": "Google Sheets",
+            "node": "Limpa msgs",
             "type": "main",
             "index": 0
           }
@@ -177,7 +186,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "741503ea-896b-481c-bd98-9e4baf6e24e5",
+  "versionId": "97ffc54a-d748-4b2c-b484-b19c8195f138",
   "triggerCount": 0,
   "tags": []
 }
