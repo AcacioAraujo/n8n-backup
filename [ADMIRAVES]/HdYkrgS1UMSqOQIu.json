@@ -1,9 +1,9 @@
 {
   "createdAt": "2024-11-11T13:29:06.755Z",
-  "updatedAt": "2024-11-11T13:29:06.755Z",
+  "updatedAt": "2024-11-11T20:26:29.126Z",
   "id": "HdYkrgS1UMSqOQIu",
   "name": "[ADMIRAVES]-[LC#8][FORMULARIOS]",
-  "active": false,
+  "active": true,
   "nodes": [
     {
       "parameters": {
@@ -34,8 +34,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        -400,
-        300
+        20,
+        280
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -74,8 +74,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -200,
-        300
+        220,
+        280
       ]
     },
     {
@@ -188,8 +188,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.4,
       "position": [
-        -20,
-        420
+        400,
+        400
       ],
       "retryOnFail": true,
       "credentials": {
@@ -293,8 +293,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.4,
       "position": [
-        140,
-        280
+        560,
+        260
       ],
       "retryOnFail": true,
       "credentials": {
@@ -309,38 +309,44 @@
         "assignments": {
           "assignments": [
             {
-              "id": "59dd6ee7-6f8c-4c01-b0bc-f416e0352ad2",
-              "name": "body.id_formulario",
-              "value": "={{ $json.body.id_formulario }}",
+              "id": "46b0c941-d8a1-4aa7-9533-2d1ebe025b49",
+              "name": "nome",
+              "value": "={{ $json.body.nome }}",
               "type": "string"
             },
             {
-              "id": "1676bd23-24f5-46c4-a130-b354b1064451",
-              "name": "body.id_lead",
-              "value": "={{ $json.body.id_lead }}",
+              "id": "42966190-5d14-42ea-8f36-4601776e73ec",
+              "name": "telefone",
+              "value": "={{ $json.body.telefone }}",
               "type": "string"
             },
             {
-              "id": "cc90c7aa-148e-4423-ad6d-27b721d8dc7e",
-              "name": "body.solucao",
-              "value": "={{ $json.body.solucao }}",
+              "id": "d091a091-23ef-4029-9856-48cd21bd4be4",
+              "name": "email",
+              "value": "={{ $json.body.email }}",
               "type": "string"
             },
             {
-              "id": "fdf13e7d-efde-4fb8-ad81-8175e7699acf",
-              "name": "body.data_cadastro",
-              "value": "={{ $json.body.data_cadastro }}",
+              "id": "fe9363ad-3253-4db0-b967-8a8bca48a9c5",
+              "name": "instagram",
+              "value": "={{ $json.body.instagram }}",
               "type": "string"
             },
             {
-              "id": "2e1fabc1-484c-4c78-8b0b-168246778e2c",
-              "name": "body.pergunta",
+              "id": "5411684b-a583-4d5f-8501-1868e2c877af",
+              "name": "questionario",
+              "value": "={{ $json.body.questionario }}",
+              "type": "string"
+            },
+            {
+              "id": "bbcde0ef-7dd6-4b24-baf6-ed6b9f82ce93",
+              "name": "pergunta",
               "value": "={{ $json.body.pergunta }}",
               "type": "string"
             },
             {
-              "id": "fdbab6ad-b436-4296-ba4b-e134d3159c4e",
-              "name": "body.resposta",
+              "id": "072fa981-20a2-4519-9fbb-5242dd797470",
+              "name": "resposta",
               "value": "={{ $json.body.resposta }}",
               "type": "string"
             }
@@ -353,9 +359,138 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -600,
-        300
+        -760,
+        280
       ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "=19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1907572796,
+          "mode": "list",
+          "cachedResultName": "questionario",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA/edit#gid=1907572796"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nome": "={{ $json.nome }}",
+            "telefone": "={{ $json.telefone }}",
+            "email": "={{ $json.email }}",
+            "instagram": "={{ $json.instagram }}",
+            "questionario": "={{ $json.questionario }}",
+            "pergunta": "={{ $json.pergunta }}",
+            "resposta": "={{ $json.resposta }}",
+            "data": "={{ $now.toString() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "instagram",
+              "displayName": "instagram",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "questionario",
+              "displayName": "questionario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "pergunta",
+              "displayName": "pergunta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "resposta",
+              "displayName": "resposta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b93cbe22-502c-4dc8-b077-f41c1fd35f3a",
+      "name": "Cadastrar pergunta/resposta1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        -580,
+        280
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
     },
     {
       "parameters": {
@@ -368,8 +503,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -800,
-        300
+        -940,
+        280
       ],
       "webhookId": "b1e7c0c7-78a1-49c6-99be-ec090f7fd6bb"
     }
@@ -419,7 +554,7 @@
       "main": [
         [
           {
-            "node": "Consultar id_formulario",
+            "node": "Cadastrar pergunta/resposta1",
             "type": "main",
             "index": 0
           }
@@ -445,8 +580,43 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "d2af732f-ef99-4eda-82cb-a7e989be2840",
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "PostmanRuntime/7.42.0",
+            "content-length": "245",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "postman-token": "663ac80b-8821-43f4-bb6b-aa52b7a49811",
+            "x-forwarded-for": "186.233.178.125",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "9292266f8f54",
+            "x-real-ip": "186.233.178.125"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "nome": "Acacio Araujo",
+            "telefone": "5535997638844",
+            "email": "acacio@gmail.com",
+            "instagram": "acacio_f_araujo",
+            "questionario": "Aula01",
+            "pergunta": "De 0 a 10, que nota você daria para a primeira aula?",
+            "resposta": "10"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/b1e7c0c7-78a1-49c6-99be-ec090f7fd6bb",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "b6dceb91-83cd-4cc7-9ba0-e04b00e1166b",
   "triggerCount": 1,
   "tags": [
     {
