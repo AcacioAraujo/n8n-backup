@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-16T19:16:17.470Z",
-  "updatedAt": "2024-11-10T21:47:38.490Z",
+  "updatedAt": "2024-11-13T14:43:56.613Z",
   "id": "UeTwXXgFqOJBo9dg",
   "name": "[ADMIRAVES]-[CAPTURA DE LEAD]",
   "active": true,
@@ -83,6 +83,24 @@
               "id": "3f51293a-22db-45da-a476-627a29d37e8a",
               "name": "Page_URL",
               "value": "={{ $json.body['Page URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "97ba7a93-36e5-43cc-a468-6f4909de83cc",
+              "name": "mensagem01",
+              "value": "=Olá! O minicurso já começou, mas ainda dá tempo de você assistir tudo e aproveitar todos os bônus e certificado, ok?",
+              "type": "string"
+            },
+            {
+              "id": "efbdae2a-5efa-4251-9e2e-86ff1028d61e",
+              "name": "mensagem02",
+              "value": "A AULA1 aconteceu segunda dia 11/11/2024, mas você pode assistir agora mesmo acessando este link: https://admiraves.com.br/minicurso/ ",
+              "type": "string"
+            },
+            {
+              "id": "8aad29e0-f2f4-40e3-927e-7121e20dd3e0",
+              "name": "mensagem03",
+              "value": "A AULA2 acontece hoje ao VIVO 19h, basta acessar este link do canal do YouTube da Melissa, aproveite para se inscrever e ser avisadas das LIVES.\n\nhttps://youtube.com/live/KI2U6gVjARg?feature=share",
               "type": "string"
             }
           ]
@@ -305,22 +323,6 @@
     },
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "aae34e54-5c5c-4530-bd0a-9f0250bdb8c4",
-        "options": {}
-      },
-      "id": "f313b195-1add-429a-90d1-eabea1eb8d69",
-      "name": "Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        660,
-        360
-      ],
-      "webhookId": "aae34e54-5c5c-4530-bd0a-9f0250bdb8c4"
-    },
-    {
-      "parameters": {
         "method": "POST",
         "url": "=https://backend.botconversa.com.br/api/v1/webhook/subscriber/{{ $json.id }}/tags/11325923/",
         "sendHeaders": true,
@@ -502,7 +504,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2280,
+        2440,
         260
       ]
     },
@@ -532,6 +534,173 @@
         1280,
         560
       ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.robotriz.com.br/message/sendText/suporte_admiraves",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=2670092489D3-45C2-A404-0E1A22B89C31"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ \n(()=>{\n  let phoneNumber = $('Campos').item.json.Phone.toString()\n  // Verifica se tem 14 caracteres e começa com +\n  if (phoneNumber.length === 14 && phoneNumber[0] === '+') {\n      // Remove o + e continua o processamento com o resto do número\n      phoneNumber = phoneNumber.substring(1);\n  }\n\n  // Extrai o DDD (posições 2 e 3 do número)\n  const ddd = parseInt(phoneNumber.substring(2, 4));\n\n  // Verifica se o DDD está nos intervalos especificados\n  const isSpecialDDD = (ddd >= 11 && ddd <= 19) || \n                      (ddd >= 21 && ddd <= 24) || \n                      (ddd >= 27 && ddd <= 28);\n\n  if (isSpecialDDD) {\n      return phoneNumber;\n  } else {\n      // Remove o dígito 9 da 5ª posição (índice 4)\n      return phoneNumber.substring(0, 4) + phoneNumber.substring(5);\n  }\n})()\n}}@s.whatsapp.net"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('Campos').item.json.mensagem01 }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "ee9407db-a051-4f7c-a832-70ccb34b3845",
+      "name": "Envia resposta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2420,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.robotriz.com.br/message/sendText/suporte_admiraves",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=2670092489D3-45C2-A404-0E1A22B89C31"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ \n(()=>{\n  let phoneNumber = $('Campos').item.json.Phone.toString()\n  // Verifica se tem 14 caracteres e começa com +\n  if (phoneNumber.length === 14 && phoneNumber[0] === '+') {\n      // Remove o + e continua o processamento com o resto do número\n      phoneNumber = phoneNumber.substring(1);\n  }\n\n  // Extrai o DDD (posições 2 e 3 do número)\n  const ddd = parseInt(phoneNumber.substring(2, 4));\n\n  // Verifica se o DDD está nos intervalos especificados\n  const isSpecialDDD = (ddd >= 11 && ddd <= 19) || \n                      (ddd >= 21 && ddd <= 24) || \n                      (ddd >= 27 && ddd <= 28);\n\n  if (isSpecialDDD) {\n      return phoneNumber;\n  } else {\n      // Remove o dígito 9 da 5ª posição (índice 4)\n      return phoneNumber.substring(0, 4) + phoneNumber.substring(5);\n  }\n})()\n}}@s.whatsapp.net"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('Campos').item.json.mensagem02}}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "0d1ba5e1-2a69-457c-8e13-24cf21a48ec7",
+      "name": "Envia resposta1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2780,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.robotriz.com.br/message/sendText/suporte_admiraves",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=2670092489D3-45C2-A404-0E1A22B89C31"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ \n(()=>{\n  let phoneNumber = $('Campos').item.json.Phone.toString()\n  // Verifica se tem 14 caracteres e começa com +\n  if (phoneNumber.length === 14 && phoneNumber[0] === '+') {\n      // Remove o + e continua o processamento com o resto do número\n      phoneNumber = phoneNumber.substring(1);\n  }\n\n  // Extrai o DDD (posições 2 e 3 do número)\n  const ddd = parseInt(phoneNumber.substring(2, 4));\n\n  // Verifica se o DDD está nos intervalos especificados\n  const isSpecialDDD = (ddd >= 11 && ddd <= 19) || \n                      (ddd >= 21 && ddd <= 24) || \n                      (ddd >= 27 && ddd <= 28);\n\n  if (isSpecialDDD) {\n      return phoneNumber;\n  } else {\n      // Remove o dígito 9 da 5ª posição (índice 4)\n      return phoneNumber.substring(0, 4) + phoneNumber.substring(5);\n  }\n})()\n}}@s.whatsapp.net"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('Campos').item.json.mensagem03 }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "c3096563-35b5-471e-8e5f-d7cb131713ad",
+      "name": "Envia resposta2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3140,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "38008f02-0125-4ca6-bffc-a740a688388c",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2600,
+        480
+      ],
+      "webhookId": "a86a39f3-4b7d-4824-b16e-1b53e291477e"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "3ddbb2eb-eac9-45a3-a686-de0d06d483c1",
+      "name": "Wait1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2960,
+        480
+      ],
+      "webhookId": "605bd647-2b1d-466d-92f7-066a6e75b4b2"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "aae34e54-5c5c-4530-bd0a-9f0250bdb8c4",
+        "options": {}
+      },
+      "id": "f313b195-1add-429a-90d1-eabea1eb8d69",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        660,
+        360
+      ],
+      "webhookId": "aae34e54-5c5c-4530-bd0a-9f0250bdb8c4"
     }
   ],
   "connections": {
@@ -579,17 +748,6 @@
         ]
       ]
     },
-    "Webhook": {
-      "main": [
-        [
-          {
-            "node": "Campos",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Cadastra lead": {
       "main": [
         [
@@ -627,7 +785,62 @@
       "main": [
         [
           {
-            "node": "Botconversa - Msg boas vindas",
+            "node": "Envia resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envia resposta": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envia resposta1": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Envia resposta1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Envia resposta2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Campos",
             "type": "main",
             "index": 0
           }
@@ -681,7 +894,7 @@
       }
     ]
   },
-  "versionId": "94a1fd43-4411-4980-b5a8-fc2222c5d694",
+  "versionId": "f7be68be-ffff-4101-a4a7-07e15366fc1e",
   "triggerCount": 1,
   "tags": [
     {
