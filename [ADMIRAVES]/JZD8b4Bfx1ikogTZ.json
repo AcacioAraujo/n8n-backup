@@ -1,0 +1,123 @@
+{
+  "createdAt": "2024-11-13T14:03:09.893Z",
+  "updatedAt": "2024-11-13T14:15:01.401Z",
+  "id": "JZD8b4Bfx1ikogTZ",
+  "name": "[ADMIRAVES]-[CALENDARIO AULAS]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1xEbP1_ZmhNQuMCTgwRdD1Na8vuvSu__xFhtBuub2g6g",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 546256996,
+          "mode": "list",
+          "cachedResultName": "calendario",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1xEbP1_ZmhNQuMCTgwRdD1Na8vuvSu__xFhtBuub2g6g/edit#gid=546256996"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "data",
+              "lookupValue": "={{ $json.body.data }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8f6d63a4-f956-416f-91bf-f49d1f96223c",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        900,
+        360
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gqjvAzQ2yoOC6JTy",
+          "name": "[ADMIRAVES] - [Google Sheets]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "1e3eaec4-454c-4b07-abab-198345a5deb8",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "66f751e9-f753-47b9-b88c-0beab3e71b78",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        660,
+        360
+      ],
+      "webhookId": "1e3eaec4-454c-4b07-abab-198345a5deb8"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"resposta\": \"{{ $json.resposta.replace(/(\\r\\n|\\n|\\r)/gm, ' ') }}\"\n}",
+        "options": {}
+      },
+      "id": "5d7ae686-76fc-440e-a11b-21383eff723c",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        360
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "dac7b1fe-6b0e-4865-b1aa-860fa97cc8d9",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-07-16T19:34:32.785Z",
+      "updatedAt": "2024-07-16T19:34:32.785Z",
+      "id": "OYw06Py1CLDhVhe0",
+      "name": "Admiraves"
+    }
+  ]
+}
