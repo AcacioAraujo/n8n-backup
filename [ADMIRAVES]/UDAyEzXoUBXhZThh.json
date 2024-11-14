@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-07T20:25:28.880Z",
-  "updatedAt": "2024-11-12T00:52:19.046Z",
+  "updatedAt": "2024-11-13T21:35:27.673Z",
   "id": "UDAyEzXoUBXhZThh",
   "name": "[ADMIRAVES]-[EVOLUTION_DIFY]",
   "active": true,
@@ -172,29 +172,9 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        3080,
-        160
+        3120,
+        40
       ]
-    },
-    {
-      "parameters": {
-        "operation": "delete",
-        "key": "={{ $('Variaveis').item.json.celular }}"
-      },
-      "id": "31c27262-157b-4390-8f5f-41ebaebf8692",
-      "name": "Limpa msgs",
-      "type": "n8n-nodes-base.redis",
-      "typeVersion": 1,
-      "position": [
-        3300,
-        80
-      ],
-      "credentials": {
-        "redis": {
-          "id": "eqvHIOsQVjeLxmqP",
-          "name": "Redis account"
-        }
-      }
     },
     {
       "parameters": {
@@ -442,34 +422,6 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://dify-api.robotriz.com.br/v1/chat-messages",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $('Variaveis').item.json.api_key }}"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"inputs\": {},\n  \"query\": \"{{ $('Mensagens').item.json.query.replace(/(\\r\\n|\\n|\\r)/gm, ' ') }}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"{{ $('Dados Lead').item.json.conversation_id }}\",\n  \"user\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"files\": [\n    {\n      \"type\": \"image\",\n      \"transfer_method\": \"remote_url\",\n      \"url\": \"https://cloud.dify.ai/logo/logo-site.png\"\n    }\n  ]\n}",
-        "options": {}
-      },
-      "id": "ea6a66cb-a4b8-45f5-8928-8c2260f1e6dd",
-      "name": "Dify",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        2140,
-        140
-      ],
-      "retryOnFail": true
-    },
-    {
-      "parameters": {
         "documentId": {
           "__rl": true,
           "value": "19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA",
@@ -565,7 +517,7 @@
             {
               "id": "ed90fdce-325a-4ec2-8794-5ec8eb347694",
               "name": "api_key",
-              "value": "app-o9cQbcGHuKviiEwq53jZQiqa",
+              "value": "app-jmL60wgQEGVdXuupQBTFkrVE",
               "type": "string"
             }
           ]
@@ -701,8 +653,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        2360,
-        140
+        2400,
+        20
       ]
     },
     {
@@ -823,8 +775,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        2600,
-        40
+        2640,
+        -80
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -855,47 +807,6 @@
       "position": [
         1920,
         140
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://evolution.robotriz.com.br/message/sendText/suporte_admiraves",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "=2670092489D3-45C2-A404-0E1A22B89C31"
-            }
-          ]
-        },
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "number",
-              "value": "={{ $('Variaveis').item.json.remoteJid }}"
-            },
-            {
-              "name": "text",
-              "value": "={{ $('Dify').item.json.answer }}"
-            }
-          ]
-        },
-        "options": {
-          "redirect": {
-            "redirect": {}
-          }
-        }
-      },
-      "id": "a30e6a23-41c5-4a7e-9e67-821b518bd89f",
-      "name": "Envia resposta",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        2860,
-        160
       ]
     },
     {
@@ -1246,6 +1157,140 @@
         400
       ],
       "webhookId": "85a77fa9-e3c2-4185-af32-22632864dfd4"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Variaveis').item.json.celular }}"
+      },
+      "id": "31c27262-157b-4390-8f5f-41ebaebf8692",
+      "name": "Limpa msgs",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3360,
+        -40
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5e009450-9843-4e88-844c-febc93e4d579",
+              "name": "celulae",
+              "value": "={{ $('Variaveis').item.json.celular }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "38adab9a-b976-4dcd-9b04-bdb59d121974",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2380,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Variaveis').item.json.celular }}"
+      },
+      "id": "2b713c55-6c94-4648-8795-2dfdff04ccf5",
+      "name": "Limpa msgs1",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2640,
+        240
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.robotriz.com.br/message/sendText/suporte_admiraves",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=2670092489D3-45C2-A404-0E1A22B89C31"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Variaveis').item.json.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('Dify').item.json.answer }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "a30e6a23-41c5-4a7e-9e67-821b518bd89f",
+      "name": "Envia resposta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2900,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dify-api.robotriz.com.br/v1/chat-messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Variaveis').item.json.api_key }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"inputs\": {},\n  \"query\": \"{{ $('Mensagens').item.json.query.replace(/(\\r\\n|\\n|\\r)/gm, ' ') }}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"{{ $('Dados Lead').item.json.conversation_id }}\",\n  \"user\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"files\": [\n    {\n      \"type\": \"image\",\n      \"transfer_method\": \"remote_url\",\n      \"url\": \"https://cloud.dify.ai/logo/logo-site.png\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "id": "ea6a66cb-a4b8-45f5-8928-8c2260f1e6dd",
+      "name": "Dify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2140,
+        140
+      ],
+      "retryOnFail": false,
+      "alwaysOutputData": true,
+      "notesInFlow": false
     }
   ],
   "connections": {
@@ -1494,17 +1539,6 @@
         ]
       ]
     },
-    "Dify": {
-      "main": [
-        [
-          {
-            "node": "Não tem conversation_id",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Não tem conversation_id": {
       "main": [
         [
@@ -1539,17 +1573,6 @@
         [
           {
             "node": "Envia resposta",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Envia resposta": {
-      "main": [
-        [
-          {
-            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -1617,6 +1640,28 @@
           }
         ]
       ]
+    },
+    "Envia resposta": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dify": {
+      "main": [
+        [
+          {
+            "node": "Não tem conversation_id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -1631,13 +1676,13 @@
       {
         "json": {
           "headers": {
-            "host": "n8n.robotriz.com.br",
+            "host": "webhook.robotriz.com.br",
             "user-agent": "axios/1.7.7",
-            "content-length": "1041",
+            "content-length": "1144",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
             "x-forwarded-for": "172.18.0.1",
-            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-host": "webhook.robotriz.com.br",
             "x-forwarded-port": "443",
             "x-forwarded-proto": "https",
             "x-forwarded-server": "9292266f8f54",
@@ -1647,51 +1692,44 @@
           "query": {},
           "body": {
             "event": "messages.upsert",
-            "instance": "Conde Trader",
+            "instance": "suporte_admiraves",
             "data": {
               "key": {
-                "remoteJid": "553597638844@s.whatsapp.net",
+                "remoteJid": "5512997841312@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3EB0F61F11B7EBB11ECCFB"
+                "id": "C5F933F3BB694483905ADD84728A7FD8"
               },
-              "pushName": "Acácio Araujo MG",
+              "pushName": "paulo",
               "status": "DELIVERY_ACK",
               "message": {
-                "conversation": "oi",
+                "conversation": "Olá, vc poderia me orientar sobre uma máquina fotográfica (para registrar os passarinhos do meu quintal), com um custo acessível para um iniciante e amador.\nParticipei de uma \"passarinhada\" neste último final de semana aqui em São Francisco Xavier/SJC e fiquei encantado.\nGratidao",
                 "messageContextInfo": {
                   "deviceListMetadata": {
-                    "senderKeyHash": "X/lGvRQo33s7pg==",
-                    "senderTimestamp": "1730470693",
-                    "senderAccountType": "E2EE",
-                    "receiverAccountType": "E2EE",
-                    "recipientKeyHash": "B5QZjjPCLsvxEg==",
-                    "recipientTimestamp": "1729285345"
+                    "recipientKeyHash": "Vk3zGOEKkNNUPA==",
+                    "recipientTimestamp": "1731026842"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "oRcWQG4sZgwkepHLOtTiAsVDEEVhiTUufUQaKdcBELI="
+                  "messageSecret": "bYeyogpZ5O0Nf1//yqMZMRSfbGiQ3m+RgYE8Xg5QVhg="
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1731012153,
-              "instanceId": "c676c325-210c-4937-9ef5-6d4d77c59b58",
-              "source": "web",
-              "chatwootMessageId": 65,
-              "chatwootInboxId": 1,
-              "chatwootConversationId": 2
+              "messageTimestamp": 1731498462,
+              "instanceId": "a9733ab5-5a01-4f1a-a108-56f220c7923d",
+              "source": "android"
             },
-            "destination": "https://n8n.robotriz.com.br/webhook-test/85a77fa9-e3c2-4185-af32-22632864dfd4",
-            "date_time": "2024-11-07T17:42:34.014Z",
-            "sender": "557382015895@s.whatsapp.net",
+            "destination": "https://webhook.robotriz.com.br/webhook/85a77fa9-e3c2-4185-af32-22632864dfd4",
+            "date_time": "2024-11-13T08:47:42.802Z",
+            "sender": "553599148941@s.whatsapp.net",
             "server_url": "https://evolution.robotriz.com.br",
-            "apikey": "92296C17C4AB-4130-90AA-2CE1FB6603D1"
+            "apikey": "2670092489D3-45C2-A404-0E1A22B89C31"
           },
-          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/85a77fa9-e3c2-4185-af32-22632864dfd4",
-          "executionMode": "test"
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook/85a77fa9-e3c2-4185-af32-22632864dfd4",
+          "executionMode": "production"
         }
       }
     ]
   },
-  "versionId": "3746364b-ccdf-41bb-923f-a055ad775430",
+  "versionId": "dd6c783c-302a-4de0-8167-c23f6d4b2071",
   "triggerCount": 1,
   "tags": [
     {
