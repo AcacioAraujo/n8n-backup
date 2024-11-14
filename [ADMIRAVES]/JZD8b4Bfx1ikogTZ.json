@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-13T14:03:09.893Z",
-  "updatedAt": "2024-11-13T14:15:01.401Z",
+  "updatedAt": "2024-11-13T15:35:33.077Z",
   "id": "JZD8b4Bfx1ikogTZ",
   "name": "[ADMIRAVES]-[CALENDARIO AULAS]",
   "active": true,
@@ -27,7 +27,9 @@
             }
           ]
         },
-        "options": {}
+        "options": {
+          "returnFirstMatch": true
+        }
       },
       "id": "8f6d63a4-f956-416f-91bf-f49d1f96223c",
       "name": "Google Sheets",
@@ -47,6 +49,21 @@
     },
     {
       "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"resposta\": \"{{ $json.resposta.replace(/(\\r\\n|\\n|\\r)/gm, ' ') }}\"\n}",
+        "options": {}
+      },
+      "id": "5d7ae686-76fc-440e-a11b-21383eff723c",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        360
+      ]
+    },
+    {
+      "parameters": {
         "httpMethod": "POST",
         "path": "1e3eaec4-454c-4b07-abab-198345a5deb8",
         "responseMode": "responseNode",
@@ -61,40 +78,25 @@
         360
       ],
       "webhookId": "1e3eaec4-454c-4b07-abab-198345a5deb8"
-    },
-    {
-      "parameters": {
-        "respondWith": "json",
-        "responseBody": "={\n  \"resposta\": \"{{ $json.resposta.replace(/(\\r\\n|\\n|\\r)/gm, ' ') }}\"\n}",
-        "options": {}
-      },
-      "id": "5d7ae686-76fc-440e-a11b-21383eff723c",
-      "name": "Respond to Webhook",
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.1,
-      "position": [
-        1120,
-        360
-      ]
     }
   ],
   "connections": {
-    "Webhook": {
+    "Google Sheets": {
       "main": [
         [
           {
-            "node": "Google Sheets",
+            "node": "Respond to Webhook",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Google Sheets": {
+    "Webhook": {
       "main": [
         [
           {
-            "node": "Respond to Webhook",
+            "node": "Google Sheets",
             "type": "main",
             "index": 0
           }
@@ -110,7 +112,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "dac7b1fe-6b0e-4865-b1aa-860fa97cc8d9",
+  "versionId": "c94ce37f-911b-4c15-a34b-ad83709223d0",
   "triggerCount": 1,
   "tags": [
     {
