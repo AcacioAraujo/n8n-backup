@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-09-03T17:20:08.053Z",
-  "updatedAt": "2024-09-03T18:03:03.686Z",
+  "updatedAt": "2024-11-14T23:31:23.519Z",
   "id": "IXTZ6bRxfckDxFbU",
   "name": "[CONDE TRADER] - [TRATAMENTO DE ERRO]",
   "active": false,
@@ -12,7 +12,7 @@
       "type": "n8n-nodes-base.errorTrigger",
       "typeVersion": 1,
       "position": [
-        360,
+        300,
         360
       ]
     },
@@ -80,13 +80,7 @@
   "connections": {
     "Error Trigger": {
       "main": [
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Edit Fields": {
@@ -131,7 +125,7 @@
       }
     ]
   },
-  "versionId": "cd6562c0-78dd-40e4-b19c-db90f1d5a7f6",
+  "versionId": "ad514c1c-62b6-421a-891c-a13d7747cf82",
   "triggerCount": 0,
   "tags": [
     {
