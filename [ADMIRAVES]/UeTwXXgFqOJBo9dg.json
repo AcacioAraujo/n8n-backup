@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-16T19:16:17.470Z",
-  "updatedAt": "2024-11-13T14:43:56.613Z",
+  "updatedAt": "2024-11-14T23:32:55.486Z",
   "id": "UeTwXXgFqOJBo9dg",
   "name": "[ADMIRAVES]-[CAPTURA DE LEAD]",
   "active": true,
@@ -100,7 +100,7 @@
             {
               "id": "8aad29e0-f2f4-40e3-927e-7121e20dd3e0",
               "name": "mensagem03",
-              "value": "A AULA2 acontece hoje ao VIVO 19h, basta acessar este link do canal do YouTube da Melissa, aproveite para se inscrever e ser avisadas das LIVES.\n\nhttps://youtube.com/live/KI2U6gVjARg?feature=share",
+              "value": "A AULA2 aconteceu quarta dia 13/11/2024, mas você pode assistir agora mesmo acessando este link: https://youtube.com/live/KI2U6gVjARg?feature=share",
               "type": "string"
             }
           ]
@@ -894,7 +894,7 @@
       }
     ]
   },
-  "versionId": "f7be68be-ffff-4101-a4a7-07e15366fc1e",
+  "versionId": "313b7486-a59a-4655-b573-883b6bb85ec9",
   "triggerCount": 1,
   "tags": [
     {
