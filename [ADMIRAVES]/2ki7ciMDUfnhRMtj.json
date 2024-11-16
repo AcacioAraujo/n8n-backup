@@ -1,0 +1,144 @@
+{
+  "createdAt": "2024-11-15T22:27:28.584Z",
+  "updatedAt": "2024-11-15T22:56:43.835Z",
+  "id": "2ki7ciMDUfnhRMtj",
+  "name": "[ADMIRAVES]-[TRATAMENTO DE ERRO]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "5be7f55e-6943-4536-b015-cf00a5a3a87c",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        400,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.robotriz.com.br/message/sendText/suporte_admiraves",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "2670092489D3-45C2-A404-0E1A22B89C31"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "=5511981588224"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.mensagem_erro }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "25eec234-c2c9-4cf3-886d-eb8808ec76b9",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        760,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c1fe625a-e4e5-4cda-aef3-aaa6627f2317",
+              "name": "mensagem_erro",
+              "value": "=Olá Acacio, segue o erro encontrado:\n\nID Workflow: {{ $json.workflow.id }}\nNome do Workflow: {{ $json.workflow.name }}\nMensagem: {{ $json.execution.error.message }}\nUltimo nó executado: {{ $json.execution.lastNodeExecuted }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6f4d0a54-e978-4121-9f6b-b3ab275368a6",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        580,
+        360
+      ]
+    }
+  ],
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Error Trigger": [
+      {
+        "json": {
+          "execution": {
+            "id": 231,
+            "url": "https://webhook.robotriz.com.br/execution/workflow/1/231",
+            "retryOf": "34",
+            "error": {
+              "message": "Example Error Message",
+              "stack": "Stacktrace"
+            },
+            "lastNodeExecuted": "Node With Error",
+            "mode": "manual"
+          },
+          "workflow": {
+            "id": "1",
+            "name": "Example Workflow"
+          }
+        }
+      }
+    ]
+  },
+  "versionId": "d7ba0376-0a43-4668-9ee8-6bceb366df7c",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2024-07-16T19:34:32.785Z",
+      "updatedAt": "2024-07-16T19:34:32.785Z",
+      "id": "OYw06Py1CLDhVhe0",
+      "name": "Admiraves"
+    }
+  ]
+}
