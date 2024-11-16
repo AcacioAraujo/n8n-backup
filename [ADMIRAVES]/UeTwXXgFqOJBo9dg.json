@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-16T19:16:17.470Z",
-  "updatedAt": "2024-11-14T23:32:55.486Z",
+  "updatedAt": "2024-11-15T20:09:11.655Z",
   "id": "UeTwXXgFqOJBo9dg",
   "name": "[ADMIRAVES]-[CAPTURA DE LEAD]",
   "active": true,
@@ -100,7 +100,7 @@
             {
               "id": "8aad29e0-f2f4-40e3-927e-7121e20dd3e0",
               "name": "mensagem03",
-              "value": "A AULA2 aconteceu quarta dia 13/11/2024, mas você pode assistir agora mesmo acessando este link: https://youtube.com/live/KI2U6gVjARg?feature=share",
+              "value": "A AULA2 aconteceu quarta dia 13/11/2024, mas você pode assistir agora mesmo acessando este link: https://youtube.com/live/KI2U6gVjARg?feature=share\n\nHoje, 15/11, teremos a AULA 3 - Pratique admiração de aves https://youtube.com/live/Qz7bdvSxa6o?feature=share",
               "type": "string"
             }
           ]
@@ -894,7 +894,7 @@
       }
     ]
   },
-  "versionId": "313b7486-a59a-4655-b573-883b6bb85ec9",
+  "versionId": "17a1b432-8de2-4868-9473-9ab7da6e4cf0",
   "triggerCount": 1,
   "tags": [
     {
