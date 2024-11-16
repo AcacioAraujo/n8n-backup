@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-08T21:53:00.345Z",
-  "updatedAt": "2024-11-13T20:31:58.630Z",
+  "updatedAt": "2024-11-15T23:12:54.801Z",
   "id": "IqkGOHmlVLDivp2o",
   "name": "[REDIS]",
   "active": false,
@@ -234,7 +234,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "f931be1d-c5de-40eb-ab3f-36437874169e",
+  "versionId": "b5b1317e-78ef-4e78-8dac-81048828f299",
   "triggerCount": 0,
   "tags": []
 }
