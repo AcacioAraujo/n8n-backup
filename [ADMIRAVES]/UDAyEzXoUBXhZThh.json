@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-07T20:25:28.880Z",
-  "updatedAt": "2024-11-13T21:35:27.673Z",
+  "updatedAt": "2024-11-15T22:55:54.716Z",
   "id": "UDAyEzXoUBXhZThh",
   "name": "[ADMIRAVES]-[EVOLUTION_DIFY]",
   "active": true,
@@ -1665,7 +1665,10 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "2ki7ciMDUfnhRMtj"
   },
   "staticData": null,
   "meta": {
@@ -1729,7 +1732,7 @@
       }
     ]
   },
-  "versionId": "dd6c783c-302a-4de0-8167-c23f6d4b2071",
+  "versionId": "58219116-add3-4a20-9128-08272ead8220",
   "triggerCount": 1,
   "tags": [
     {
