@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-07T20:25:28.880Z",
-  "updatedAt": "2024-11-15T22:55:54.716Z",
+  "updatedAt": "2024-11-16T13:07:22.792Z",
   "id": "UDAyEzXoUBXhZThh",
   "name": "[ADMIRAVES]-[EVOLUTION_DIFY]",
   "active": true,
@@ -793,7 +793,7 @@
             {
               "id": "883441bb-4af1-4ada-84fa-ff750dc06d71",
               "name": "=query",
-              "value": "={{\n\n(()=>{\n\n  let arrMensagens = $json.propertyName;\n\n  return arrMensagens.join(\" \");\n})()\n\n}}",
+              "value": "={{\n\n(()=>{\n\n  let arrMensagens = $json.propertyName;\n\n  return arrMensagens.join(\" \").replace(/(\\r\\n|\\n|\\r)/gm, ' ');\n})()\n\n}}",
               "type": "string"
             }
           ]
@@ -1277,7 +1277,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"inputs\": {},\n  \"query\": \"{{ $('Mensagens').item.json.query.replace(/(\\r\\n|\\n|\\r)/gm, ' ') }}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"{{ $('Dados Lead').item.json.conversation_id }}\",\n  \"user\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"files\": [\n    {\n      \"type\": \"image\",\n      \"transfer_method\": \"remote_url\",\n      \"url\": \"https://cloud.dify.ai/logo/logo-site.png\"\n    }\n  ]\n}",
+        "jsonBody": "={\n  \"inputs\": {},\n  \"query\": \"{{ $('Mensagens').item.json.query }}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"{{ $('Dados Lead').item.json.conversation_id }}\",\n  \"user\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"files\": [\n    {\n      \"type\": \"image\",\n      \"transfer_method\": \"remote_url\",\n      \"url\": \"https://cloud.dify.ai/logo/logo-site.png\"\n    }\n  ]\n}",
         "options": {}
       },
       "id": "ea6a66cb-a4b8-45f5-8928-8c2260f1e6dd",
@@ -1681,7 +1681,7 @@
           "headers": {
             "host": "webhook.robotriz.com.br",
             "user-agent": "axios/1.7.7",
-            "content-length": "1144",
+            "content-length": "928",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
             "x-forwarded-for": "172.18.0.1",
@@ -1698,30 +1698,30 @@
             "instance": "suporte_admiraves",
             "data": {
               "key": {
-                "remoteJid": "5512997841312@s.whatsapp.net",
+                "remoteJid": "557398297750@s.whatsapp.net",
                 "fromMe": false,
-                "id": "C5F933F3BB694483905ADD84728A7FD8"
+                "id": "A93594A9D62907F449C649FC79E43797"
               },
-              "pushName": "paulo",
+              "pushName": "Carola Comercial",
               "status": "DELIVERY_ACK",
               "message": {
-                "conversation": "Olá, vc poderia me orientar sobre uma máquina fotográfica (para registrar os passarinhos do meu quintal), com um custo acessível para um iniciante e amador.\nParticipei de uma \"passarinhada\" neste último final de semana aqui em São Francisco Xavier/SJC e fiquei encantado.\nGratidao",
+                "conversation": "Meu número mudou, perdi as lives, teria como assistir gravadas?",
                 "messageContextInfo": {
                   "deviceListMetadata": {
                     "recipientKeyHash": "Vk3zGOEKkNNUPA==",
                     "recipientTimestamp": "1731026842"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "bYeyogpZ5O0Nf1//yqMZMRSfbGiQ3m+RgYE8Xg5QVhg="
+                  "messageSecret": "xlOorreVnb4Sb8xriDgoDo+U1syV/nO5bkhCx12J5NI="
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1731498462,
+              "messageTimestamp": 1731759531,
               "instanceId": "a9733ab5-5a01-4f1a-a108-56f220c7923d",
               "source": "android"
             },
             "destination": "https://webhook.robotriz.com.br/webhook/85a77fa9-e3c2-4185-af32-22632864dfd4",
-            "date_time": "2024-11-13T08:47:42.802Z",
+            "date_time": "2024-11-16T09:18:51.900Z",
             "sender": "553599148941@s.whatsapp.net",
             "server_url": "https://evolution.robotriz.com.br",
             "apikey": "2670092489D3-45C2-A404-0E1A22B89C31"
@@ -1732,7 +1732,7 @@
       }
     ]
   },
-  "versionId": "58219116-add3-4a20-9128-08272ead8220",
+  "versionId": "9a1487f2-90fe-41f9-900b-fb0cfbe1f1f0",
   "triggerCount": 1,
   "tags": [
     {
