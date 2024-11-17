@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-15T22:27:28.584Z",
-  "updatedAt": "2024-11-16T13:12:14.917Z",
+  "updatedAt": "2024-11-17T12:30:47.505Z",
   "id": "2ki7ciMDUfnhRMtj",
   "name": "[ADMIRAVES]-[TRATAMENTO DE ERRO]",
   "active": false,
@@ -47,7 +47,7 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        480,
+        540,
         360
       ],
       "alwaysOutputData": true,
@@ -355,7 +355,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"inputs\": {},\n  \"query\": \"{{ $('Mensagens').item.json.query }}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"{{ $('Mensagens').item.json.conversation_id }}\",\n  \"user\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"files\": [\n    {\n      \"type\": \"image\",\n      \"transfer_method\": \"remote_url\",\n      \"url\": \"https://cloud.dify.ai/logo/logo-site.png\"\n    }\n  ]\n}",
+        "jsonBody": "={\n  \"inputs\": {},\n  \"query\": \"{{ $('Variaveis').item.json.query }}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"{{ $json.conversation_id }}\",\n  \"user\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"files\": [\n    {\n      \"type\": \"image\",\n      \"transfer_method\": \"remote_url\",\n      \"url\": \"https://cloud.dify.ai/logo/logo-site.png\"\n    }\n  ]\n}",
         "options": {}
       },
       "id": "e56ee55e-ee05-4fab-9344-b7ed528d7ba4",
@@ -363,7 +363,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1200,
+        1120,
         360
       ],
       "retryOnFail": false,
@@ -396,7 +396,7 @@
       "typeVersion": 3.4,
       "position": [
         840,
-        360
+        480
       ]
     },
     {
@@ -448,8 +448,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        660,
-        360
+        680,
+        480
       ],
       "credentials": {
         "redis": {
@@ -518,19 +518,19 @@
             {
               "id": "cdfc0ca1-b7f8-47b5-9708-c14c7e2a2f42",
               "name": "celular",
-              "value": "=5535997638844",
+              "value": "={{ (()=>{\n\n  var entrada = $json.execution.error.context.request.body.user\n\n    const partes = entrada.split('@');\n    \n    // Pegar a primeira parte\n    let primeiraParte = partes[0];\n    \n    // Verificar se tem 13 caracteres\n    if (primeiraParte.length !== 13) {\n        // Inserir '9' na 5ª posição (índice 4)\n        primeiraParte = primeiraParte.slice(0, 4) + '9' + primeiraParte.slice(4);\n    }\n\nreturn primeiraParte\n\n})()\n}}",
               "type": "string"
             },
             {
               "id": "0e23ca2a-8f0a-4762-901c-5343275f2bd8",
               "name": "remoteJid",
-              "value": "=553597638844@s.whatsapp.net",
+              "value": "={{ $json.execution.error.context.request.body.user }}",
               "type": "string"
             },
             {
               "id": "6b02bcd2-c1f7-4135-9138-5676e5b2ec49",
               "name": "query",
-              "value": "Meu número mudou, perdi as lives, teria como assistir gravadas? 11 995701968",
+              "value": "={{ $json.execution.error.context.request.body.query }}",
               "type": "string"
             },
             {
@@ -558,7 +558,7 @@
       "main": [
         [
           {
-            "node": "Consulta msgs",
+            "node": "Dify",
             "type": "main",
             "index": 0
           }
@@ -627,20 +627,9 @@
         ]
       ]
     },
-    "Dados Lead": {
-      "main": [
-        []
-      ]
-    },
     "Mensagens": {
       "main": [
-        [
-          {
-            "node": "Dify",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Error Trigger": {
@@ -700,8 +689,8 @@
       {
         "json": {
           "execution": {
-            "id": "15581",
-            "url": "https://webhook.robotriz.com.br/workflow/UDAyEzXoUBXhZThh/executions/15581",
+            "id": "15914",
+            "url": "https://webhook.robotriz.com.br/workflow/UDAyEzXoUBXhZThh/executions/15914",
             "error": {
               "level": "warning",
               "tags": {},
@@ -710,10 +699,10 @@
                 "request": {
                   "body": {
                     "inputs": {},
-                    "query": "Vou ver as aulas anteriores e se eu tiver perguntas farei?",
+                    "query": "oiii ainda nao consegui assistir vpce poderia me mandar os links?",
                     "response_mode": "blocking",
-                    "conversation_id": "63e0c6da-49a7-429c-8571-566a9dd8758f",
-                    "user": "5521992494487@s.whatsapp.net",
+                    "conversation_id": "",
+                    "user": "559189619999@s.whatsapp.net",
                     "files": [
                       {
                         "type": "image",
@@ -741,7 +730,7 @@
               },
               "functionality": "regular",
               "name": "NodeApiError",
-              "timestamp": 1731724331261,
+              "timestamp": 1731844442126,
               "node": {
                 "parameters": {
                   "curlImport": "",
@@ -763,7 +752,7 @@
                   "sendBody": true,
                   "contentType": "json",
                   "specifyBody": "json",
-                  "jsonBody": "={\n  \"inputs\": {},\n  \"query\": \"{{ $('Mensagens').item.json.query.replace(/(\\r\\n|\\n|\\r)/gm, ' ') }}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"{{ $('Dados Lead').item.json.conversation_id }}\",\n  \"user\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"files\": [\n    {\n      \"type\": \"image\",\n      \"transfer_method\": \"remote_url\",\n      \"url\": \"https://cloud.dify.ai/logo/logo-site.png\"\n    }\n  ]\n}",
+                  "jsonBody": "={\n  \"inputs\": {},\n  \"query\": \"{{ $('Mensagens').item.json.query }}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"{{ $('Dados Lead').item.json.conversation_id }}\",\n  \"user\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"files\": [\n    {\n      \"type\": \"image\",\n      \"transfer_method\": \"remote_url\",\n      \"url\": \"https://cloud.dify.ai/logo/logo-site.png\"\n    }\n  ]\n}",
                   "options": {},
                   "infoMessage": ""
                 },
@@ -780,10 +769,10 @@
                 "notesInFlow": false
               },
               "messages": [
-                "400 - \"{\\\"code\\\": \\\"invalid_param\\\", \\\"message\\\": \\\"Run failed: undefined:1\\\\n```json\\\\n^\\\\n\\\\nSyntaxError: Unexpected token '`', \\\\\\\"```json\\\\n{\\\\n\\\\\\\"... is not valid JSON\\\\n    at JSON.parse (<anonymous>)\\\\n    at main (/tmp/sandbox-9ddf0d5d-5264-4887-8231-d08e5e02b6b5/var/sandbox/sandbox-nodejs/nodejs-project/node_temp/node_temp/test.js:18:47)\\\\n    at Object.<anonymous> (/tmp/sandbox-9ddf0d5d-5264-4887-8231-d08e5e02b6b5/var/sandbox/sandbox-nodejs/nodejs-project/node_temp/node_temp/test.js:33:18)\\\\n    at Module._compile (node:internal/modules/cjs/loader:1376:14)\\\\n    at Module._extensions..js (node:internal/modules/cjs/loader:1435:10)\\\\n    at Module.load (node:internal/modules/cjs/loader:1207:32)\\\\n    at Module._load (node:internal/modules/cjs/loader:1023:12)\\\\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:135:12)\\\\n    at node:internal/main/run_main_module:28:49\\\\n\\\\nNode.js v20.11.1\\\\nerror: exit status 1\\\\n\\\", \\\"status\\\": 400}\\n\""
+                "400 - \"{\\\"code\\\": \\\"invalid_param\\\", \\\"message\\\": \\\"Run failed: undefined:1\\\\n```json\\\\n^\\\\n\\\\nSyntaxError: Unexpected token '`', \\\\\\\"```json\\\\n{\\\\n\\\\\\\"... is not valid JSON\\\\n    at JSON.parse (<anonymous>)\\\\n    at main (/tmp/sandbox-a85a2113-2fbd-429b-9759-c57a01b95998/var/sandbox/sandbox-nodejs/nodejs-project/node_temp/node_temp/test.js:18:47)\\\\n    at Object.<anonymous> (/tmp/sandbox-a85a2113-2fbd-429b-9759-c57a01b95998/var/sandbox/sandbox-nodejs/nodejs-project/node_temp/node_temp/test.js:33:18)\\\\n    at Module._compile (node:internal/modules/cjs/loader:1376:14)\\\\n    at Module._extensions..js (node:internal/modules/cjs/loader:1435:10)\\\\n    at Module.load (node:internal/modules/cjs/loader:1207:32)\\\\n    at Module._load (node:internal/modules/cjs/loader:1023:12)\\\\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:135:12)\\\\n    at node:internal/main/run_main_module:28:49\\\\n\\\\nNode.js v20.11.1\\\\nerror: exit status 1\\\\n\\\", \\\"status\\\": 400}\\n\""
               ],
               "httpCode": "400",
-              "description": "Run failed: undefined:1\n```json\n^\n\nSyntaxError: Unexpected token '`', \"```json\n{\n\"... is not valid JSON\n    at JSON.parse (<anonymous>)\n    at main (/tmp/sandbox-9ddf0d5d-5264-4887-8231-d08e5e02b6b5/var/sandbox/sandbox-nodejs/nodejs-project/node_temp/node_temp/test.js:18:47)\n    at Object.<anonymous> (/tmp/sandbox-9ddf0d5d-5264-4887-8231-d08e5e02b6b5/var/sandbox/sandbox-nodejs/nodejs-project/node_temp/node_temp/test.js:33:18)\n    at Module._compile (node:internal/modules/cjs/loader:1376:14)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1435:10)\n    at Module.load (node:internal/modules/cjs/loader:1207:32)\n    at Module._load (node:internal/modules/cjs/loader:1023:12)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:135:12)\n    at node:internal/main/run_main_module:28:49\n\nNode.js v20.11.1\nerror: exit status 1\n",
+              "description": "Run failed: undefined:1\n```json\n^\n\nSyntaxError: Unexpected token '`', \"```json\n{\n\"... is not valid JSON\n    at JSON.parse (<anonymous>)\n    at main (/tmp/sandbox-a85a2113-2fbd-429b-9759-c57a01b95998/var/sandbox/sandbox-nodejs/nodejs-project/node_temp/node_temp/test.js:18:47)\n    at Object.<anonymous> (/tmp/sandbox-a85a2113-2fbd-429b-9759-c57a01b95998/var/sandbox/sandbox-nodejs/nodejs-project/node_temp/node_temp/test.js:33:18)\n    at Module._compile (node:internal/modules/cjs/loader:1376:14)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1435:10)\n    at Module.load (node:internal/modules/cjs/loader:1207:32)\n    at Module._load (node:internal/modules/cjs/loader:1023:12)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:135:12)\n    at node:internal/main/run_main_module:28:49\n\nNode.js v20.11.1\nerror: exit status 1\n",
               "message": "Bad request - please check your parameters",
               "stack": "NodeApiError: Bad request - please check your parameters\n    at Object.execute (/usr/local/lib/node_modules/n8n/node_modules/n8n-nodes-base/dist/nodes/HttpRequest/V3/HttpRequestV3.node.js:502:33)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at Workflow.runNode (/usr/local/lib/node_modules/n8n/node_modules/n8n-workflow/dist/Workflow.js:722:19)\n    at /usr/local/lib/node_modules/n8n/node_modules/n8n-core/dist/WorkflowExecute.js:707:51\n    at /usr/local/lib/node_modules/n8n/node_modules/n8n-core/dist/WorkflowExecute.js:1137:20"
             },
@@ -798,7 +787,7 @@
       }
     ]
   },
-  "versionId": "52e98f91-2fcc-49e4-b142-2571f4cfb74a",
+  "versionId": "ea267800-7157-4e49-b19d-a44ef74a843e",
   "triggerCount": 0,
   "tags": [
     {
