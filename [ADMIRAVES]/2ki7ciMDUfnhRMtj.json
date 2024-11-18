@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-15T22:27:28.584Z",
-  "updatedAt": "2024-11-17T12:30:47.505Z",
+  "updatedAt": "2024-11-17T23:46:18.380Z",
   "id": "2ki7ciMDUfnhRMtj",
   "name": "[ADMIRAVES]-[TRATAMENTO DE ERRO]",
   "active": false,
@@ -78,8 +78,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1040,
-        600
+        800,
+        360
       ]
     },
     {
@@ -395,8 +395,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        840,
-        480
+        860,
+        560
       ]
     },
     {
@@ -448,8 +448,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        680,
-        480
+        700,
+        560
       ],
       "credentials": {
         "redis": {
@@ -558,7 +558,7 @@
       "main": [
         [
           {
-            "node": "Dify",
+            "node": "Dados Lead",
             "type": "main",
             "index": 0
           }
@@ -670,6 +670,17 @@
         [
           {
             "node": "Envia alerta de erro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Lead": {
+      "main": [
+        [
+          {
+            "node": "Dify",
             "type": "main",
             "index": 0
           }
@@ -787,7 +798,7 @@
       }
     ]
   },
-  "versionId": "ea267800-7157-4e49-b19d-a44ef74a843e",
+  "versionId": "ded4ec2e-b07b-4fdd-8ce2-0bf92dfdc0c7",
   "triggerCount": 0,
   "tags": [
     {
