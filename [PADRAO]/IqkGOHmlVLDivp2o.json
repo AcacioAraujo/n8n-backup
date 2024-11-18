@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-08T21:53:00.345Z",
-  "updatedAt": "2024-11-16T16:02:38.450Z",
+  "updatedAt": "2024-11-17T23:46:54.811Z",
   "id": "IqkGOHmlVLDivp2o",
   "name": "[REDIS]",
   "active": false,
@@ -216,7 +216,13 @@
     },
     "If": {
       "main": [
-        []
+        [
+          {
+            "node": "Limpa msgs",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -228,7 +234,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "b154966b-d220-4565-8e3b-b1cccab2a29f",
+  "versionId": "a900caf3-e696-4940-b37a-c3a3ff9ed034",
   "triggerCount": 0,
   "tags": []
 }
