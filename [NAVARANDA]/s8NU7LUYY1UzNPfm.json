@@ -1,0 +1,279 @@
+{
+  "createdAt": "2024-11-18T16:13:46.753Z",
+  "updatedAt": "2024-11-18T17:34:27.012Z",
+  "id": "s8NU7LUYY1UzNPfm",
+  "name": "[NAVARANDA]-[CONSULTA AGENDA TRUCK]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d2537656-c4ad-4568-b311-042317182b7e",
+              "name": "data_inicio",
+              "value": "={{ $now.format('yyyy-MM-dd') }}",
+              "type": "string"
+            },
+            {
+              "id": "25a25e3a-d057-47ab-b678-807306836078",
+              "name": "data_fim",
+              "value": "={{ (()=>{\n\n  const novaData = new Date($now);\n\n  novaData.setDate(novaData.getDate() + 14);\n  return novaData.format('yyyy-MM-dd');\n\n})()\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a5bd6261-6581-405c-afa9-9fbc187a81a3",
+      "name": "Variaveis",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1OEhyQJNEM4f9UZO7oe4u8fIiQmCZyorajGZQ5yGexXA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1270708610,
+          "mode": "list",
+          "cachedResultName": "Agenda Truck",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1OEhyQJNEM4f9UZO7oe4u8fIiQmCZyorajGZQ5yGexXA/edit#gid=1270708610"
+        },
+        "options": {}
+      },
+      "id": "223f1e85-8f19-45a7-b1ea-58c525e35a4a",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1260,
+        360
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0da8f827-32e5-4766-b79d-54285003f5f7",
+              "leftValue": "={{ $json['Data Consulta'] }}",
+              "rightValue": "={{ $('Variaveis').item.json.data_inicio }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "afterOrEquals"
+              }
+            },
+            {
+              "id": "485c25e4-22b4-4600-ac24-5afef9dc25ad",
+              "leftValue": "={{ $json['Data Consulta'] }}",
+              "rightValue": "={{ $('Variaveis').item.json.data_fim }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "beforeOrEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "ba02808b-c015-4ca0-aa4e-a27a8da84cc4",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1480,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "112d87bd-9edf-42b3-a8a7-4f89247feef2",
+              "name": "=proximas_datas",
+              "value": "={{ (()=>{\n\nreturn $json.data.map(item => `${item.Data} - ${item.Local}`).join('\\r\\n');\n\n})()\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c606865f-cb3c-410c-97cc-8b38df355faa",
+      "name": "Retorno",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1900,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "id": "f63ab486-7f21-4433-aac4-1585e8d4a725",
+      "name": "Aggregate",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1720,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "623df425-33ec-41d5-8132-25b5255dc275",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        2120,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "path": "84b19449-e4b7-4a41-a391-8bd3321039df",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "0632e695-dd90-4b2c-a1ff-a460e37576a0",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        820,
+        360
+      ],
+      "webhookId": "84b19449-e4b7-4a41-a391-8bd3321039df"
+    }
+  ],
+  "connections": {
+    "Variaveis": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Retorno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retorno": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Variaveis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "ManyChat",
+            "x-forwarded-for": "3.73.77.26",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "9292266f8f54",
+            "x-real-ip": "3.73.77.26",
+            "accept-encoding": "gzip"
+          },
+          "params": {},
+          "query": {},
+          "body": {},
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/84b19449-e4b7-4a41-a391-8bd3321039df",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "6f0c979c-e365-4222-b267-f034ff2baa0d",
+  "triggerCount": 1,
+  "tags": []
+}
