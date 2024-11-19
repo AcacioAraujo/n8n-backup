@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-07T20:25:28.880Z",
-  "updatedAt": "2024-11-16T13:07:22.792Z",
+  "updatedAt": "2024-11-18T20:16:18.168Z",
   "id": "UDAyEzXoUBXhZThh",
   "name": "[ADMIRAVES]-[EVOLUTION_DIFY]",
   "active": true,
@@ -1288,7 +1288,7 @@
         2140,
         140
       ],
-      "retryOnFail": false,
+      "retryOnFail": true,
       "alwaysOutputData": true,
       "notesInFlow": false
     }
@@ -1681,7 +1681,7 @@
           "headers": {
             "host": "webhook.robotriz.com.br",
             "user-agent": "axios/1.7.7",
-            "content-length": "928",
+            "content-length": "1196",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
             "x-forwarded-for": "172.18.0.1",
@@ -1698,30 +1698,37 @@
             "instance": "suporte_admiraves",
             "data": {
               "key": {
-                "remoteJid": "557398297750@s.whatsapp.net",
+                "remoteJid": "553597638844@s.whatsapp.net",
                 "fromMe": false,
-                "id": "A93594A9D62907F449C649FC79E43797"
+                "id": "3EB06A1924B128F1AADB92"
               },
-              "pushName": "Carola Comercial",
+              "pushName": "Acácio Araujo MG",
               "status": "DELIVERY_ACK",
               "message": {
-                "conversation": "Meu número mudou, perdi as lives, teria como assistir gravadas?",
+                "conversation": "Agradeço, vou assistir a noite, mas perdi a última palavra, pipoca, vinho e a outra não consegui, e ontem não consegui revisar  as aulas no YouTube",
                 "messageContextInfo": {
                   "deviceListMetadata": {
-                    "recipientKeyHash": "Vk3zGOEKkNNUPA==",
-                    "recipientTimestamp": "1731026842"
+                    "senderKeyHash": "X/lGvRQo33s7pg==",
+                    "senderTimestamp": "1731772218",
+                    "senderAccountType": "E2EE",
+                    "receiverAccountType": "E2EE",
+                    "recipientKeyHash": "K+JdtY2mN7ERLA==",
+                    "recipientTimestamp": "1731950110"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "xlOorreVnb4Sb8xriDgoDo+U1syV/nO5bkhCx12J5NI="
+                  "messageSecret": "6VlmEMAUuJ2m4e4Yp+EH/FU1u/WMZKpX4xkIGyMkFR0="
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1731759531,
+              "messageTimestamp": 1731956489,
               "instanceId": "a9733ab5-5a01-4f1a-a108-56f220c7923d",
-              "source": "android"
+              "source": "web",
+              "chatwootMessageId": 469,
+              "chatwootInboxId": 2,
+              "chatwootConversationId": 22
             },
             "destination": "https://webhook.robotriz.com.br/webhook/85a77fa9-e3c2-4185-af32-22632864dfd4",
-            "date_time": "2024-11-16T09:18:51.900Z",
+            "date_time": "2024-11-18T16:01:30.132Z",
             "sender": "553599148941@s.whatsapp.net",
             "server_url": "https://evolution.robotriz.com.br",
             "apikey": "2670092489D3-45C2-A404-0E1A22B89C31"
@@ -1732,7 +1739,7 @@
       }
     ]
   },
-  "versionId": "9a1487f2-90fe-41f9-900b-fb0cfbe1f1f0",
+  "versionId": "07998b58-b535-4699-8940-372c3bfa98eb",
   "triggerCount": 1,
   "tags": [
     {
