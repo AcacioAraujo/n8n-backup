@@ -1,0 +1,134 @@
+{
+  "createdAt": "2024-11-19T00:53:25.227Z",
+  "updatedAt": "2024-11-19T02:36:17.354Z",
+  "id": "rXjfM0FuhTofzriM",
+  "name": "[POUSADA SERRA QUE CHORA]-[CALCULO DE HOSPEDAGEM]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "49807d27-7108-498b-9497-7502f227d730",
+              "name": "valor",
+              "value": "={{ (()=>{\n\n  var numAdultos = $json.body.numAdultos\n  var dias = $json.body.dias\n  var tipo_regime = $json.body.tipo_regime\n  var altaTemporada = $json.body.altaTemporada\n  var criancas0a6 = $json.body.criancas0a6\n  var criancas6a12 = $json.body.criancas6a12\n  var criancas12a13 = $json.body.criancas12a13\n  var aplicarDesconto = $json.body.aplicarDesconto\n\n    // Tabelas de preços\n    const precos = {\n        'so_cafe': [365.00, 440.00, 510.00, 585.00, 670.00],\n        'cafe_almoco': [400.00, 530.00, 650.00, 765.00, 890.00],\n        'cafe_jantar': [400.00, 530.00, 650.00, 765.00, 890.00],\n        'pensao_completa': [420.00, 630.00, 790.00, 955.00, 1120.00]\n    };\n    const precosAlta = [503.00, 849.00, 1071.00, 1293.00, 1522.00];\n\n    // Validar entradas\n    if (!precos[tipo_regime] || numAdultos < 1 || numAdultos > 5) {\n        throw new Error(\"Entrada inválida.\");\n    }\n\n    // Valor base\n    const valorBase = altaTemporada ? precosAlta[numAdultos - 1] : precos[tipo_regime][numAdultos - 1];\n\n    // Valor crianças\n    let valorCriancas = (criancas0a6 === 2 ? 550.00 : 0) + (criancas6a12 * 60.00) + (criancas12a13 * 80.00);\n\n    // Cálculo total\n    let valorTotal = (valorBase * dias) + valorCriancas;\n    if (aplicarDesconto) valorTotal *= 0.876; // Aplicar desconto de 12.4%\n\n    return Number(valorTotal.toFixed(2));\n\n})()\n}}\n",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2896dce4-e56e-4f55-8637-321f78429e66",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"valor\": \"{{ $json.valor }}\"\n}",
+        "options": {}
+      },
+      "id": "0223a956-c9ff-4ef0-bb4d-3aaf5931154b",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        660,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "path": "c4a3accd-e568-47eb-9d7d-39204e820769",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "131abaac-7be6-49fd-b7f5-fb565f444bb7",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        300,
+        360
+      ],
+      "webhookId": "c4a3accd-e568-47eb-9d7d-39204e820769"
+    }
+  ],
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "PostmanRuntime/7.42.0",
+            "content-length": "188",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "postman-token": "645e05d1-9408-4c47-b114-c188832fa9c9",
+            "x-forwarded-for": "186.233.178.125",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "9292266f8f54",
+            "x-real-ip": "186.233.178.125"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "numAdultos": 4,
+            "dias": 4,
+            "tipo_regime": "pensao_completa",
+            "altaTemporada": 0,
+            "criancas0a6": 0,
+            "criancas6a12": 0,
+            "criancas12a13": 1,
+            "aplicarDesconto": 1
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/c4a3accd-e568-47eb-9d7d-39204e820769",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "d50f1f11-2d1d-4501-90b8-5e7178f15f5b",
+  "triggerCount": 1,
+  "tags": []
+}
