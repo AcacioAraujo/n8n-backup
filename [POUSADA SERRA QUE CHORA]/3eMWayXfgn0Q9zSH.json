@@ -1,10 +1,106 @@
 {
   "createdAt": "2024-11-08T12:50:27.913Z",
-  "updatedAt": "2024-11-08T21:52:43.902Z",
+  "updatedAt": "2024-11-20T01:35:12.675Z",
   "id": "3eMWayXfgn0Q9zSH",
-  "name": "[POUSADA SERRA QUE CHORA]-[CONSULTA / CADASTRO DE LEADS]",
-  "active": false,
+  "name": "[POUSADA SERRA QUE CHORA]-[CADASTRO LEADS]",
+  "active": true,
   "nodes": [
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1578736974,
+          "mode": "list",
+          "cachedResultName": "Clientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A/edit#gid=1578736974"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "celular": "={{ (()=>{\n\n  var entrada = $json.body.remoteJid\n\n    const partes = entrada.split('@');\n    \n    // Pegar a primeira parte\n    let primeiraParte = partes[0];\n    \n    // Verificar se tem 13 caracteres\n    if (primeiraParte.length !== 13) {\n        // Inserir '9' na 5ª posição (índice 4)\n        primeiraParte = primeiraParte.slice(0, 4) + '9' + primeiraParte.slice(4);\n    }\n\nreturn primeiraParte\n\n})()\n}}",
+            "nome": "={{ $json.body.nome }}",
+            "conversation_id": "={{ $json.body.conversation_id }}",
+            "data_cadastro": "={{ $now.toString() }}"
+          },
+          "matchingColumns": [
+            "celular"
+          ],
+          "schema": [
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "celular",
+              "displayName": "celular",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "data_cadastro",
+              "displayName": "data_cadastro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "conversation_id",
+              "displayName": "conversation_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a0e18054-e0b1-46f2-a4e6-515021be408a",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        800,
+        360
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "d2e481c0-8744-46ad-b984-ef8de8f365a6",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1040,
+        360
+      ]
+    },
     {
       "parameters": {
         "httpMethod": "POST",
@@ -16,74 +112,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        600,
+        560,
         360
       ],
       "webhookId": "d67dd26c-058d-4cfd-be3f-892cd3027f1f"
-    },
-    {
-      "parameters": {
-        "operation": "get",
-        "key": "5511981588224",
-        "options": {}
-      },
-      "id": "5741f6ba-e54a-4fce-971b-0a2d5e298b09",
-      "name": "Consulta msg",
-      "type": "n8n-nodes-base.redis",
-      "typeVersion": 1,
-      "position": [
-        1200,
-        360
-      ],
-      "credentials": {
-        "redis": {
-          "id": "eqvHIOsQVjeLxmqP",
-          "name": "Redis account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "delete",
-        "key": "={{ $('Variaveis').item.json.celular }}"
-      },
-      "id": "5745347e-8262-47be-958a-7d4215a25b0e",
-      "name": "Limpa msgs2",
-      "type": "n8n-nodes-base.redis",
-      "typeVersion": 1,
-      "position": [
-        1420,
-        360
-      ],
-      "credentials": {
-        "redis": {
-          "id": "eqvHIOsQVjeLxmqP",
-          "name": "Redis account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "5ae3e1cc-b62c-4932-b175-3267e4847c6b",
-              "name": "celular",
-              "value": "5511981588224",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "4357f61f-e4a5-46b4-a7aa-6ed9ee02afdc",
-      "name": "Edit Fields",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        880,
-        360
-      ]
     }
   ],
   "connections": {
@@ -91,29 +123,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Consulta msg": {
-      "main": [
-        [
-          {
-            "node": "Limpa msgs2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields": {
-      "main": [
-        [
-          {
-            "node": "Consulta msg",
+            "node": "Google Sheets",
             "type": "main",
             "index": 0
           }
@@ -128,9 +138,39 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "aea85e80-2839-4f51-85e2-a28ae3aa8840",
-  "triggerCount": 0,
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "PostmanRuntime/7.42.0",
+            "content-length": "81",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "postman-token": "670290bd-bcd6-44c5-a540-98c7aa9c81b8",
+            "x-forwarded-for": "186.233.178.125",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "9292266f8f54",
+            "x-real-ip": "186.233.178.125"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "nome": "Acácio Araujo",
+            "remoteJid": "553597638844@s.whatsapp.net"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/d67dd26c-058d-4cfd-be3f-892cd3027f1f",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "9138efbc-6581-4bf1-a040-883692f4f429",
+  "triggerCount": 1,
   "tags": [
     {
       "createdAt": "2024-11-08T12:45:44.820Z",
