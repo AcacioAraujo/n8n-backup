@@ -1,0 +1,142 @@
+{
+  "createdAt": "2024-11-20T00:27:53.562Z",
+  "updatedAt": "2024-11-20T00:28:49.253Z",
+  "id": "QUuAVTbkbj7ahitQ",
+  "name": "[POUSADA SERRA QUE CHORA]-[CONSULTA DE LEADS]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5ae3e1cc-b62c-4932-b175-3267e4847c6b",
+              "name": "celular",
+              "value": "5511981588224",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0db10ae8-1b7f-40da-96a2-41e262c6ced4",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1380,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1578736974,
+          "mode": "list",
+          "cachedResultName": "Clientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A/edit#gid=1578736974"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "celular"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "66916223-df5c-4289-ab9f-7c8b3ffcf077",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        820,
+        360
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "50f11b40-115b-48d9-827b-931a0e2d3720",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1040,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ca81b39c-b6db-4077-b956-7ab96dc26a2e",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "683cc1b5-d699-45f5-a3f2-d97a72316508",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        600,
+        360
+      ],
+      "webhookId": "ca81b39c-b6db-4077-b956-7ab96dc26a2e"
+    }
+  ],
+  "connections": {
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "f50860b0-2deb-489a-8def-ba6e49dc3245",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2024-11-08T12:45:44.820Z",
+      "updatedAt": "2024-11-08T12:45:44.820Z",
+      "id": "PhnwDtvybcxUVs1k",
+      "name": "Serra que Chora"
+    }
+  ]
+}
