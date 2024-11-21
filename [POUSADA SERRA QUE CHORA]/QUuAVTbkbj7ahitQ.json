@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-20T00:27:53.562Z",
-  "updatedAt": "2024-11-20T00:28:49.253Z",
+  "updatedAt": "2024-11-20T21:09:47.499Z",
   "id": "QUuAVTbkbj7ahitQ",
   "name": "[POUSADA SERRA QUE CHORA]-[CONSULTA DE LEADS]",
   "active": false,
@@ -45,7 +45,8 @@
         "filtersUI": {
           "values": [
             {
-              "lookupColumn": "celular"
+              "lookupColumn": "celular",
+              "lookupValue": "={{ (()=>{\n\n  var entrada = $json.body.remoteJid\n\n    const partes = entrada.split('@');\n    \n    // Pegar a primeira parte\n    let primeiraParte = partes[0];\n    \n    // Verificar se tem 13 caracteres\n    if (primeiraParte.length !== 13) {\n        // Inserir '9' na 5ª posição (índice 4)\n        primeiraParte = primeiraParte.slice(0, 4) + '9' + primeiraParte.slice(4);\n    }\n\nreturn primeiraParte\n\n})()\n}}"
             }
           ]
         },
@@ -128,8 +129,37 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "f50860b0-2deb-489a-8def-ba6e49dc3245",
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "PostmanRuntime/7.42.0",
+            "content-length": "51",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "postman-token": "035f8f31-1ab0-48c4-ae29-7dbb4376994b",
+            "x-forwarded-for": "186.233.178.125",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "9292266f8f54",
+            "x-real-ip": "186.233.178.125"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "remoteJid": "553597638844@s.whatsapp.net"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/ca81b39c-b6db-4077-b956-7ab96dc26a2e",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "ea472460-8c76-4423-9f1f-6418806a230a",
   "triggerCount": 0,
   "tags": [
     {
