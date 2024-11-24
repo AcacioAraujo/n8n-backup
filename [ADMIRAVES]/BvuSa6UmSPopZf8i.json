@@ -1,0 +1,198 @@
+{
+  "createdAt": "2024-11-23T20:26:35.546Z",
+  "updatedAt": "2024-11-23T20:45:32.533Z",
+  "id": "BvuSa6UmSPopZf8i",
+  "name": "[ADMIRAVES]-[Backup Botconversa]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "64743227-5ff1-4203-b862-76ddd553fbd7",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        600,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "API-KEY",
+              "value": "24cf724e-af9b-4074-b80f-696bc5b3a694"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "02f5b67d-c81c-4fce-b5bc-b5b8a8e253a6",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1060,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "options": {}
+      },
+      "id": "21e8d72c-4511-47ec-9f47-1f23efa41d76",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1260,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1nIVzcmcSwZS-9sx35Vql95rQU_IhgtPUYIngUWBQDzY",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 199602670,
+          "mode": "list",
+          "cachedResultName": "paginacao",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nIVzcmcSwZS-9sx35Vql95rQU_IhgtPUYIngUWBQDzY/edit#gid=199602670"
+        },
+        "options": {}
+      },
+      "id": "bbe34126-5291-45fe-b00c-1595933f61c7",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        820,
+        360
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gqjvAzQ2yoOC6JTy",
+          "name": "[ADMIRAVES] - [Google Sheets]"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1nIVzcmcSwZS-9sx35Vql95rQU_IhgtPUYIngUWBQDzY",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nIVzcmcSwZS-9sx35Vql95rQU_IhgtPUYIngUWBQDzY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "3bb7da91-610d-493b-aa14-7f73158e3cec",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1480,
+        360
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gqjvAzQ2yoOC6JTy",
+          "name": "[ADMIRAVES] - [Google Sheets]"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "6634e96b-8bdc-49fd-968f-004bef77b0cf",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2024-07-16T19:34:32.785Z",
+      "updatedAt": "2024-07-16T19:34:32.785Z",
+      "id": "OYw06Py1CLDhVhe0",
+      "name": "Admiraves"
+    }
+  ]
+}
