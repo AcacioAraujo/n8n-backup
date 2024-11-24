@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-07-11T12:27:58.740Z",
-  "updatedAt": "2024-11-11T10:10:12.253Z",
+  "updatedAt": "2024-11-23T19:39:39.264Z",
   "id": "qCHqUamOiu3lKP13",
   "name": "Teste Acacio",
   "active": false,
@@ -180,8 +180,8 @@
     },
     {
       "parameters": {
-        "sendTo": "acacio.araujo@robotriz.com.br",
-        "subject": "Novo Teste n8n",
+        "sendTo": "acacio@gmail.com",
+        "subject": "Teste n8n",
         "emailType": "text",
         "message": "Oi, isso é um teste de envio do n8n.",
         "options": {
@@ -198,8 +198,8 @@
       ],
       "credentials": {
         "gmailOAuth2": {
-          "id": "JcjdpdVRGEs0s5H7",
-          "name": "Gmail account"
+          "id": "zZoomeWZGy2wvtdg",
+          "name": "Admiraves Gmail account"
         }
       }
     },
@@ -446,7 +446,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "66cb7663-249c-4cdf-bec8-5caebe5997d4",
+  "versionId": "6c48f5a2-9574-4e38-be9f-8993a371197e",
   "triggerCount": 1,
   "tags": []
 }
