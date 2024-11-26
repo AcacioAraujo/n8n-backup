@@ -1,9 +1,9 @@
 {
   "createdAt": "2024-11-20T00:27:53.562Z",
-  "updatedAt": "2024-11-20T21:09:47.499Z",
+  "updatedAt": "2024-11-26T13:26:14.489Z",
   "id": "QUuAVTbkbj7ahitQ",
   "name": "[POUSADA SERRA QUE CHORA]-[CONSULTA DE LEADS]",
-  "active": false,
+  "active": true,
   "nodes": [
     {
       "parameters": {
@@ -60,6 +60,7 @@
         820,
         360
       ],
+      "alwaysOutputData": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
           "id": "QHPaQBvMXstzhtM3",
@@ -69,6 +70,8 @@
     },
     {
       "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"row_number\":\"{{ $json.row_number }}\",\n  \"nome\": \"{{ $json.nome }}\",\n  \"conversation_id\":\"{{ $json.conversation_id }}\"\n}",
         "options": {}
       },
       "id": "50f11b40-115b-48d9-827b-931a0e2d3720",
@@ -134,33 +137,32 @@
       {
         "json": {
           "headers": {
-            "host": "n8n.robotriz.com.br",
-            "user-agent": "PostmanRuntime/7.42.0",
-            "content-length": "51",
+            "host": "webhook.robotriz.com.br",
+            "user-agent": "python-httpx/0.27.2",
+            "content-length": "44",
             "accept": "*/*",
-            "accept-encoding": "gzip, deflate, br",
+            "accept-encoding": "gzip, deflate, br, zstd",
             "content-type": "application/json",
-            "postman-token": "035f8f31-1ab0-48c4-ae29-7dbb4376994b",
-            "x-forwarded-for": "186.233.178.125",
-            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-for": "5.161.231.166",
+            "x-forwarded-host": "webhook.robotriz.com.br",
             "x-forwarded-port": "443",
             "x-forwarded-proto": "https",
             "x-forwarded-server": "9292266f8f54",
-            "x-real-ip": "186.233.178.125"
+            "x-real-ip": "5.161.231.166"
           },
           "params": {},
           "query": {},
           "body": {
             "remoteJid": "553597638844@s.whatsapp.net"
           },
-          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/ca81b39c-b6db-4077-b956-7ab96dc26a2e",
-          "executionMode": "test"
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook/ca81b39c-b6db-4077-b956-7ab96dc26a2e",
+          "executionMode": "production"
         }
       }
     ]
   },
-  "versionId": "ea472460-8c76-4423-9f1f-6418806a230a",
-  "triggerCount": 0,
+  "versionId": "bd699a09-75b9-4517-8acf-8c9d780f5a5d",
+  "triggerCount": 1,
   "tags": [
     {
       "createdAt": "2024-11-08T12:45:44.820Z",
