@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-23T15:44:49.390Z",
-  "updatedAt": "2024-11-23T20:26:09.173Z",
+  "updatedAt": "2024-11-25T18:28:18.265Z",
   "id": "95q733JbH2WIYzGt",
   "name": "[ADMIRAVES]-[CERTIFICADOS]",
   "active": false,
@@ -12,8 +12,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        440,
-        360
+        700,
+        340
       ]
     },
     {
@@ -72,8 +72,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        600,
-        360
+        540,
+        20
       ]
     },
     {
@@ -86,8 +86,8 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        780,
-        360
+        720,
+        20
       ]
     },
     {
@@ -325,7 +325,7 @@
           "values": [
             {
               "lookupColumn": "email",
-              "lookupValue": "={{ $json.email }}"
+              "lookupValue": "=kethelynsoouza95@gmail.com"
             }
           ]
         },
@@ -336,7 +336,7 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        980,
+        1020,
         360
       ],
       "credentials": {
@@ -353,8 +353,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        1280,
-        360
+        1300,
+        120
       ],
       "webhookId": "999dbf4e-9d53-480d-9d41-b4dcf9215750"
     },
@@ -405,7 +405,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "Google Sheets",
             "type": "main",
             "index": 0
           }
@@ -436,13 +436,7 @@
     },
     "Split Out": {
       "main": [
-        [
-          {
-            "node": "Google Sheets",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Email leads": {
@@ -522,7 +516,7 @@
       "main": [
         [
           {
-            "node": "Wait",
+            "node": "Baixar certificado",
             "type": "main",
             "index": 0
           }
@@ -531,13 +525,7 @@
     },
     "Wait": {
       "main": [
-        [
-          {
-            "node": "Baixar certificado",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     }
   },
@@ -10926,7 +10914,7 @@
       }
     ]
   },
-  "versionId": "50425b89-5194-407e-b0d4-0a056d70eacc",
+  "versionId": "d8b14366-75de-4a6c-ab46-076f8ec66bd8",
   "triggerCount": 0,
   "tags": [
     {
