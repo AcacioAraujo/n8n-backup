@@ -1,0 +1,170 @@
+{
+  "createdAt": "2024-11-28T18:43:47.463Z",
+  "updatedAt": "2024-11-28T20:32:39.880Z",
+  "id": "dhkY0wrkPXCjjS1T",
+  "name": "[ROBOTRIZ]-[MADEIREIRA][CONSULTA PRECO PORTA]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1cp0-nf7GIA2UZyoNxbaJOQR9r3lrWZTirxlJGC1Rb6A",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 702379976,
+          "mode": "list",
+          "cachedResultName": "Portas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cp0-nf7GIA2UZyoNxbaJOQR9r3lrWZTirxlJGC1Rb6A/edit#gid=702379976"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Tipo de produto",
+              "lookupValue": "={{ $json.body['Tipo de produto'].trim() }}"
+            },
+            {
+              "lookupColumn": "modelo",
+              "lookupValue": "={{ $json.body.modelo.trim() }}"
+            },
+            {
+              "lookupColumn": "Especie",
+              "lookupValue": "={{ $json.body.Especie.trim() }}"
+            },
+            {
+              "lookupColumn": "Largura em cm",
+              "lookupValue": "={{ $json.body.largura.trim() }}"
+            },
+            {
+              "lookupColumn": "altura em cm",
+              "lookupValue": "={{ $json.body.altura.trim() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "aa85f259-6eaf-4f4d-9260-e05fde61ff7c",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1020,
+        360
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"produto\":\"{{ $json['Tipo de produto'].concat(' ').concat($json.modelo).concat(' ').concat($json.Especie).concat(' ').concat($json['altura em cm']).concat('x').concat($json['Largura em cm'])}}\",\n  \"preco\": \"{{ $json['Preço'] }}\"\n}",
+        "options": {}
+      },
+      "id": "ad3462c0-2a2c-410b-bebb-b1f8281cf4ab",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1280,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "path": "bfb184cc-8949-4ed2-9910-bd7467b6b449",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "718a7e89-45c6-45d8-95f7-e3c64bc269ac",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        820,
+        360
+      ],
+      "webhookId": "bfb184cc-8949-4ed2-9910-bd7467b6b449"
+    }
+  ],
+  "connections": {
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.robotriz.com.br",
+            "user-agent": "python-httpx/0.27.2",
+            "content-length": "129",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "content-type": "application/json",
+            "x-forwarded-for": "5.161.231.166",
+            "x-forwarded-host": "webhook.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "9292266f8f54",
+            "x-real-ip": "5.161.231.166"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "Tipo de produto": "Porta semi oca",
+            "modelo": " frisada horizontal",
+            "Especie": "angelim",
+            "altura": "2,10",
+            "largura": "90cm"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook/bfb184cc-8949-4ed2-9910-bd7467b6b449",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "e94cc7ba-6a1d-41ea-8890-2a1badff6b87",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-09-05T22:11:49.763Z",
+      "updatedAt": "2024-09-05T22:11:49.763Z",
+      "id": "eQXaHo0SFzE9DQYb",
+      "name": "Robotriz"
+    }
+  ]
+}
