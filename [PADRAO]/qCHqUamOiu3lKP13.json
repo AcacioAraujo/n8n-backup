@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-07-11T12:27:58.740Z",
-  "updatedAt": "2024-11-23T19:39:39.264Z",
+  "updatedAt": "2024-12-02T11:26:08.252Z",
   "id": "qCHqUamOiu3lKP13",
   "name": "Teste Acacio",
   "active": false,
@@ -401,6 +401,26 @@
           "name": "Google Calendar account [2]"
         }
       }
+    },
+    {
+      "parameters": {
+        "categories": {
+          "categories": [
+            {},
+            {},
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "id": "eae7f080-4d6a-42bc-9d20-1b38125b0935",
+      "name": "Text Classifier",
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        1060
+      ]
     }
   ],
   "connections": {
@@ -446,7 +466,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "6c48f5a2-9574-4e38-be9f-8993a371197e",
+  "versionId": "c5c14d15-e984-4099-9f12-303d36bdc57c",
   "triggerCount": 1,
   "tags": []
 }
