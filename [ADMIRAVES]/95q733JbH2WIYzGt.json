@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-23T15:44:49.390Z",
-  "updatedAt": "2024-11-25T18:28:18.265Z",
+  "updatedAt": "2024-12-02T18:38:07.962Z",
   "id": "95q733JbH2WIYzGt",
   "name": "[ADMIRAVES]-[CERTIFICADOS]",
   "active": false,
@@ -28,7 +28,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
       "position": [
-        1600,
+        1360,
         360
       ]
     },
@@ -237,7 +237,7 @@
       "type": "n8n-nodes-pdfkit.pdfKit",
       "typeVersion": 1,
       "position": [
-        1820,
+        1720,
         360
       ]
     },
@@ -325,7 +325,7 @@
           "values": [
             {
               "lookupColumn": "email",
-              "lookupValue": "=kethelynsoouza95@gmail.com"
+              "lookupValue": "=dri_pascoal@hotmail.com"
             }
           ]
         },
@@ -398,6 +398,41 @@
         2740,
         360
       ]
+    },
+    {
+      "parameters": {
+        "sendTo": "=dri_pascoal@hotmail.com",
+        "subject": "Olá, segue o seu certificado!",
+        "emailType": "text",
+        "message": "Olá, como combinado, aqui está seu certificado!\n\nPor favor, verifique se está tudo certo com seu nome.\n\nComo você teve 100% de aproveitamento do Minicurso Gratuito, fico aqui imaginando como você poderia aumentar seus conhecimentos e habilidades com meus cursos completos.\n\nPensando nisso, eu quero garantir que você conheça bem a oportunidade de entrar nessa turma do Curso Rotina Passarinheira. Farei uma reunião exclusiva para os inscritos no Minicurso para explicar detalhes e condições que não pude apresentar no encerramento devido aqueles problemas técnicos.\n\nNossa reunião acontecerá na terça dia 26/11/24 às 20h, você vem?\n\nAhhhh essa reunião não ficará gravada e quem participar poderá ganhar 3 meses gratuitos de acesso ao curso completo Rotina Passarinheira.\n\nSe você tiver interesse, entre no grupo VIP do WhatsApp através do link https://chat.whatsapp.com/CsgnpzeJsW45TJUm8Nrghi\n\nMuito obrigada!\n\nForte abraço,\n\nMelissa",
+        "options": {
+          "appendAttribution": false,
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {
+                "property": "certificado"
+              }
+            ]
+          }
+        }
+      },
+      "id": "17870a0e-5ab4-41ff-93e7-421673f46693",
+      "name": "Email leads1",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2000,
+        760
+      ],
+      "webhookId": "0dad8a6f-f296-4948-8ce5-988a8464bae7",
+      "alwaysOutputData": true,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "zZoomeWZGy2wvtdg",
+          "name": "Admiraves Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
     }
   ],
   "connections": {
@@ -432,11 +467,6 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "Split Out": {
-      "main": [
-        []
       ]
     },
     "Email leads": {
@@ -521,11 +551,6 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "Wait": {
-      "main": [
-        []
       ]
     }
   },
@@ -10914,7 +10939,7 @@
       }
     ]
   },
-  "versionId": "d8b14366-75de-4a6c-ab46-076f8ec66bd8",
+  "versionId": "b505868a-5420-4808-ad55-946892fe3853",
   "triggerCount": 0,
   "tags": [
     {
