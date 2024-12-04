@@ -1,0 +1,206 @@
+{
+  "createdAt": "2024-12-03T22:23:35.961Z",
+  "updatedAt": "2024-12-04T00:13:08.670Z",
+  "id": "Hmdbwj3QEStkNtVD",
+  "name": "[POUSADA SERRA QUE CHORA]-[ORCAMENTO]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 568397308,
+          "mode": "list",
+          "cachedResultName": "valores pensao",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A/edit#gid=568397308"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "adultos",
+              "lookupValue": "={{ $json.body.num_adultos }}"
+            },
+            {
+              "lookupColumn": "alta_temporada",
+              "lookupValue": "={{ $json.body.alta_temporada }}"
+            },
+            {
+              "lookupColumn": "pensao",
+              "lookupValue": "={{ $json.body.tipo_regime }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d28c323e-4e7f-4589-ba15-e8a25169411f",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        520,
+        340
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let dados = $input.all();\nlet orcamento = dados[0].json.dias * dados[0].json.preco;\n\nreturn {orcamento};\n"
+      },
+      "id": "bb8f789b-b649-4be5-bb2e-2e0597471775",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7b23090d-4791-4393-8505-39bda2323127",
+              "name": "dias",
+              "value": "={{ $('Webhook').item.json.body.dias }}",
+              "type": "string"
+            },
+            {
+              "id": "9cce9042-307d-4450-adde-ccb149ecf212",
+              "name": "num_adultos",
+              "value": "={{ $('Webhook').item.json.body.num_adultos }}",
+              "type": "string"
+            },
+            {
+              "id": "c6111f89-88ab-49e3-85d1-bb054c2f86b1",
+              "name": "tipo_regime",
+              "value": "={{ $('Webhook').item.json.body.tipo_regime }}",
+              "type": "string"
+            },
+            {
+              "id": "a17836a2-b80d-482c-8bdc-2ac297ddf555",
+              "name": "preco",
+              "value": "={{ $json.preco }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "33c7b399-834c-4883-b51c-2768b4952fb4",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "path": "2723a05f-454c-45ea-84dc-e094d6737e91",
+        "options": {}
+      },
+      "id": "cbb0b0e0-6472-451c-ad5a-4012950c1aaf",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        280,
+        340
+      ],
+      "webhookId": "2723a05f-454c-45ea-84dc-e094d6737e91"
+    }
+  ],
+  "connections": {
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "PostmanRuntime/7.43.0",
+            "content-length": "169",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "postman-token": "f78938fe-8bf6-432a-9acd-93638e863a25",
+            "x-forwarded-for": "186.233.178.130",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "718376f0c031",
+            "x-real-ip": "186.233.178.130"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "dias": "3",
+            "num_adultos": "2",
+            "criancas0a5": "0",
+            "criancas6a11": "0",
+            "criancas12a13": "1",
+            "tipo_regime": "so_cafe",
+            "alta_temporada": "0"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/2723a05f-454c-45ea-84dc-e094d6737e91",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "80214c4e-4580-4aed-8961-7a7536e84c71",
+  "triggerCount": 0,
+  "tags": []
+}
