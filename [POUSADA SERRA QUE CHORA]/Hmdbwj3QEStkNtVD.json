@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-03T22:23:35.961Z",
-  "updatedAt": "2024-12-04T00:13:08.670Z",
+  "updatedAt": "2024-12-05T00:34:52.757Z",
   "id": "Hmdbwj3QEStkNtVD",
   "name": "[POUSADA SERRA QUE CHORA]-[ORCAMENTO]",
   "active": false,
@@ -61,7 +61,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1120,
+        900,
         340
       ]
     },
@@ -102,7 +102,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        900,
+        720,
         340
       ]
     },
@@ -200,7 +200,7 @@
       }
     ]
   },
-  "versionId": "80214c4e-4580-4aed-8961-7a7536e84c71",
+  "versionId": "1f834688-7946-4c1a-b0c7-112bbefe57be",
   "triggerCount": 0,
   "tags": []
 }
