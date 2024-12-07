@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-03T19:17:08.859Z",
-  "updatedAt": "2024-10-03T19:24:24.281Z",
+  "updatedAt": "2024-12-06T20:23:02.044Z",
   "id": "J8e8lzm96p7THx5T",
   "name": "teste n8n form",
   "active": true,
@@ -19,12 +19,38 @@
             },
             {
               "fieldLabel": "Qual o seu email?",
-              "placeholder": "Digite seu email"
+              "fieldType": "email",
+              "placeholder": "Digite seu email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Data de Nascimento",
+              "fieldType": "date",
+              "formatDate": "dd/mm/yyyy",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Genero",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Masculino"
+                  },
+                  {
+                    "option": "Feminino"
+                  },
+                  {
+                    "option": "Prefiro não responder"
+                  }
+                ]
+              }
             }
           ]
         },
         "options": {
           "appendAttribution": false,
+          "buttonLabel": "Enviar",
           "respondWithOptions": {
             "values": {
               "formSubmittedText": "Seus dados foram enviados. Obrigado!"
@@ -54,7 +80,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "f48d15aa-89a1-4a41-9bfb-6d29f31dd60d",
+  "versionId": "51cc1152-8cf4-4aa0-9d57-6a566981b941",
   "triggerCount": 2,
   "tags": []
 }
