@@ -1,0 +1,344 @@
+{
+  "createdAt": "2024-12-10T19:42:54.833Z",
+  "updatedAt": "2024-12-10T20:42:58.148Z",
+  "id": "lG4QmBzwxJCkXzyx",
+  "name": "[MEDCOLAB]-[ULTRAFORMER MPT][Integração Belle Software]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Integração Belle Software",
+        "height": 473.9534883720929,
+        "width": 967.3487872057799,
+        "color": 3
+      },
+      "id": "f1a1ff7e-c8dd-44c4-92a5-6f1fb5d63d62",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "efb180f8-43ac-4848-93cd-34c12b6da4af",
+              "leftValue": "={{ $json.codigo }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "91b41774-5c5d-41b8-9092-bd00627a9335",
+      "name": "Existe Pessoa",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2360,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3f6b25d6-221b-492f-a763-ce272482d9f9",
+              "name": "organization_id",
+              "value": "=19",
+              "type": "number"
+            },
+            {
+              "id": "1b256a46-e64b-4a6d-98cb-c7ae5316caf6",
+              "name": "nome",
+              "value": "={{ $json.body.Nome }}",
+              "type": "string"
+            },
+            {
+              "id": "c48e5459-54a7-42e4-bbb9-98a05a83865d",
+              "name": "email",
+              "value": "={{ $json.body['E-mail'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3bd48161-4c5d-4385-b988-87dc7eb0313f",
+              "name": "profissao",
+              "value": "={{ $json.body['Profissão'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3ea02367-9528-4579-8f03-361db49515c9",
+              "name": "tipo_formulario",
+              "value": "={{ $json.body.tipo_formulario }}",
+              "type": "string"
+            },
+            {
+              "id": "232deb96-ebed-4387-825c-c216c7d9046c",
+              "name": "=titulo",
+              "value": "={{ $json.body.Nome }} - {{ $json.body['Profissão'] }} - {{ $json.body.tipo_formulario }}",
+              "type": "string"
+            },
+            {
+              "id": "ef3ad2c0-f694-4db2-b89b-9ad1cc5e1763",
+              "name": "WhatsApp",
+              "value": "={{ $json.body.WhatsApp }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1e6fcac7-9b90-4c40-ac6a-58ae30827ce3",
+      "name": "Dados Lead",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2040,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "1e5f91e9-84c7-4a56-80c3-5667930f5ecd",
+        "options": {}
+      },
+      "id": "84987a71-c9fa-4439-bcf2-4e85e00640b8",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1800,
+        520
+      ],
+      "webhookId": "1e5f91e9-84c7-4a56-80c3-5667930f5ecd"
+    },
+    {
+      "parameters": {
+        "url": "https://app.bellesoftware.com.br/api/release/controller/IntegracaoExterna/v1.0/cliente/listar",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "codEstab",
+              "value": "2"
+            },
+            {
+              "name": "email",
+              "value": "={{ $json.email }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "a7f462f0ed27ad0aa263fe38f497c5dd"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "862f2192-7ee2-4d21-8e8f-20b012ad74e5",
+      "name": "Consulta Cliente",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2200,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://app.bellesoftware.com.br/api/release/controller/IntegracaoExterna/v1.0/cliente/gravar",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "a7f462f0ed27ad0aa263fe38f497c5dd"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "nome",
+              "value": "={{ $('Dados Lead').item.json.nome }}"
+            },
+            {
+              "name": "celular",
+              "value": "={{ $('Dados Lead').item.json.WhatsApp }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $('Dados Lead').item.json.email }}"
+            },
+            {
+              "name": "observacao",
+              "value": "Cadastro via formulário"
+            },
+            {
+              "name": "tpOrigem",
+              "value": "={{ $('Dados Lead').item.json.tipo_formulario }}"
+            },
+            {
+              "name": "codOrigem",
+              "value": "1"
+            },
+            {
+              "name": "codEstab",
+              "value": 2
+            },
+            {
+              "name": "cpf",
+              "value": "000.000.000-00"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "5200294b-f304-423e-beac-bf77437e859e",
+      "name": "Cadastra Cliente",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2560,
+        680
+      ]
+    }
+  ],
+  "connections": {
+    "Existe Pessoa": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Cadastra Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Lead": {
+      "main": [
+        [
+          {
+            "node": "Consulta Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Dados Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta Cliente": {
+      "main": [
+        [
+          {
+            "node": "Existe Pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "WordPress/6.6.2; https://medcolab.com.br",
+            "content-length": "556",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-forwarded-for": "154.49.247.188",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "718376f0c031",
+            "x-real-ip": "154.49.247.188"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "Nome": "Patrick Raul",
+            "E-mail": "trafegopatrick@gmail.com",
+            "WhatsApp": "+5527997748634",
+            "Profissão": "Estrategista Digital",
+            "tipo_formulario": "Aula Gratuita",
+            "Data": "10 de dezembro de 2024",
+            "Horário": "17:14",
+            "URL da página": "https://medcolab.com.br/formacaosecreta/",
+            "Agente de usuário": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+            "IP remoto": "2804:d45:e03e:a500:f9d1:b536:a0cf:a42e",
+            "Desenvolvido por": "Elementor",
+            "form_id": "bde9f16",
+            "form_name": "Novo formulário"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/1e5f91e9-84c7-4a56-80c3-5667930f5ecd",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "3a3462bf-251e-4cfc-95fc-99f5d75e180d",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2024-11-05T19:02:56.898Z",
+      "updatedAt": "2024-11-05T19:02:56.898Z",
+      "id": "a95SfBCeJma2foTm",
+      "name": "MedColab"
+    }
+  ]
+}
