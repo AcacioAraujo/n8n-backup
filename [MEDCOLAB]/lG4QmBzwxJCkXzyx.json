@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-10T19:42:54.833Z",
-  "updatedAt": "2024-12-10T20:42:58.148Z",
+  "updatedAt": "2024-12-11T21:28:20.208Z",
   "id": "lG4QmBzwxJCkXzyx",
   "name": "[MEDCOLAB]-[ULTRAFORMER MPT][Integração Belle Software]",
   "active": false,
@@ -162,7 +162,7 @@
         }
       },
       "id": "862f2192-7ee2-4d21-8e8f-20b012ad74e5",
-      "name": "Consulta Cliente",
+      "name": "Consulta Lead",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
@@ -173,7 +173,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://app.bellesoftware.com.br/api/release/controller/IntegracaoExterna/v1.0/cliente/gravar",
+        "url": "https://app.bellesoftware.com.br/api/release/controller/IntegracaoExterna/v1.0/cliente/gravar-lead",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -213,10 +213,6 @@
             {
               "name": "codEstab",
               "value": 2
-            },
-            {
-              "name": "cpf",
-              "value": "000.000.000-00"
             }
           ]
         },
@@ -227,7 +223,7 @@
         }
       },
       "id": "5200294b-f304-423e-beac-bf77437e859e",
-      "name": "Cadastra Cliente",
+      "name": "Cadastra Lead",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
@@ -242,7 +238,7 @@
         [],
         [
           {
-            "node": "Cadastra Cliente",
+            "node": "Cadastra Lead",
             "type": "main",
             "index": 0
           }
@@ -253,7 +249,7 @@
       "main": [
         [
           {
-            "node": "Consulta Cliente",
+            "node": "Consulta Lead",
             "type": "main",
             "index": 0
           }
@@ -271,7 +267,7 @@
         ]
       ]
     },
-    "Consulta Cliente": {
+    "Consulta Lead": {
       "main": [
         [
           {
@@ -331,7 +327,7 @@
       }
     ]
   },
-  "versionId": "3a3462bf-251e-4cfc-95fc-99f5d75e180d",
+  "versionId": "02fd88f7-a506-4865-be27-baf82bbef035",
   "triggerCount": 1,
   "tags": [
     {
