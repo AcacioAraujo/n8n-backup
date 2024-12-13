@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-10T19:42:54.833Z",
-  "updatedAt": "2024-12-11T21:28:20.208Z",
+  "updatedAt": "2024-12-13T12:59:37.621Z",
   "id": "lG4QmBzwxJCkXzyx",
   "name": "[MEDCOLAB]-[ULTRAFORMER MPT][Integração Belle Software]",
   "active": false,
@@ -116,22 +116,6 @@
     },
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "1e5f91e9-84c7-4a56-80c3-5667930f5ecd",
-        "options": {}
-      },
-      "id": "84987a71-c9fa-4439-bcf2-4e85e00640b8",
-      "name": "Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        1800,
-        520
-      ],
-      "webhookId": "1e5f91e9-84c7-4a56-80c3-5667930f5ecd"
-    },
-    {
-      "parameters": {
         "url": "https://app.bellesoftware.com.br/api/release/controller/IntegracaoExterna/v1.0/cliente/listar",
         "sendQuery": true,
         "queryParameters": {
@@ -230,6 +214,22 @@
         2560,
         680
       ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "1e5f91e9-84c7-4a56-80c3-5667930f5ecd",
+        "options": {}
+      },
+      "id": "84987a71-c9fa-4439-bcf2-4e85e00640b8",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1800,
+        520
+      ],
+      "webhookId": "1e5f91e9-84c7-4a56-80c3-5667930f5ecd"
     }
   ],
   "connections": {
@@ -256,22 +256,22 @@
         ]
       ]
     },
-    "Webhook": {
+    "Consulta Lead": {
       "main": [
         [
           {
-            "node": "Dados Lead",
+            "node": "Existe Pessoa",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Consulta Lead": {
+    "Webhook": {
       "main": [
         [
           {
-            "node": "Existe Pessoa",
+            "node": "Dados Lead",
             "type": "main",
             "index": 0
           }
@@ -327,7 +327,7 @@
       }
     ]
   },
-  "versionId": "02fd88f7-a506-4865-be27-baf82bbef035",
+  "versionId": "9bac01ec-66d2-42da-8813-9003d015e02d",
   "triggerCount": 1,
   "tags": [
     {
