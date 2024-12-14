@@ -1,51 +1,20 @@
 {
   "createdAt": "2024-12-03T22:23:35.961Z",
-  "updatedAt": "2024-12-13T14:09:34.442Z",
+  "updatedAt": "2024-12-13T22:35:51.327Z",
   "id": "Hmdbwj3QEStkNtVD",
   "name": "[POUSADA SERRA QUE CHORA]-[ORCAMENTO]",
-  "active": false,
+  "active": true,
   "nodes": [
     {
       "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A",
-          "mode": "id"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 568397308,
-          "mode": "list",
-          "cachedResultName": "valores pensao",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A/edit#gid=568397308"
-        },
-        "options": {}
-      },
-      "id": "d28c323e-4e7f-4589-ba15-e8a25169411f",
-      "name": "Google Sheets",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
-      "position": [
-        320,
-        340
-      ],
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "QHPaQBvMXstzhtM3",
-          "name": "[ROBOTRIZ] GOOGLE SHEETS"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsCode": "const dados = $input.all();\nconst dias = dados[0].json.dias;\nconst numAdultos = dados[0].json.num_adultos;\nconst tipoRegime = dados[0].json.tipo_regime;\nconst precosData = dados[0].json.dados;\nconst altaTemporada = 1;\nconst criancas0a5 = 0; \nconst criancas6a11 = 0;\nconst criancas12a13 = 0;\nconst aplicarDesconto = 0;\n\nconst precos = precosData.precos;\nconst precosAlta = precosData.precosAlta;\n//let orcamento = dados[0].json.dias * dados[0].json.preco;\n\nreturn {precosData};\n"
+        "jsCode": "const dados = $input.all();\nconst dias = parseInt(dados[0].json.dias);\nconst numAdultos = parseInt(dados[0].json.num_adultos);\nconst tipoRegime = dados[0].json.tipo_regime;\nconst altaTemporada = parseInt(dados[0].json.alta_temporada);\nconst criancas0a5 = parseInt(dados[0].json.criancas0a5); \nconst criancas6a11 = parseInt(dados[0].json.criancas6a11);\nconst criancas12a13 = parseInt(dados[0].json.criancas12a13);\nconst aplicarDesconto = parseInt(dados[0].json.alta_temporada);\nconst precos = JSON.parse(dados[0].json.precos).precos;\nconst precosAlta = JSON.parse(dados[0].json.precos).precosAlta;\nconst precosCriancas = JSON.parse(dados[0].json.precosCriancas);\n\n// Calcula o valor base considerando alta temporada ou não\nlet valorBase = precos[tipoRegime][numAdultos];\nif(altaTemporada == 1)\n  valorBase = precosAlta[numAdultos];\n\n// Calcula o valor adicional das crianças\nlet valorCriancas = 0;\n\nif (criancas0a5 > 0) {\n    valorCriancas += precosCriancas[\"0_5\"][criancas0a5] * dias;\n}\n\nif (criancas6a11 > 0) {\n    valorCriancas += precosCriancas[\"6_11\"][criancas6a11] * dias;\n}\n\nif (criancas12a13 > 0) {\n    valorCriancas += precosCriancas[\"12_13\"][criancas12a13] * dias;\n}\n\n// Calcula o valor total\nlet valorTotal = (valorBase * dias) + valorCriancas;\n\n// Aplica desconto se necessário\nif (dias > 3) {\n    valorTotal *= 0.876;  // aplica desconto de 12.4%\n}\n\nreturn {valorTotal};\n"
       },
       "id": "bb8f789b-b649-4be5-bb2e-2e0597471775",
       "name": "Code",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        880,
+        1540,
         340
       ]
     },
@@ -72,21 +41,45 @@
               "type": "string"
             },
             {
-              "id": "a17836a2-b80d-482c-8bdc-2ac297ddf555",
-              "name": "preco",
-              "value": "={{ $json.preco }}",
-              "type": "number"
-            },
-            {
               "id": "a41149cb-068f-4e3d-a5fd-6057b9cb1394",
               "name": "precos",
-              "value": "={{ (()=>{\n\n  const data = $json.data\n  const precos = {};\n  const precosAlta = {};\n\n  data.forEach(item => {\n      const { adultos, pensao, preco, alta_temporada } = item;\n\n      if (alta_temporada === 0) {\n          if (!precos[pensao]) {\n              precos[pensao] = {};\n          }\n          precos[pensao][adultos] = preco;\n      } else if (alta_temporada === 1) {\n          precosAlta[adultos] = preco;\n      }\n  });\n\n  return precos;\n\n})()\n}}",
+              "value": "={{ (()=>{\n\n  const data = $('Agregar Valores de Pensão').item.json.data\n  const precos = {};\n  const precosAlta = {};\n\n  data.forEach(item => {\n      const { adultos, pensao, preco, alta_temporada } = item;\n\n      if (alta_temporada === 0) {\n          if (!precos[pensao]) {\n              precos[pensao] = {};\n          }\n          precos[pensao][adultos] = preco;\n      } else if (alta_temporada === 1) {\n          precosAlta[adultos] = preco;\n      }\n  });\n\nreturn { precos, precosAlta };\n\n})()\n}}",
               "type": "string"
             },
             {
               "id": "3309acd9-c6f6-4b80-87d2-8cb0ea686347",
-              "name": "precosAlta",
-              "value": "={{ (()=>{\n\n  const data = $json.data\n  const precos = {};\n  const precosAlta = {};\n\n  data.forEach(item => {\n      const { adultos, pensao, preco, alta_temporada } = item;\n\n      if (alta_temporada === 0) {\n          if (!precos[pensao]) {\n              precos[pensao] = {};\n          }\n          precos[pensao][adultos] = preco;\n      } else if (alta_temporada === 1) {\n          precosAlta[adultos] = preco;\n      }\n  });\n\n  return precosAlta;\n\n})()\n}}",
+              "name": "precosCriancas",
+              "value": "={{ (()=>{\n\n  const data = $json.data;\n  let diariasPorIdade = {};\n\n  data.forEach(item => {\n      const { criança, idade, valor: diaria } = {\n          criança: item['criança'],\n          idade: item['idade'],\n          valor: item['valor diaria']\n      };\n\n      if (!diariasPorIdade[idade]) diariasPorIdade[idade] = {};\n      diariasPorIdade[idade][criança] = parseFloat(diaria.toFixed(2));\n  });\n\n  return diariasPorIdade;\n\n})()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "89761272-10f5-4063-b258-c02e280d86bb",
+              "name": "criancas0a5",
+              "value": "={{ $('Webhook').item.json.body.criancas0a5 }}",
+              "type": "string"
+            },
+            {
+              "id": "7f909edc-6ee3-42cf-a1e9-5e4020c8e85f",
+              "name": "criancas6a11",
+              "value": "={{ $('Webhook').item.json.body.criancas6a11 }}",
+              "type": "string"
+            },
+            {
+              "id": "68bcea10-00f0-4489-9abe-72b3748c0957",
+              "name": "criancas12a13",
+              "value": "={{ $('Webhook').item.json.body.criancas12a13 }}",
+              "type": "string"
+            },
+            {
+              "id": "17d4ae67-3d4b-4602-b6ba-7e93acbb6b39",
+              "name": "",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "64ec734d-5082-442a-a4e1-bc0bf6804cad",
+              "name": "alta_temporada",
+              "value": "={{ $('Webhook').item.json.body.alta_temporada }}",
               "type": "string"
             }
           ]
@@ -98,7 +91,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        700,
+        1340,
         340
       ]
     },
@@ -116,31 +109,15 @@
           "cachedResultName": "valores pensao",
           "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A/edit#gid=568397308"
         },
-        "filtersUI": {
-          "values": [
-            {
-              "lookupColumn": "adultos",
-              "lookupValue": "={{ $json.body.num_adultos }}"
-            },
-            {
-              "lookupColumn": "alta_temporada",
-              "lookupValue": "={{ $json.body.alta_temporada }}"
-            },
-            {
-              "lookupColumn": "pensao",
-              "lookupValue": "={{ $json.body.tipo_regime }}"
-            }
-          ]
-        },
         "options": {}
       },
-      "id": "81db5924-e154-4269-af61-a961618430bc",
-      "name": "Google Sheets1",
+      "id": "d28c323e-4e7f-4589-ba15-e8a25169411f",
+      "name": "Valores de Pensão",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        340,
-        600
+        320,
+        340
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -157,7 +134,7 @@
         "options": {}
       },
       "id": "dde5303a-faf4-4818-9789-53d19dfce8eb",
-      "name": "Aggregate",
+      "name": "Agregar Valores de Pensão",
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
@@ -167,30 +144,115 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "2d318a03-6800-40fe-8c64-42c90ae5fa9e",
-              "name": "dados",
-              "value": "={{ (()=>{\n\n  const data = $json.data\n  const precos = {};\n  const precosAlta = {};\n\n  data.forEach(item => {\n      const { adultos, pensao, preco, alta_temporada } = item;\n\n      if (alta_temporada === 0) {\n          if (!precos[pensao]) {\n              precos[pensao] = {};\n          }\n          precos[pensao][adultos] = preco;\n      } else if (alta_temporada === 1) {\n          precosAlta[adultos] = preco;\n      }\n  });\n\n  return { precos, precosAlta };\n\n})()\n}}",
-              "type": "string"
-            }
-          ]
+        "documentId": {
+          "__rl": true,
+          "value": "1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1313332465,
+          "mode": "list",
+          "cachedResultName": "crianças",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A/edit#gid=1313332465"
         },
         "options": {}
       },
-      "id": "0c038582-0b97-4419-ab3c-879e9d99d1f4",
-      "name": "Edit Fields1",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "id": "579a7d33-bb51-477e-acc1-a3e9a9caf091",
+      "name": "Valores Crianças",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
       "position": [
-        380,
-        120
+        680,
+        340
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "allFieldsExcept",
+        "fieldsToExclude": "row_number",
+        "options": {}
+      },
+      "id": "c1b8c47e-741a-42e2-9b19-31c5fa5aa92a",
+      "name": "Agregar Valores Crianças",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        860,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "33e4ecfa-9e1a-4800-afb8-41415ecafc0e",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1740,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1313332465,
+          "mode": "list",
+          "cachedResultName": "crianças",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A/edit#gid=1313332465"
+        },
+        "options": {}
+      },
+      "id": "43bf9e2d-3892-4920-8b7b-1db1e8c7380e",
+      "name": "Valores de desconto",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1020,
+        580
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "allFieldsExcept",
+        "fieldsToExclude": "row_number",
+        "options": {}
+      },
+      "id": "d07fc13f-e602-418f-8b2d-10dee65a7a4f",
+      "name": "Agregar Valores de desconto",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        580
       ]
     },
     {
       "parameters": {
         "path": "2723a05f-454c-45ea-84dc-e094d6737e91",
+        "responseMode": "responseNode",
         "options": {}
       },
       "id": "cbb0b0e0-6472-451c-ad5a-4012950c1aaf",
@@ -198,25 +260,58 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        80,
+        140,
         340
       ],
       "webhookId": "2723a05f-454c-45ea-84dc-e094d6737e91"
     }
   ],
   "connections": {
-    "Google Sheets": {
+    "Edit Fields": {
       "main": [
         [
           {
-            "node": "Aggregate",
+            "node": "Code",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Aggregate": {
+    "Valores de Pensão": {
+      "main": [
+        [
+          {
+            "node": "Agregar Valores de Pensão",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agregar Valores de Pensão": {
+      "main": [
+        [
+          {
+            "node": "Valores Crianças",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Valores Crianças": {
+      "main": [
+        [
+          {
+            "node": "Agregar Valores Crianças",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agregar Valores Crianças": {
       "main": [
         [
           {
@@ -227,25 +322,37 @@
         ]
       ]
     },
-    "Webhook": {
+    "Code": {
       "main": [
         [
           {
-            "node": "Google Sheets",
+            "node": "Respond to Webhook",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Edit Fields1": {
+    "Valores de desconto": {
       "main": [
-        []
+        [
+          {
+            "node": "Agregar Valores de desconto",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
-    "Edit Fields": {
+    "Webhook": {
       "main": [
-        []
+        [
+          {
+            "node": "Valores de Pensão",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -292,7 +399,7 @@
       }
     ]
   },
-  "versionId": "c6b1f8a5-0ca5-41f6-b7df-caed934bf6da",
-  "triggerCount": 0,
+  "versionId": "74332628-5b05-4950-8995-df84dd8ab460",
+  "triggerCount": 1,
   "tags": []
 }
