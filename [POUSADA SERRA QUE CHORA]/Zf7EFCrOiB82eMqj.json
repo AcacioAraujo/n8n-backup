@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-20T00:30:00.922Z",
-  "updatedAt": "2024-11-20T21:09:53.730Z",
+  "updatedAt": "2024-12-16T19:26:51.254Z",
   "id": "Zf7EFCrOiB82eMqj",
   "name": "[POUSADA SERRA QUE CHORA]-[EVOLUTION_DIFY]",
   "active": true,
@@ -223,15 +223,15 @@
     {
       "parameters": {
         "operation": "delete",
-        "key": "={{ $('Variaveis').item.json.celular }}"
+        "key": "=5535997638844"
       },
       "id": "3154538f-37d9-4dc7-b641-a33a78e1334d",
       "name": "Limpa msgs2",
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        760,
-        40
+        -800,
+        160
       ],
       "credentials": {
         "redis": {
@@ -517,7 +517,7 @@
             {
               "id": "ed90fdce-325a-4ec2-8794-5ec8eb347694",
               "name": "api_key",
-              "value": "app-ExGx5U9U8twB4HEkCeCv0TEi",
+              "value": "app-bUagg8SL4i4camkmPMh9TTp4",
               "type": "string"
             }
           ]
@@ -1839,7 +1839,7 @@
       }
     ]
   },
-  "versionId": "8b8c825a-2dca-430e-bcdc-32012df84d11",
+  "versionId": "80b013a5-99ea-4826-9fec-51bf2e429b75",
   "triggerCount": 1,
   "tags": [
     {
