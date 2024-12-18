@@ -1,0 +1,37 @@
+{
+  "createdAt": "2024-12-18T14:37:32.637Z",
+  "updatedAt": "2024-12-18T14:43:26.243Z",
+  "id": "ugnGYTzixHCD40P6",
+  "name": "[CONDE TRADER]-[AUTOMAÇÃO DE GRUPO]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "d28b3691-2b71-49b6-b2df-43a4906ad9b6",
+        "options": {}
+      },
+      "id": "14ad9909-1a0a-4eac-8584-28d41ce28831",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        820,
+        360
+      ],
+      "webhookId": "d28b3691-2b71-49b6-b2df-43a4906ad9b6"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "253f1df3-5177-4f3e-a246-f6fe40f47166",
+  "triggerCount": 1,
+  "tags": []
+}
