@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-18T23:36:28.288Z",
-  "updatedAt": "2024-12-19T01:53:26.032Z",
+  "updatedAt": "2024-12-19T11:19:38.532Z",
   "id": "Ub4sx1r9iIOJnHGF",
   "name": "[ROBOTRIZ]-[AUTOMAÇÃO NOVOS CLIENTES]",
   "active": true,
@@ -58,13 +58,13 @@
           "parameters": [
             {
               "name": "Client-Token",
-              "value": "Fc3b69c993fcc4ca5bf64f8a3c8038fb0S"
+              "value": "F1114e9f20c19478bacc56003fc1a1192S"
             }
           ]
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n    \"phone\": \"{{ $json.body.celular }}\",\n    \"message\": \"Testando mensagem teste\"\n}",
+        "jsonBody": "={\n    \"phone\": \"5535997638844\",\n    \"message\": \"Testando mensagem teste\"\n}",
         "options": {
           "redirect": {
             "redirect": {}
@@ -89,7 +89,7 @@
           "parameters": [
             {
               "name": "Client-Token",
-              "value": "Fc3b69c993fcc4ca5bf64f8a3c8038fb0S"
+              "value": "F1114e9f20c19478bacc56003fc1a1192S"
             }
           ]
         },
@@ -120,7 +120,7 @@
           "parameters": [
             {
               "name": "Client-Token",
-              "value": "Fc3b69c993fcc4ca5bf64f8a3c8038fb0S"
+              "value": "F1114e9f20c19478bacc56003fc1a1192S"
             }
           ]
         },
@@ -225,7 +225,7 @@
       }
     ]
   },
-  "versionId": "f6deb783-3182-4ea9-8ccf-cd16121f3297",
+  "versionId": "1544037c-3f27-4c7c-aaa1-42bc223649e9",
   "triggerCount": 1,
   "tags": []
 }
