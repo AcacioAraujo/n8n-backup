@@ -1,0 +1,231 @@
+{
+  "createdAt": "2024-12-18T23:36:28.288Z",
+  "updatedAt": "2024-12-19T01:53:26.032Z",
+  "id": "Ub4sx1r9iIOJnHGF",
+  "name": "[ROBOTRIZ]-[AUTOMAÇÃO NOVOS CLIENTES]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Boa Vindas",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Qual o seu nome?",
+              "placeholder": "Nome",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Qual o seu e-mail?",
+              "fieldType": "email",
+              "placeholder": "E-mail",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Qual o nome da sua empresa?",
+              "placeholder": "Empresa",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "O que gostaria de automatizar?",
+              "requiredField": true
+            },
+            {}
+          ]
+        },
+        "options": {
+          "appendAttribution": false,
+          "buttonLabel": "Enviar"
+        }
+      },
+      "id": "fb7223db-17d9-449b-8041-0adf1a28f41c",
+      "name": "On form submission",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        340,
+        20
+      ],
+      "webhookId": "8970a5af-b422-4882-8d3d-eefafb2e11ec",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.z-api.io/instances/3C7CC8DF961DE06BAA32C63A36EB3D42/token/C74AEA6EDA8D30827E84D931/send-text",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Client-Token",
+              "value": "Fc3b69c993fcc4ca5bf64f8a3c8038fb0S"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"phone\": \"{{ $json.body.celular }}\",\n    \"message\": \"Testando mensagem teste\"\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "895c95a4-4e6b-4d51-8909-f350096111b6",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        680,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.z-api.io/instances/3C7CC8DF961DE06BAA32C63A36EB3D42/token/C74AEA6EDA8D30827E84D931/create-group",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Client-Token",
+              "value": "Fc3b69c993fcc4ca5bf64f8a3c8038fb0S"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"autoInvite\": true,\n  \"groupName\": \"Robotriz - {{ $json.body.empresa }}\",\n  \"phones\": [\"5527997748634\",\"557398251408\",\"5535997638844\",\"{{ $json.body.celular }}\"]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "234f968d-3a56-4a13-8f6b-9946aed4b4e6",
+      "name": "Criar Grupo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.z-api.io/instances/3C7CC8DF961DE06BAA32C63A36EB3D42/token/C74AEA6EDA8D30827E84D931/update-group-photo",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Client-Token",
+              "value": "Fc3b69c993fcc4ca5bf64f8a3c8038fb0S"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"groupId\": \"{{ $json.phone }}\",\n    \"groupPhoto\": \"https://minioback.robotriz.com.br/typebot/public/workspaces/clys3q3pk000113j6trhh9i3j/typebots/cm111s1f0000111y3w0gmqpyz/hostAvatar?v=1726321118232\"\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "c68e840a-446e-410b-bbf7-1b980e8020bb",
+      "name": "Alterar imagem de grupo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ee265710-8784-4db0-922f-d29fd255b45a",
+        "options": {}
+      },
+      "id": "f858e52f-5455-4497-981e-dbc1f2b32a7e",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        300,
+        280
+      ],
+      "webhookId": "ee265710-8784-4db0-922f-d29fd255b45a"
+    }
+  ],
+  "connections": {
+    "Criar Grupo": {
+      "main": [
+        [
+          {
+            "node": "Alterar imagem de grupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Criar Grupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.robotriz.com.br",
+            "user-agent": "node",
+            "content-length": "152",
+            "accept": "*/*",
+            "accept-encoding": "br, gzip, deflate",
+            "accept-language": "*",
+            "content-type": "application/json",
+            "sec-fetch-mode": "cors",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "webhook.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "718376f0c031",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "nome": "Acacio Araujo",
+            "celular": "+5511981588224",
+            "email": "acacio@gmail.com",
+            "empresa": "Cozinha do Careca",
+            "automacao": "Os pedidos dos meus clientes."
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook/ee265710-8784-4db0-922f-d29fd255b45a",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "f6deb783-3182-4ea9-8ccf-cd16121f3297",
+  "triggerCount": 1,
+  "tags": []
+}
