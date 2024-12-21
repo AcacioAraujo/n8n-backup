@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-20T00:30:00.922Z",
-  "updatedAt": "2024-12-16T19:26:51.254Z",
+  "updatedAt": "2024-12-20T21:54:36.523Z",
   "id": "Zf7EFCrOiB82eMqj",
   "name": "[POUSADA SERRA QUE CHORA]-[EVOLUTION_DIFY]",
   "active": true,
@@ -517,7 +517,7 @@
             {
               "id": "ed90fdce-325a-4ec2-8794-5ec8eb347694",
               "name": "api_key",
-              "value": "app-bUagg8SL4i4camkmPMh9TTp4",
+              "value": "app-vmB7uHP1CoT7uFmFOHDictEY",
               "type": "string"
             }
           ]
@@ -777,7 +777,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://dify-api.robotriz.com.br/v1/chat-messages",
+        "url": "https://dify-api-serra-que-chora.robotriz.com.br/v1/chat-messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -968,13 +968,13 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://evolution.robotriz.com.br/message/sendText/Pousadas Robotriz",
+        "url": "https://evolution-serra-que-chora.robotriz.com.br/message/sendText/saira",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "apikey",
-              "value": "=6612A58785A6-4F45-9527-B3BA28DF0952"
+              "value": "=3B74C9B3DC4E-4957-B413-D4136B81EC11"
             }
           ]
         },
@@ -1173,13 +1173,13 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://evolution.robotriz.com.br/message/sendText/Pousadas Robotriz",
+        "url": "https://evolution-serra-que-chora.robotriz.com.br/message/sendText/saira",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "apikey",
-              "value": "=6612A58785A6-4F45-9527-B3BA28DF0952"
+              "value": "=3B74C9B3DC4E-4957-B413-D4136B81EC11"
             }
           ]
         },
@@ -1214,7 +1214,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://dify-api.robotriz.com.br/v1/chat-messages",
+        "url": "https://dify-serra-que-chora.robotriz.com.br/v1/chat-messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -1227,7 +1227,9 @@
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={\n  \"inputs\": {},\n  \"query\": \"{{ $('Mensagens').item.json.query }}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"{{ $('Dados Lead').item.json.conversation_id }}\",\n  \"user\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"files\": [\n    {\n      \"type\": \"image\",\n      \"transfer_method\": \"remote_url\",\n      \"url\": \"https://cloud.dify.ai/logo/logo-site.png\"\n    }\n  ]\n}",
-        "options": {}
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
       },
       "id": "16ea6ea8-883c-47ac-b447-7cdd2f2fedc4",
       "name": "Dify",
@@ -1781,65 +1783,62 @@
           "headers": {
             "host": "webhook.robotriz.com.br",
             "user-agent": "axios/1.7.7",
-            "content-length": "1196",
+            "content-length": "979",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
-            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-for": "5.161.250.93",
             "x-forwarded-host": "webhook.robotriz.com.br",
             "x-forwarded-port": "443",
             "x-forwarded-proto": "https",
-            "x-forwarded-server": "9292266f8f54",
-            "x-real-ip": "172.18.0.1"
+            "x-forwarded-server": "718376f0c031",
+            "x-real-ip": "5.161.250.93"
           },
           "params": {},
           "query": {},
           "body": {
             "event": "messages.upsert",
-            "instance": "suporte_admiraves",
+            "instance": "saira",
             "data": {
               "key": {
                 "remoteJid": "553597638844@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3EB06A1924B128F1AADB92"
+                "id": "3EB02E594B09DE097B92AA"
               },
               "pushName": "Acácio Araujo MG",
               "status": "DELIVERY_ACK",
               "message": {
-                "conversation": "Agradeço, vou assistir a noite, mas perdi a última palavra, pipoca, vinho e a outra não consegui, e ontem não consegui revisar  as aulas no YouTube",
+                "conversation": "oi",
                 "messageContextInfo": {
                   "deviceListMetadata": {
-                    "senderKeyHash": "X/lGvRQo33s7pg==",
-                    "senderTimestamp": "1731772218",
+                    "senderKeyHash": "Gx4VbtZqvszGRw==",
+                    "senderTimestamp": "1734643143",
                     "senderAccountType": "E2EE",
                     "receiverAccountType": "E2EE",
-                    "recipientKeyHash": "K+JdtY2mN7ERLA==",
-                    "recipientTimestamp": "1731950110"
+                    "recipientKeyHash": "PZ77bUw5//oMlQ==",
+                    "recipientTimestamp": "1734643217"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "6VlmEMAUuJ2m4e4Yp+EH/FU1u/WMZKpX4xkIGyMkFR0="
+                  "messageSecret": "6RfHn/p6J5ONM5Y5j5M4KDbF80waUFuxV0L1Lh2SZZE="
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1731956489,
-              "instanceId": "a9733ab5-5a01-4f1a-a108-56f220c7923d",
-              "source": "web",
-              "chatwootMessageId": 469,
-              "chatwootInboxId": 2,
-              "chatwootConversationId": 22
+              "messageTimestamp": 1734717915,
+              "instanceId": "64b2ec9e-a972-4f7e-b39a-ac446af6933f",
+              "source": "web"
             },
-            "destination": "https://webhook.robotriz.com.br/webhook/85a77fa9-e3c2-4185-af32-22632864dfd4",
-            "date_time": "2024-11-18T16:01:30.132Z",
-            "sender": "553599148941@s.whatsapp.net",
-            "server_url": "https://evolution.robotriz.com.br",
-            "apikey": "2670092489D3-45C2-A404-0E1A22B89C31"
+            "destination": "https://webhook.robotriz.com.br/webhook/338edc06-7ade-4fea-8218-e88acd9eb63f",
+            "date_time": "2024-12-20T15:05:15.598Z",
+            "sender": "553599230340@s.whatsapp.net",
+            "server_url": "https://evolution-serra-que-chora.robotriz.com.br",
+            "apikey": "3B74C9B3DC4E-4957-B413-D4136B81EC11"
           },
-          "webhookUrl": "https://webhook.robotriz.com.br/webhook/85a77fa9-e3c2-4185-af32-22632864dfd4",
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook/338edc06-7ade-4fea-8218-e88acd9eb63f",
           "executionMode": "production"
         }
       }
     ]
   },
-  "versionId": "80b013a5-99ea-4826-9fec-51bf2e429b75",
+  "versionId": "9d010f6d-3bc9-4456-9de1-e7577e45b38d",
   "triggerCount": 1,
   "tags": [
     {
