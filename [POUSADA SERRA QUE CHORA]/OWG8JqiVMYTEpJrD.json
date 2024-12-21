@@ -1,0 +1,384 @@
+{
+  "createdAt": "2024-12-19T22:51:59.121Z",
+  "updatedAt": "2024-12-20T21:54:02.592Z",
+  "id": "OWG8JqiVMYTEpJrD",
+  "name": "[POUSADA SERRA QUE CHORA]-[CADASTRO PRE RESERVA]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 566507236,
+          "mode": "list",
+          "cachedResultName": "Pré Reserva",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A/edit#gid=566507236"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nome": "={{ $json.Nome }}",
+            "Celular": "={{ $json.Celular }}",
+            "Dias": "={{ $json.Dias }}",
+            "Checkin": "={{ $json.Checkin }}",
+            "Checkout": "={{ $json.Checkout }}",
+            "Adultos": "={{ $json.Adultos }}",
+            "Crianças de 0 a 5": "={{ $json['Crianças0_5'] }}",
+            "Crianças de 6 a 11": "={{ $json['Crianças6 _11'] }}",
+            "Crianças de 12 a 13": "={{ $json['Crianças12_13'] }}",
+            "Valor": "={{ $json.Valor }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Celular",
+              "displayName": "Celular",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Dias",
+              "displayName": "Dias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Checkin",
+              "displayName": "Checkin",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Checkout",
+              "displayName": "Checkout",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Adultos",
+              "displayName": "Adultos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Crianças de 0 a 5",
+              "displayName": "Crianças de 0 a 5",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Crianças de 6 a 11",
+              "displayName": "Crianças de 6 a 11",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Crianças de 12 a 13",
+              "displayName": "Crianças de 12 a 13",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Valor",
+              "displayName": "Valor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Resumo",
+              "displayName": "Resumo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ebc31d0d-4507-4091-acd6-e320cce9afc7",
+      "name": "Salvar Reserva",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        900,
+        360
+      ],
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution-serra-que-chora.robotriz.com.br/message/sendText/saira",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=3B74C9B3DC4E-4957-B413-D4136B81EC11"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Edit Fields').item.json.destinatario }}"
+            },
+            {
+              "name": "text",
+              "value": "=Oi Manu, seguem abaixo os dados de pré reserva\n\nNome: {{ $('Edit Fields').item.json.Nome }}\nCelular: {{ $('Edit Fields').item.json.Celular }}\nDias: {{ $('Edit Fields').item.json.Dias }}\nCheckin: {{ $('Edit Fields').item.json.Checkin }}\nCheckout: {{ $('Edit Fields').item.json.Checkout }}\nAdultos: {{ $('Edit Fields').item.json.Adultos }}\nCrianças de 0 a 5: {{ $('Edit Fields').item.json['Crianças0_5'] }}\nCrianças de 6 a 11: {{ $('Edit Fields').item.json['Crianças6 _11'] }}\nCrianças de 12 a 13: {{ $('Edit Fields').item.json['Crianças12_13'] }}\nValor: R${{ $('Edit Fields').item.json.Valor }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "1ec874df-72cc-4f79-b2eb-c3240d691611",
+      "name": "Envia reserva",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1100,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "32b34a72-0977-4429-bf69-6ff875dff077",
+              "name": "destinatario",
+              "value": "+553598765762",
+              "type": "string"
+            },
+            {
+              "id": "3219a796-cf34-4816-a951-8d37866096ce",
+              "name": "Nome",
+              "value": "={{ $json.body.Nome }}",
+              "type": "string"
+            },
+            {
+              "id": "26f0ef54-cd90-4433-b4f9-809ef23f2579",
+              "name": "Celular",
+              "value": "={{ $json.body.Celular }}",
+              "type": "string"
+            },
+            {
+              "id": "1af0c401-c535-4747-8d10-de52faa7624c",
+              "name": "Dias",
+              "value": "={{ $json.body.Dias }}",
+              "type": "string"
+            },
+            {
+              "id": "14631bca-ac71-4b5e-957b-0222f7063016",
+              "name": "Checkin",
+              "value": "={{ $json.body.Checkin }}",
+              "type": "string"
+            },
+            {
+              "id": "351c89b7-2ed1-464f-b8fb-9f6c781804da",
+              "name": "Checkout",
+              "value": "={{ (()=>{\n\n  const dataStr = $json.body.Checkin\nconst dias = parseInt($json.body.Dias)\n  // Dividir a string de data no formato DD/MM/AAAA\n  const [dia, mes, ano] = dataStr.split('/').map(Number);\n\n  // Criar um objeto Date a partir da data fornecida\n  const data = new Date(ano, mes - 1, dia); // mês em JavaScript é baseado em 0\n\n\n  // Adicionar os dias\n  data.setDate(data.getDate() + dias);\n\n  // Obter o dia, mês e ano atualizados\n  const novoDia = data.getDate().toString().padStart(2, '0');\n  const novoMes = (data.getMonth() + 1).toString().padStart(2, '0'); // ajustar o mês de volta para 1 baseado\n  const novoAno = data.getFullYear();\n\n  // Retornar a nova data no formato DD/MM/AAAA\n  return `${novoDia}/${novoMes}/${novoAno}`;\n\n})()\n\n}}",
+              "type": "string"
+            },
+            {
+              "id": "33b53114-f9aa-4a38-af5a-4cd083839e34",
+              "name": "Adultos",
+              "value": "={{ $json.body.Adultos }}",
+              "type": "string"
+            },
+            {
+              "id": "f7758616-648d-45e2-8cde-6ecedbde5c55",
+              "name": "Crianças0_5",
+              "value": "={{ $json.body['Crianças de 0 a 5'] }}",
+              "type": "string"
+            },
+            {
+              "id": "de40c0a9-8415-417a-98e5-f0f59f27bab4",
+              "name": "Crianças6 _11",
+              "value": "={{ $json.body['Crianças de 6 a 11'] }}",
+              "type": "string"
+            },
+            {
+              "id": "1b3cdc85-94d1-46cd-93f1-32ecae1ede48",
+              "name": "Crianças12_13",
+              "value": "={{ $json.body['Crianças de 12 a 13'] }}",
+              "type": "string"
+            },
+            {
+              "id": "e0eaa55f-b722-4e0b-9a24-280d1d442c51",
+              "name": "Valor",
+              "value": "={{ $json.body.Valor }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "47728ec3-3caa-497d-b0cd-2b0435dfc69b",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        700,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b42de9ef-7283-4066-837a-0ca855b7a86f",
+        "options": {}
+      },
+      "id": "e7986ea8-0e5d-4023-a950-48100a0dd7ac",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        500,
+        360
+      ],
+      "webhookId": "b42de9ef-7283-4066-837a-0ca855b7a86f"
+    }
+  ],
+  "connections": {
+    "Salvar Reserva": {
+      "main": [
+        [
+          {
+            "node": "Envia reserva",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Salvar Reserva",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "PostmanRuntime/7.43.0",
+            "content-length": "270",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "postman-token": "cc563cb1-0010-4d66-9dab-25b80ba96aa9",
+            "x-forwarded-for": "189.50.157.175",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "718376f0c031",
+            "x-real-ip": "189.50.157.175"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "Nome": "Acacio Araujo",
+            "Celular": "35997638844",
+            "Dias": "2",
+            "Checkin": "28/03/2025",
+            "Checkout": "30/03/2025",
+            "Adultos": "3",
+            "Crianças de 0 a 5": "",
+            "Crianças de 6 a 11": "",
+            "Crianças de 12 a 13": "",
+            "Valor": 1020
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/b42de9ef-7283-4066-837a-0ca855b7a86f",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "a753a4d4-042b-48d5-a6a1-52f81ead5caf",
+  "triggerCount": 1,
+  "tags": []
+}
