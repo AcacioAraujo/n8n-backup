@@ -1,0 +1,151 @@
+{
+  "createdAt": "2024-12-22T14:39:03.249Z",
+  "updatedAt": "2024-12-22T14:45:45.261Z",
+  "id": "11p4y40KI50BPOKU",
+  "name": "[MEDCOLAB]-[ULTRAFORMER MPT][COMPRA APROVADA]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "a553c2cf-e201-4de8-bc50-37dbc2b72fbe",
+        "options": {}
+      },
+      "id": "8fdbba22-c28f-4475-8748-f7d1124d6cf7",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        820,
+        360
+      ],
+      "webhookId": "a553c2cf-e201-4de8-bc50-37dbc2b72fbe"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.robotriz.com.br",
+            "user-agent": "Jodd HTTP",
+            "content-length": "1394",
+            "content-type": "application/json",
+            "x-forwarded-for": "34.201.130.74",
+            "x-forwarded-host": "webhook.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "718376f0c031",
+            "x-hotmart-hottok": "wLygbvsmAkfjzFbkPNFGFblPtnReHxa3c8e3d6-6cef-4d8c-b75c-69e6ec72f7ad",
+            "x-real-ip": "34.201.130.74",
+            "accept-encoding": "gzip"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "data": {
+              "product": {
+                "has_co_production": false,
+                "name": "Produto test postback2",
+                "id": 0,
+                "ucode": "fb056612-bcc6-4217-9e6d-2a5d1110ac2f"
+              },
+              "commissions": [
+                {
+                  "currency_value": "BRL",
+                  "source": "MARKETPLACE",
+                  "value": 149.5
+                },
+                {
+                  "currency_value": "BRL",
+                  "source": "PRODUCER",
+                  "value": 1350.5
+                }
+              ],
+              "purchase": {
+                "offer": {
+                  "code": "test"
+                },
+                "order_date": 1511783344000,
+                "original_offer_price": {
+                  "currency_value": "BRL",
+                  "value": 1500
+                },
+                "price": {
+                  "currency_value": "BRL",
+                  "value": 1500
+                },
+                "checkout_country": {
+                  "iso": "BR",
+                  "name": "Brasil"
+                },
+                "sckPaymentLink": "sckPaymentLinkTest",
+                "order_bump": {
+                  "parent_purchase_transaction": "HP02316330308193",
+                  "is_order_bump": true
+                },
+                "payment": {
+                  "installments_number": 12,
+                  "type": "CREDIT_CARD"
+                },
+                "approved_date": 1511783346000,
+                "full_price": {
+                  "currency_value": "BRL",
+                  "value": 1500
+                },
+                "transaction": "HP16015479281022",
+                "status": "APPROVED"
+              },
+              "affiliates": [
+                {
+                  "affiliate_code": "Q58388177J",
+                  "name": "Affiliate name"
+                }
+              ],
+              "producer": {
+                "name": "Producer Test Name"
+              },
+              "subscription": {
+                "subscriber": {
+                  "code": "I9OT62C3"
+                },
+                "plan": {
+                  "name": "plano de teste",
+                  "id": 123
+                },
+                "status": "ACTIVE"
+              },
+              "buyer": {
+                "address": {
+                  "country": "Brasil",
+                  "country_iso": "BR"
+                },
+                "name": "Teste Comprador",
+                "checkout_phone": "99999999900",
+                "email": "testeComprador271101postman15@example.com"
+              }
+            },
+            "hottok": "wLygbvsmAkfjzFbkPNFGFblPtnReHxa3c8e3d6-6cef-4d8c-b75c-69e6ec72f7ad",
+            "id": "205621f6-ff1d-4085-b6d7-acb717d61215",
+            "creation_date": 1734878612167,
+            "event": "PURCHASE_APPROVED",
+            "version": "2.0.0"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook/a553c2cf-e201-4de8-bc50-37dbc2b72fbe",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "39019723-adb2-473d-99fe-66f01fbdf895",
+  "triggerCount": 1,
+  "tags": []
+}
