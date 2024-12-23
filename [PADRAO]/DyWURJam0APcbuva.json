@@ -1,0 +1,64 @@
+{
+  "createdAt": "2024-12-22T22:55:45.652Z",
+  "updatedAt": "2024-12-22T22:55:45.652Z",
+  "id": "DyWURJam0APcbuva",
+  "name": "My workflow 2",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "e0eb00bf-18e8-4f8f-9722-8cc059c19678",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        820,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "=5521997598838"
+      },
+      "id": "3f4f2fc5-d9e7-49e1-989e-531b407f647f",
+      "name": "Limpa msgs2",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        360
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Limpa msgs2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "0993aab3-579d-4f8b-8734-5c7444cb7218",
+  "triggerCount": 0,
+  "tags": []
+}
