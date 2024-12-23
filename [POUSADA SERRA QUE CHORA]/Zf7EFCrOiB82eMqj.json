@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-20T00:30:00.922Z",
-  "updatedAt": "2024-12-20T21:54:36.523Z",
+  "updatedAt": "2024-12-22T23:38:03.682Z",
   "id": "Zf7EFCrOiB82eMqj",
   "name": "[POUSADA SERRA QUE CHORA]-[EVOLUTION_DIFY]",
   "active": true,
@@ -1226,7 +1226,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"inputs\": {},\n  \"query\": \"{{ $('Mensagens').item.json.query }}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"{{ $('Dados Lead').item.json.conversation_id }}\",\n  \"user\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"files\": [\n    {\n      \"type\": \"image\",\n      \"transfer_method\": \"remote_url\",\n      \"url\": \"https://cloud.dify.ai/logo/logo-site.png\"\n    }\n  ]\n}",
+        "jsonBody": "={\n\"inputs\": {},\n  \"query\": \"{{ $('Mensagens').item.json.query }}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"{{ $('Dados Lead').item.json.conversation_id }}\",\n  \"user\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"files\": [\n    {\n      \"type\": \"image\",\n      \"transfer_method\": \"remote_url\",\n      \"url\": \"https://cloud.dify.ai/logo/logo-site.png\"\n    }\n  ]\n}",
         "options": {
           "allowUnauthorizedCerts": true
         }
@@ -1770,7 +1770,7 @@
     "executionOrder": "v1",
     "saveManualExecutions": true,
     "callerPolicy": "workflowsFromSameOwner",
-    "errorWorkflow": "2ki7ciMDUfnhRMtj"
+    "errorWorkflow": "jbrvGhYnCRMH9uvw"
   },
   "staticData": null,
   "meta": {
@@ -1783,7 +1783,7 @@
           "headers": {
             "host": "webhook.robotriz.com.br",
             "user-agent": "axios/1.7.7",
-            "content-length": "979",
+            "content-length": "980",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
             "x-forwarded-for": "5.161.250.93",
@@ -1802,12 +1802,12 @@
               "key": {
                 "remoteJid": "553597638844@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3EB02E594B09DE097B92AA"
+                "id": "3EB029F8366D53346DE802"
               },
               "pushName": "Acácio Araujo MG",
               "status": "DELIVERY_ACK",
               "message": {
-                "conversation": "oi",
+                "conversation": "sim",
                 "messageContextInfo": {
                   "deviceListMetadata": {
                     "senderKeyHash": "Gx4VbtZqvszGRw==",
@@ -1818,16 +1818,16 @@
                     "recipientTimestamp": "1734643217"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "6RfHn/p6J5ONM5Y5j5M4KDbF80waUFuxV0L1Lh2SZZE="
+                  "messageSecret": "Muk9iOD2PoJ9rkiWXi+iJK9oBiMmM9nu6dn3s9cpfUk="
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1734717915,
+              "messageTimestamp": 1734910509,
               "instanceId": "64b2ec9e-a972-4f7e-b39a-ac446af6933f",
               "source": "web"
             },
             "destination": "https://webhook.robotriz.com.br/webhook/338edc06-7ade-4fea-8218-e88acd9eb63f",
-            "date_time": "2024-12-20T15:05:15.598Z",
+            "date_time": "2024-12-22T20:35:09.668Z",
             "sender": "553599230340@s.whatsapp.net",
             "server_url": "https://evolution-serra-que-chora.robotriz.com.br",
             "apikey": "3B74C9B3DC4E-4957-B413-D4136B81EC11"
@@ -1838,7 +1838,7 @@
       }
     ]
   },
-  "versionId": "9d010f6d-3bc9-4456-9de1-e7577e45b38d",
+  "versionId": "e2b23f9c-c242-4e3a-be14-0736700856c1",
   "triggerCount": 1,
   "tags": [
     {
