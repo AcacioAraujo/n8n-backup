@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-20T00:30:00.922Z",
-  "updatedAt": "2024-12-23T14:20:21.010Z",
+  "updatedAt": "2024-12-23T22:08:00.747Z",
   "id": "Zf7EFCrOiB82eMqj",
   "name": "[POUSADA SERRA QUE CHORA]-[EVOLUTION_DIFY]",
   "active": true,
@@ -223,14 +223,14 @@
     {
       "parameters": {
         "operation": "delete",
-        "key": "=5535997638844"
+        "key": "={{ $json.celular }}"
       },
       "id": "3154538f-37d9-4dc7-b641-a33a78e1334d",
       "name": "Limpa msgs2",
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -800,
+        -560,
         160
       ],
       "credentials": {
@@ -529,7 +529,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -680,
+        -760,
         380
       ]
     },
@@ -1783,7 +1783,7 @@
           "headers": {
             "host": "webhook.robotriz.com.br",
             "user-agent": "axios/1.7.7",
-            "content-length": "980",
+            "content-length": "1160",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
             "x-forwarded-for": "5.161.250.93",
@@ -1800,34 +1800,39 @@
             "instance": "saira",
             "data": {
               "key": {
-                "remoteJid": "553597638844@s.whatsapp.net",
+                "remoteJid": "5521971361419@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3EB029F8366D53346DE802"
+                "id": "3E995E6307DD5F76A5B548E8A8E6CADF"
               },
-              "pushName": "Acácio Araujo MG",
+              "pushName": "Carlos",
               "status": "DELIVERY_ACK",
               "message": {
-                "conversation": "sim",
                 "messageContextInfo": {
                   "deviceListMetadata": {
-                    "senderKeyHash": "Gx4VbtZqvszGRw==",
-                    "senderTimestamp": "1734643143",
-                    "senderAccountType": "E2EE",
-                    "receiverAccountType": "E2EE",
                     "recipientKeyHash": "PZ77bUw5//oMlQ==",
                     "recipientTimestamp": "1734643217"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "Muk9iOD2PoJ9rkiWXi+iJK9oBiMmM9nu6dn3s9cpfUk="
+                  "messageSecret": "kslXvCwezmvr617zREETRZIalwI7sk3saIctNVQqdto="
+                },
+                "conversation": "Queria saber se tem vaga para o carnaval, 01/03 à 05/03/2025 para um casal com uma criança de 4 anos, com café da manhã?"
+              },
+              "contextInfo": {
+                "expiration": 604800,
+                "ephemeralSettingTimestamp": "1720844236",
+                "disappearingMode": {
+                  "initiator": "INITIATED_BY_ME",
+                  "trigger": "ACCOUNT_SETTING",
+                  "initiatedByMe": true
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1734910509,
+              "messageTimestamp": 1734972131,
               "instanceId": "64b2ec9e-a972-4f7e-b39a-ac446af6933f",
-              "source": "web"
+              "source": "android"
             },
             "destination": "https://webhook.robotriz.com.br/webhook/338edc06-7ade-4fea-8218-e88acd9eb63f",
-            "date_time": "2024-12-22T20:35:09.668Z",
+            "date_time": "2024-12-23T13:42:11.442Z",
             "sender": "553599230340@s.whatsapp.net",
             "server_url": "https://evolution-serra-que-chora.robotriz.com.br",
             "apikey": "3B74C9B3DC4E-4957-B413-D4136B81EC11"
@@ -1838,7 +1843,7 @@
       }
     ]
   },
-  "versionId": "d55f837e-dce7-404e-930e-a199aafff232",
+  "versionId": "c40b96ec-f970-4945-a056-b393bea30af7",
   "triggerCount": 1,
   "tags": [
     {
