@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-01-02T15:07:19.490Z",
-  "updatedAt": "2025-01-02T18:17:11.936Z",
+  "updatedAt": "2025-01-03T14:59:09.759Z",
   "id": "AR78njeNWV5VM8iB",
   "name": "[MEDCOLAB]-[TESTES PIPEDRIVE]",
   "active": false,
@@ -17,8 +17,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1935,
-        440
+        860,
+        760
       ]
     },
     {
@@ -36,8 +36,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        2120,
-        520
+        1045,
+        840
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -78,8 +78,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        2280,
-        520
+        1205,
+        840
       ]
     },
     {
@@ -98,8 +98,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        2480,
-        700
+        1405,
+        1020
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -228,8 +228,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        2840,
-        580
+        1765,
+        900
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -258,8 +258,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1960,
-        520
+        885,
+        840
       ]
     },
     {
@@ -277,8 +277,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        2480,
-        500
+        1405,
+        820
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -304,8 +304,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        2660,
-        700
+        1585,
+        1020
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -323,14 +323,14 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        1220,
+        520,
         480
       ]
     },
     {
       "parameters": {
         "operation": "search",
-        "term": "Amanda Ferreira",
+        "term": "={{ $json.Nome }}",
         "limit": 1,
         "additionalFields": {}
       },
@@ -339,7 +339,7 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1440,
+        1460,
         480
       ],
       "credentials": {
@@ -351,18 +351,446 @@
     },
     {
       "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1Qj0yKQVuDhWv-AobhB7M1VyCc1BAdbaWElTXpVuWNd0",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 306816274,
+          "mode": "list",
+          "cachedResultName": "Dezembro 2024",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Qj0yKQVuDhWv-AobhB7M1VyCc1BAdbaWElTXpVuWNd0/edit#gid=306816274"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Processamento",
+              "lookupValue": "0"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": false
+        }
+      },
+      "id": "b1abc439-9ce9-4e60-877b-20fbee2c5fc7",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        680,
+        480
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dealId": 1142
+      },
+      "id": "e4361462-fb54-4731-8660-549ad57d9a2a",
+      "name": "Pipedrive3",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        860,
+        320
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "1zsyuy5qRFdVlrpi",
+          "name": "Pipedrive Medicolab"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "732179a0-6009-42fb-b4b5-571f474b2b6e",
+              "leftValue": "={{ $json.stage_id }}",
+              "rightValue": "11",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "10704376-de77-4f77-b88e-e6bea7cbcf6f",
+      "name": "É Lead?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2040,
+        480
+      ]
+    },
+    {
+      "parameters": {
         "operation": "update",
-        "dealId": "={{ $json.id }}",
+        "dealId": "={{ $json.deal_id }}",
         "updateFields": {
           "stage_id": 12
         }
       },
       "id": "499a6c98-5e1b-4bda-8702-25c4c4530116",
-      "name": "Pipedrive1",
+      "name": "Passa para Aluno",
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1680,
+        2260,
+        360
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "1zsyuy5qRFdVlrpi",
+          "name": "Pipedrive Medicolab"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0f21016c-850b-476a-9624-cc3eacee7232",
+              "name": "row_number",
+              "value": "={{ $('Google Sheets').item.json.row_number }}",
+              "type": "number"
+            },
+            {
+              "id": "6cebbaa0-9bed-4699-aad8-bd71ff814381",
+              "name": "deal_id",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            },
+            {
+              "id": "ff6304ae-3dd8-4d5a-aba3-6c80d8b9da34",
+              "name": "stage_id",
+              "value": "={{ $json.stage.id }}",
+              "type": "number"
+            },
+            {
+              "id": "c950b557-7640-4a0f-b3f7-b2f3dc5057ec",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "8318772b-2fef-465a-8b67-51cb2d3ab952",
+              "name": "nome_produto",
+              "value": "={{ $('Google Sheets').item.json['Nome do Produto'] }}",
+              "type": "string"
+            },
+            {
+              "id": "da066c2c-dddb-4e85-9bc5-9dd226868906",
+              "name": "moeda",
+              "value": "={{ $('Google Sheets').item.json.Moeda }}",
+              "type": "string"
+            },
+            {
+              "id": "5c697d57-239c-42cc-acb5-ab902261b982",
+              "name": "preco_produto",
+              "value": "={{\n\n(()=>{\n\n  const preco_produto = $('Google Sheets').item.json['Preço do Produto'];\n  const moeda = $('Google Sheets').item.json.Moeda;\n  const preco_original = $('Google Sheets').item.json['Preço Original'];\n\n  if(moeda == \"BRL\")\n    return preco_produto;\n  else\n  return preco_original;\n})()\n\n}}",
+              "type": "number"
+            },
+            {
+              "id": "96c05bbf-88d1-4132-9912-0d105b99bd2a",
+              "name": "nome",
+              "value": "={{ $('Google Sheets').item.json.Nome }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "28555bec-659d-4ab7-91fa-1c54f81d4e34",
+      "name": "Campo do Lead",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1820,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1Qj0yKQVuDhWv-AobhB7M1VyCc1BAdbaWElTXpVuWNd0",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 306816274,
+          "mode": "list",
+          "cachedResultName": "Dezembro 2024",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Qj0yKQVuDhWv-AobhB7M1VyCc1BAdbaWElTXpVuWNd0/edit#gid=306816274"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Processamento": "1",
+            "row_number": "={{ $('Campo do Lead').item.json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Nome do Produto",
+              "displayName": "Nome do Produto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Nome do Produtor",
+              "displayName": "Nome do Produtor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Nome do Afiliado",
+              "displayName": "Nome do Afiliado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Transação",
+              "displayName": "Transação",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Meio de Pagamento",
+              "displayName": "Meio de Pagamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Moeda",
+              "displayName": "Moeda",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preço do Produto",
+              "displayName": "Preço do Produto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preço Original",
+              "displayName": "Preço Original",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Número da Parcela",
+              "displayName": "Número da Parcela",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Recorrência",
+              "displayName": "Recorrência",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Data de Venda",
+              "displayName": "Data de Venda",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Data de Confirmação",
+              "displayName": "Data de Confirmação",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Documento",
+              "displayName": "Documento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "DDD",
+              "displayName": "DDD",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Processamento",
+              "displayName": "Processamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1af3b16-b199-4bda-8877-52e3beeb2996",
+      "name": "Registro processado",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        3100,
+        520
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "dealProduct",
+        "dealId": "={{ $json.deal_id }}",
+        "productId": 1,
+        "item_price": "={{ $json.preco_produto }}",
+        "additionalFields": {}
+      },
+      "id": "0e275312-35bb-40d6-933e-de4e03085bad",
+      "name": "Adiciona Ultraformer MPT",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2700,
         400
       ],
       "credentials": {
@@ -371,6 +799,132 @@
           "name": "Pipedrive Medicolab"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "dealProduct",
+        "dealId": "={{ $json.deal_id }}",
+        "productId": 2,
+        "item_price": "={{ $json.preco_produto }}",
+        "additionalFields": {}
+      },
+      "id": "5d23d679-e2b5-4ad0-8acd-001e96095389",
+      "name": "Adiciona Formação Secreta",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2700,
+        580
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "1zsyuy5qRFdVlrpi",
+          "name": "Pipedrive Medicolab"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.nome_produto.trim() }}",
+                    "rightValue": "Ultraformer MPT",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Ultraformer MPT "
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "73069ab2-29fc-450a-afbb-53837c4532df",
+                    "leftValue": "={{ $json.nome_produto.trim() }}",
+                    "rightValue": "Formação Secreta",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Formação Secreta"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "028b980d-10e0-46ff-9539-7fff6168a92b",
+      "name": "Produto comprado",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2480,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "da9513b3-0040-44fc-9edf-5e886ad9e646",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        880,
+        480
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "9e5b5d22-247f-4567-a9ee-817fca1947ce",
+      "name": "Replace Me",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "amount": "={{ \n\n(()=>{\n  return Math.floor(Math.random() * 3)\n})()\n\n}}"
+      },
+      "id": "b6b807bb-65d8-404d-a889-0ed8dd1b3852",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        500
+      ],
+      "webhookId": "bdb53069-9ce2-48ba-b7c1-dcfc06c99ae9"
     }
   ],
   "connections": {
@@ -451,7 +1005,18 @@
       "main": [
         [
           {
-            "node": "Pipedrive",
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
             "type": "main",
             "index": 0
           }
@@ -460,7 +1025,127 @@
     },
     "Pipedrive": {
       "main": [
-        []
+        [
+          {
+            "node": "Campo do Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "É Lead?": {
+      "main": [
+        [
+          {
+            "node": "Passa para Aluno",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Produto comprado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campo do Lead": {
+      "main": [
+        [
+          {
+            "node": "É Lead?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Passa para Aluno": {
+      "main": [
+        [
+          {
+            "node": "Produto comprado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Adiciona Ultraformer MPT": {
+      "main": [
+        [
+          {
+            "node": "Registro processado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Adiciona Formação Secreta": {
+      "main": [
+        [
+          {
+            "node": "Registro processado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Produto comprado": {
+      "main": [
+        [
+          {
+            "node": "Adiciona Ultraformer MPT",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Adiciona Formação Secreta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -472,7 +1157,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "125adf4b-b255-4bbf-8a20-df95e956ca77",
+  "versionId": "f46cde92-121c-4e1c-8bd6-cf32e39b642b",
   "triggerCount": 0,
   "tags": [
     {
