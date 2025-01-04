@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-01-02T15:07:19.490Z",
-  "updatedAt": "2025-01-03T14:59:09.759Z",
+  "updatedAt": "2025-01-03T16:14:12.103Z",
   "id": "AR78njeNWV5VM8iB",
   "name": "[MEDCOLAB]-[TESTES PIPEDRIVE]",
   "active": false,
@@ -18,7 +18,7 @@
       "typeVersion": 1,
       "position": [
         860,
-        760
+        900
       ]
     },
     {
@@ -37,7 +37,7 @@
       "typeVersion": 1,
       "position": [
         1045,
-        840
+        980
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -79,7 +79,7 @@
       "typeVersion": 2.2,
       "position": [
         1205,
-        840
+        980
       ]
     },
     {
@@ -99,7 +99,7 @@
       "typeVersion": 1,
       "position": [
         1405,
-        1020
+        1160
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -229,7 +229,7 @@
       "typeVersion": 4.5,
       "position": [
         1765,
-        900
+        1040
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -259,7 +259,7 @@
       "typeVersion": 3.4,
       "position": [
         885,
-        840
+        980
       ]
     },
     {
@@ -278,7 +278,7 @@
       "typeVersion": 1,
       "position": [
         1405,
-        820
+        960
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -305,7 +305,7 @@
       "typeVersion": 1,
       "position": [
         1585,
-        1020
+        1160
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -330,7 +330,7 @@
     {
       "parameters": {
         "operation": "search",
-        "term": "={{ $json.Nome }}",
+        "term": "={{ $('Loop Over Items').item.json.Nome }}",
         "limit": 1,
         "additionalFields": {}
       },
@@ -339,9 +339,10 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1460,
-        480
+        1320,
+        500
       ],
+      "alwaysOutputData": true,
       "credentials": {
         "pipedriveApi": {
           "id": "1zsyuy5qRFdVlrpi",
@@ -529,8 +530,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1820,
-        480
+        1760,
+        440
       ]
     },
     {
@@ -767,8 +768,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        3100,
-        520
+        3140,
+        640
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -780,9 +781,9 @@
     {
       "parameters": {
         "resource": "dealProduct",
-        "dealId": "={{ $json.deal_id }}",
+        "dealId": "={{ $('Campo do Lead').item.json.deal_id }}",
         "productId": 1,
-        "item_price": "={{ $json.preco_produto }}",
+        "item_price": "={{ $('Campo do Lead').item.json.preco_produto }}",
         "additionalFields": {}
       },
       "id": "0e275312-35bb-40d6-933e-de4e03085bad",
@@ -790,8 +791,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        2700,
-        400
+        2800,
+        300
       ],
       "credentials": {
         "pipedriveApi": {
@@ -803,9 +804,9 @@
     {
       "parameters": {
         "resource": "dealProduct",
-        "dealId": "={{ $json.deal_id }}",
+        "dealId": "={{ $('Campo do Lead').item.json.deal_id }}",
         "productId": 2,
-        "item_price": "={{ $json.preco_produto }}",
+        "item_price": "={{ $('Campo do Lead').item.json.preco_produto }}",
         "additionalFields": {}
       },
       "id": "5d23d679-e2b5-4ad0-8acd-001e96095389",
@@ -813,7 +814,7 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        2700,
+        2800,
         580
       ],
       "credentials": {
@@ -822,6 +823,55 @@
           "name": "Pipedrive Medicolab"
         }
       }
+    },
+    {
+      "parameters": {
+        "amount": "={{ \n\n(()=>{\nlet tempo = Math.floor(Math.random() * 3);\n\nif(tempo == 0)\n    return 1;\nelse\n  return tempo;\n\n})()\n\n}}"
+      },
+      "id": "b6b807bb-65d8-404d-a889-0ed8dd1b3852",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        500
+      ],
+      "webhookId": "bdb53069-9ce2-48ba-b7c1-dcfc06c99ae9"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8cc63c51-fe7e-4664-8588-6d1eca784fe7",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "3c47325d-4a5a-49be-bde8-d27e54c71e15",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1520,
+        500
+      ]
     },
     {
       "parameters": {
@@ -837,7 +887,7 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $json.nome_produto.trim() }}",
+                    "leftValue": "={{ $('Campo do Lead').item.json.nome_produto }}",
                     "rightValue": "Ultraformer MPT",
                     "operator": {
                       "type": "string",
@@ -884,13 +934,15 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        2480,
+        2460,
         500
       ]
     },
     {
       "parameters": {
-        "options": {}
+        "options": {
+          "reset": false
+        }
       },
       "id": "da9513b3-0040-44fc-9edf-5e886ad9e646",
       "name": "Loop Over Items",
@@ -899,32 +951,252 @@
       "position": [
         880,
         480
-      ]
-    },
-    {
-      "parameters": {},
-      "id": "9e5b5d22-247f-4567-a9ee-817fca1947ce",
-      "name": "Replace Me",
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        1300,
-        560
-      ]
+      ],
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
-        "amount": "={{ \n\n(()=>{\n  return Math.floor(Math.random() * 3)\n})()\n\n}}"
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1Qj0yKQVuDhWv-AobhB7M1VyCc1BAdbaWElTXpVuWNd0",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 306816274,
+          "mode": "list",
+          "cachedResultName": "Dezembro 2024",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Qj0yKQVuDhWv-AobhB7M1VyCc1BAdbaWElTXpVuWNd0/edit#gid=306816274"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Processamento": "2",
+            "row_number": "={{ $('Google Sheets').item.json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Nome do Produto",
+              "displayName": "Nome do Produto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Nome do Produtor",
+              "displayName": "Nome do Produtor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Nome do Afiliado",
+              "displayName": "Nome do Afiliado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Transação",
+              "displayName": "Transação",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Meio de Pagamento",
+              "displayName": "Meio de Pagamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Moeda",
+              "displayName": "Moeda",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preço do Produto",
+              "displayName": "Preço do Produto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preço Original",
+              "displayName": "Preço Original",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Número da Parcela",
+              "displayName": "Número da Parcela",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Recorrência",
+              "displayName": "Recorrência",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Data de Venda",
+              "displayName": "Data de Venda",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Data de Confirmação",
+              "displayName": "Data de Confirmação",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Documento",
+              "displayName": "Documento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "DDD",
+              "displayName": "DDD",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Processamento",
+              "displayName": "Processamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
       },
-      "id": "b6b807bb-65d8-404d-a889-0ed8dd1b3852",
-      "name": "Wait",
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
+      "id": "b2c8eb4e-4d88-48f5-8c2f-146f33c02bc6",
+      "name": "Registro não processado",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
       "position": [
-        1120,
-        500
+        1760,
+        620
       ],
-      "webhookId": "bdb53069-9ce2-48ba-b7c1-dcfc06c99ae9"
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
     }
   ],
   "connections": {
@@ -1027,7 +1299,7 @@
       "main": [
         [
           {
-            "node": "Campo do Lead",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -1096,6 +1368,46 @@
         ]
       ]
     },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Pipedrive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registro processado": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Campo do Lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Registro não processado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Produto comprado": {
       "main": [
         [
@@ -1126,22 +1438,11 @@
         ]
       ]
     },
-    "Replace Me": {
+    "Registro não processado": {
       "main": [
         [
           {
             "node": "Loop Over Items",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Wait": {
-      "main": [
-        [
-          {
-            "node": "Replace Me",
             "type": "main",
             "index": 0
           }
@@ -1157,7 +1458,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "f46cde92-121c-4e1c-8bd6-cf32e39b642b",
+  "versionId": "3c0885ad-7dab-447c-894b-0660831d36d5",
   "triggerCount": 0,
   "tags": [
     {
