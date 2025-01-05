@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-01-02T15:07:19.490Z",
-  "updatedAt": "2025-01-03T16:14:12.103Z",
+  "updatedAt": "2025-01-05T12:26:03.920Z",
   "id": "AR78njeNWV5VM8iB",
   "name": "[MEDCOLAB]-[TESTES PIPEDRIVE]",
   "active": false,
@@ -17,69 +17,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        860,
-        900
-      ]
-    },
-    {
-      "parameters": {
-        "resource": "person",
-        "operation": "search",
-        "limit": 1,
-        "term": "={{ $('Campos Lead Formulario').item.json.email }}",
-        "additionalFields": {
-          "exactMatch": true
-        }
-      },
-      "id": "f6187bbc-0e10-463b-8c7a-f8da9880f3eb",
-      "name": "Consultar Pessoa",
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        1045,
-        980
-      ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "pipedriveApi": {
-          "id": "1zsyuy5qRFdVlrpi",
-          "name": "Pipedrive Medicolab"
-        }
-      },
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "efb180f8-43ac-4848-93cd-34c12b6da4af",
-              "leftValue": "={{ $json.id }}",
-              "rightValue": "",
-              "operator": {
-                "type": "number",
-                "operation": "exists",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "11a15f55-4e06-4de3-a6d9-a7c54abae163",
-      "name": "Existe Pessoa",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        1205,
-        980
+        2600,
+        1180
       ]
     },
     {
@@ -98,8 +37,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1405,
-        1160
+        2260,
+        960
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -228,8 +167,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        1765,
-        1040
+        2620,
+        840
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -258,36 +197,9 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        885,
-        980
+        840,
+        1200
       ]
-    },
-    {
-      "parameters": {
-        "title": "={{ $('Campos Lead Formulario').item.json.nome_completo }} - {{ $('Campos Lead Formulario').item.json.razao_social }} - {{ $('Dados formulario').item.json.solucao }}",
-        "org_id": "={{ $json.organization.id }}",
-        "additionalFields": {
-          "person_id": "={{ $('Consultar Pessoa').item.json.id }}",
-          "stage_id": 125,
-          "status": "open"
-        }
-      },
-      "id": "41d45ef2-9d18-4c66-ae8e-598b102f860f",
-      "name": "Criar Novo Negócio",
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        1405,
-        960
-      ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "pipedriveApi": {
-          "id": "M0LF99Z4bN1fNIRC",
-          "name": "Pipedrive - AHM Solution"
-        }
-      },
-      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -304,8 +216,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1585,
-        1160
+        2440,
+        960
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -326,70 +238,6 @@
         520,
         480
       ]
-    },
-    {
-      "parameters": {
-        "operation": "search",
-        "term": "={{ $('Loop Over Items').item.json.Nome }}",
-        "limit": 1,
-        "additionalFields": {}
-      },
-      "id": "998f6db9-86af-40f8-841e-b3aac419be64",
-      "name": "Pipedrive",
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        1320,
-        500
-      ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "pipedriveApi": {
-          "id": "1zsyuy5qRFdVlrpi",
-          "name": "Pipedrive Medicolab"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1Qj0yKQVuDhWv-AobhB7M1VyCc1BAdbaWElTXpVuWNd0",
-          "mode": "id"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 306816274,
-          "mode": "list",
-          "cachedResultName": "Dezembro 2024",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Qj0yKQVuDhWv-AobhB7M1VyCc1BAdbaWElTXpVuWNd0/edit#gid=306816274"
-        },
-        "filtersUI": {
-          "values": [
-            {
-              "lookupColumn": "Processamento",
-              "lookupValue": "0"
-            }
-          ]
-        },
-        "options": {
-          "returnFirstMatch": false
-        }
-      },
-      "id": "b1abc439-9ce9-4e60-877b-20fbee2c5fc7",
-      "name": "Google Sheets",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
-      "position": [
-        680,
-        480
-      ],
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "QHPaQBvMXstzhtM3",
-          "name": "[ROBOTRIZ] GOOGLE SHEETS"
-        }
-      }
     },
     {
       "parameters": {
@@ -443,7 +291,7 @@
       "typeVersion": 2.2,
       "position": [
         2040,
-        480
+        440
       ]
     },
     {
@@ -459,8 +307,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        2260,
-        360
+        2300,
+        220
       ],
       "credentials": {
         "pipedriveApi": {
@@ -768,8 +616,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        3140,
-        640
+        3200,
+        500
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -792,7 +640,7 @@
       "typeVersion": 1,
       "position": [
         2800,
-        300
+        180
       ],
       "credentials": {
         "pipedriveApi": {
@@ -814,8 +662,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        2800,
-        580
+        2780,
+        400
       ],
       "credentials": {
         "pipedriveApi": {
@@ -935,7 +783,7 @@
       "typeVersion": 3.2,
       "position": [
         2460,
-        500
+        460
       ]
     },
     {
@@ -1188,8 +1036,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        1760,
-        620
+        660,
+        920
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -1197,65 +1045,225 @@
           "name": "[ROBOTRIZ] GOOGLE SHEETS"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "term": "={{ $('Loop Over Items').item.json.Nome }}",
+        "limit": 1,
+        "additionalFields": {}
+      },
+      "id": "998f6db9-86af-40f8-841e-b3aac419be64",
+      "name": "Pipedrive",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1320,
+        500
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "1zsyuy5qRFdVlrpi",
+          "name": "Pipedrive Medicolab"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "search",
+        "limit": 1,
+        "term": "={{ $('Loop Over Items').item.json.Nome }}",
+        "additionalFields": {
+          "exactMatch": true
+        }
+      },
+      "id": "f6187bbc-0e10-463b-8c7a-f8da9880f3eb",
+      "name": "Consultar Pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        780
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "1zsyuy5qRFdVlrpi",
+          "name": "Pipedrive Medicolab"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "efb180f8-43ac-4848-93cd-34c12b6da4af",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "11a15f55-4e06-4de3-a6d9-a7c54abae163",
+      "name": "Existe Pessoa",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2060,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "title": "={{ $('Campos Lead Formulario').item.json.nome_completo }} - {{ $('Campos Lead Formulario').item.json.razao_social }} - {{ $('Dados formulario').item.json.solucao }}",
+        "org_id": "={{ $json.organization.id }}",
+        "additionalFields": {
+          "person_id": "={{ $('Consultar Pessoa').item.json.id }}",
+          "stage_id": 125,
+          "status": "open"
+        }
+      },
+      "id": "41d45ef2-9d18-4c66-ae8e-598b102f860f",
+      "name": "Criar Novo Negócio",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2260,
+        760
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "M0LF99Z4bN1fNIRC",
+          "name": "Pipedrive - AHM Solution"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1Qj0yKQVuDhWv-AobhB7M1VyCc1BAdbaWElTXpVuWNd0",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 306816274,
+          "mode": "list",
+          "cachedResultName": "Dezembro 2024",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Qj0yKQVuDhWv-AobhB7M1VyCc1BAdbaWElTXpVuWNd0/edit#gid=306816274"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Processamento",
+              "lookupValue": "2"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "id": "b1abc439-9ce9-4e60-877b-20fbee2c5fc7",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        680,
+        480
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3f6b25d6-221b-492f-a763-ce272482d9f9",
+              "name": "organization_id",
+              "value": "=19",
+              "type": "number"
+            },
+            {
+              "id": "1b256a46-e64b-4a6d-98cb-c7ae5316caf6",
+              "name": "nome",
+              "value": "={{ $('Google Sheets').item.json.Nome }}",
+              "type": "string"
+            },
+            {
+              "id": "c48e5459-54a7-42e4-bbb9-98a05a83865d",
+              "name": "email",
+              "value": "={{ $('Google Sheets').item.json.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "3bd48161-4c5d-4385-b988-87dc7eb0313f",
+              "name": "profissao",
+              "value": "={{ $('Google Sheets').item.json. }}",
+              "type": "string"
+            },
+            {
+              "id": "3ea02367-9528-4579-8f03-361db49515c9",
+              "name": "tipo_formulario",
+              "value": "={{ $json.body.tipo_formulario }}",
+              "type": "string"
+            },
+            {
+              "id": "232deb96-ebed-4387-825c-c216c7d9046c",
+              "name": "=titulo",
+              "value": "={{ $json.body.Nome }} - {{ $json.body['Profissão'] }} - {{ $json.body.tipo_formulario }}",
+              "type": "string"
+            },
+            {
+              "id": "ef3ad2c0-f694-4db2-b89b-9ad1cc5e1763",
+              "name": "WhatsApp",
+              "value": "={{ $json.body.WhatsApp }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a7c3ecb1-6641-4d92-b841-84dd4cdf2e25",
+      "name": "Dados Lead",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1680,
+        780
+      ]
     }
   ],
   "connections": {
-    "Consultar Pessoa": {
-      "main": [
-        [
-          {
-            "node": "Existe Pessoa",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Existe Pessoa": {
-      "main": [
-        [
-          {
-            "node": "Criar Novo Negócio",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Cadastrar Pessoa",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Cadastrar Pessoa": {
       "main": [
         [
           {
             "node": "Criar Negócio",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Dados Empresa": {
-      "main": [
-        [
-          {
-            "node": "Consultar Pessoa",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Criar Novo Negócio": {
-      "main": [
-        [
-          {
-            "node": "Pipedrive OK",
             "type": "main",
             "index": 0
           }
@@ -1278,28 +1286,6 @@
         [
           {
             "node": "Google Sheets",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Google Sheets": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Pipedrive": {
-      "main": [
-        [
-          {
-            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -1401,7 +1387,7 @@
         ],
         [
           {
-            "node": "Registro não processado",
+            "node": "Dados Lead",
             "type": "main",
             "index": 0
           }
@@ -1438,7 +1424,58 @@
         ]
       ]
     },
-    "Registro não processado": {
+    "Pipedrive": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consultar Pessoa": {
+      "main": [
+        [
+          {
+            "node": "Existe Pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Existe Pessoa": {
+      "main": [
+        [
+          {
+            "node": "Criar Novo Negócio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cadastrar Pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Novo Negócio": {
+      "main": [
+        [
+          {
+            "node": "Pipedrive OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
       "main": [
         [
           {
@@ -1458,7 +1495,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "3c0885ad-7dab-447c-894b-0660831d36d5",
+  "versionId": "36c7a69c-4b65-49a7-9cdc-e055cd2f1f08",
   "triggerCount": 0,
   "tags": [
     {
