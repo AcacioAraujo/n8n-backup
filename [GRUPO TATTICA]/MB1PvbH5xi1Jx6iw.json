@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-01-07T18:28:25.927Z",
-  "updatedAt": "2025-01-07T20:04:34.580Z",
+  "updatedAt": "2025-01-08T23:59:52.940Z",
   "id": "MB1PvbH5xi1Jx6iw",
   "name": "[GRUPO TATTICA]-[ATENDIMENTO PORTARIA 1.0]",
   "active": false,
@@ -12,7 +12,7 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        60,
+        40,
         340
       ]
     },
@@ -770,7 +770,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "a0f8cd10-154d-471c-8d98-9525d207e658",
+  "versionId": "7e78949e-4cbe-493e-a649-5f621a5047b3",
   "triggerCount": 0,
   "tags": []
 }
