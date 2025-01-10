@@ -1,0 +1,276 @@
+{
+  "createdAt": "2025-01-10T12:55:06.648Z",
+  "updatedAt": "2025-01-10T13:52:58.036Z",
+  "id": "cgrrJBoNHhruArYp",
+  "name": "[CONDE TRADE]-[ZOOM][PARTICIPANTE ENTROU EM REUNIÃO]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"plainToken\":\"{{ $json.plainToken }}\",\"encryptedToken\":\"{{ $json.encryptedToken }}\"}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "7977e35d-306f-4b48-834f-2a5dc2dbeab2",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1160,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "action": "hmac",
+        "type": "SHA256",
+        "value": "={{ $json.body.payload.plainToken }}",
+        "dataPropertyName": "encryptedToken",
+        "secret": "o_7xr_gqTxyLDVuBc23KLQ"
+      },
+      "id": "30047507-ccb3-402a-a186-0ae4da98418e",
+      "name": "Crypto",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        740,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4043e9cc-9e45-4541-b559-0a0dc6cb9580",
+              "name": "plainToken",
+              "value": "={{ $json.body.payload.plainToken }}",
+              "type": "string"
+            },
+            {
+              "id": "2e12447b-b431-4739-b883-3a98f159c3ce",
+              "name": "encryptedToken",
+              "value": "={{ $json.encryptedToken }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "552674db-fc81-41cc-8241-549823cf35c3",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "aa54f6d4-facb-4194-a4b4-a857cc643014",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "d89f5a76-927f-41b8-a46b-f4a61b7bf691",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        220,
+        360
+      ],
+      "webhookId": "aa54f6d4-facb-4194-a4b4-a857cc643014"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1b53866e-eba7-43d3-8248-87a7340ecd41",
+              "leftValue": "={{ $json.body.payload.plainToken }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "9221a440-bfb2-4814-882f-b1a07422bd9a",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "noData",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "112a207b-f698-45de-aa74-4fa8c635a769",
+      "name": "Respond to Webhook1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        740,
+        420
+      ]
+    }
+  ],
+  "connections": {
+    "Crypto": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Crypto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.robotriz.com.br",
+            "user-agent": "Zoom Marketplace/1.0a",
+            "content-length": "637",
+            "authorization": "uL4brvClQWK83IOSoVNFVQ",
+            "clientid": "GOY9nJ4SQSaRLO9NfkaV3w",
+            "content-type": "application/json; charset=utf-8",
+            "x-forwarded-for": "134.224.12.55",
+            "x-forwarded-host": "webhook.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "646ce02b4d09",
+            "x-real-ip": "134.224.12.55",
+            "x-zm-request-timestamp": "1736516879",
+            "x-zm-signature": "v0=3a88c4714f2fc4eb601ac572145476d2ca3d31337b2d00237d1c0ba8a11b4a9b",
+            "x-zm-trackingid": "EventService_feea50fc-4eba-4c56-aa0d-5ec346cbd26c",
+            "accept-encoding": "gzip"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "payload": {
+              "account_id": "lOCXvBH9R8OtM3hou5ObDA",
+              "object": {
+                "uuid": "FFdOSPKzSrCRAGV5uvdH2g==",
+                "participant": {
+                  "public_ip": "186.233.178.207",
+                  "user_id": "16784384",
+                  "user_name": "Conde Trade",
+                  "participant_user_id": "IkkgGzpSRhWG5jxqmTELiQ",
+                  "id": "IkkgGzpSRhWG5jxqmTELiQ",
+                  "join_time": "2025-01-10T13:47:57Z",
+                  "email": "condetrade07@gmail.com",
+                  "participant_uuid": "68679DA3-4BF9-34FA-110F-DB34C52FDE96"
+                },
+                "id": "7672817368",
+                "type": 4,
+                "topic": "Sala Pessoal do 'Conde Trade'",
+                "host_id": "IkkgGzpSRhWG5jxqmTELiQ",
+                "duration": 60,
+                "start_time": "2025-01-10T12:14:35Z",
+                "timezone": "America/Sao_Paulo"
+              }
+            },
+            "event_ts": 1736516879026,
+            "event": "meeting.participant_joined"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook/aa54f6d4-facb-4194-a4b4-a857cc643014",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "b0c7056b-3e52-4f57-8281-8dae37765d97",
+  "triggerCount": 1,
+  "tags": []
+}
