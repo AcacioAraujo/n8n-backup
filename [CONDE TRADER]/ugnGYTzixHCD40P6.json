@@ -1,10 +1,187 @@
 {
   "createdAt": "2024-12-18T14:37:32.637Z",
-  "updatedAt": "2024-12-18T14:43:26.243Z",
+  "updatedAt": "2025-01-10T19:27:31.253Z",
   "id": "ugnGYTzixHCD40P6",
   "name": "[CONDE TRADER]-[AUTOMAÇÃO DE GRUPO]",
   "active": true,
   "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9882646c-c9be-4f51-a89b-7535d4590313",
+              "name": "evolution_api_key",
+              "value": "92296C17C4AB-4130-90AA-2CE1FB6603D1",
+              "type": "string"
+            },
+            {
+              "id": "ee34f7c0-0044-4eae-a2e7-e17abc75e74f",
+              "name": "evolution_url",
+              "value": "https://evolution.robotriz.com.br/message/sendText/Conde Trader",
+              "type": "string"
+            },
+            {
+              "id": "9192ed9c-c2ae-4240-8ca3-8e73c59905c3",
+              "name": "event",
+              "value": "={{ $json.body.event }}",
+              "type": "string"
+            },
+            {
+              "id": "183d5c23-56ee-4ab5-8dda-46a17a7d23ca",
+              "name": "id",
+              "value": "={{ $json.body.data.id }}",
+              "type": "string"
+            },
+            {
+              "id": "df9add22-ecdc-4083-8c8f-cd25ce9a5d03",
+              "name": "remoteJid",
+              "value": "={{ $json.body.data.participants[0] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6c3a678a-2b1b-4b77-8099-3823e07b8fa2",
+      "name": "Dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        140,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.id }}",
+                    "rightValue": "120363379344970054@g.us",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Grupo Teste"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2a0f65f7-9737-4ae8-9095-e5344b3c07c6",
+                    "leftValue": "={{ $json.id }}",
+                    "rightValue": "120363148135532529@g.us",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "𝐂𝐨𝐧𝐝𝐞𝐬 𝐓𝐫𝐚𝐝𝐢𝐧𝐠 01"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c46d167e-caee-4130-8601-97ba3cf06c64",
+      "name": "Grupo",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        360,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.event }}",
+                    "rightValue": "group-participants.update",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "group-participants.update"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a49477a6-580b-400f-a897-43d99d6d6d31",
+                    "leftValue": "={{ $json.event }}",
+                    "rightValue": "messages.upsert",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "messages.upsert"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fd358eb7-d359-4018-bcec-3277f6631e8f",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        620,
+        180
+      ]
+    },
     {
       "parameters": {
         "httpMethod": "POST",
@@ -16,13 +193,99 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        820,
+        -80,
         360
       ],
       "webhookId": "d28b3691-2b71-49b6-b2df-43a4906ad9b6"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.evolution_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $json.evolution_api_key }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "=Olá, bem vindo ao Conde Trader."
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "a613cbea-f644-4a1f-b70d-e568a87124bb",
+      "name": "Msg Boas vindas",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1060,
+        20
+      ]
     }
   ],
-  "connections": {},
+  "connections": {
+    "Dados": {
+      "main": [
+        [
+          {
+            "node": "Grupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Grupo": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Msg Boas vindas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "settings": {
     "executionOrder": "v1"
   },
@@ -30,8 +293,49 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "253f1df3-5177-4f3e-a246-f6fe40f47166",
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.robotriz.com.br",
+            "user-agent": "axios/1.7.7",
+            "content-length": "445",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "webhook.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "646ce02b4d09",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "group-participants.update",
+            "instance": "Conde Trader",
+            "data": {
+              "id": "120363379344970054@g.us",
+              "author": "",
+              "participants": [
+                "5511981588224@s.whatsapp.net"
+              ],
+              "action": "add"
+            },
+            "destination": "https://webhook.robotriz.com.br/webhook/d28b3691-2b71-49b6-b2df-43a4906ad9b6",
+            "date_time": "2025-01-10T15:08:12.235Z",
+            "sender": "557382015895@s.whatsapp.net",
+            "server_url": "https://evolution.robotriz.com.br",
+            "apikey": "92296C17C4AB-4130-90AA-2CE1FB6603D1"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook/d28b3691-2b71-49b6-b2df-43a4906ad9b6",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "2510ede0-86a9-4cc0-a111-22676a0da032",
   "triggerCount": 1,
   "tags": []
 }
