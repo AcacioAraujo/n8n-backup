@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-20T00:30:00.922Z",
-  "updatedAt": "2025-01-28T23:31:38.897Z",
+  "updatedAt": "2025-01-29T15:20:52.793Z",
   "id": "Zf7EFCrOiB82eMqj",
   "name": "[CARTORIO]-[EVOLUTION_DIFY]",
   "active": true,
@@ -84,7 +84,7 @@
     },
     {
       "parameters": {
-        "amount": 15
+        "amount": 10
       },
       "id": "5f39c8d0-1612-4ead-92f2-595c49f62555",
       "name": "Wait",
@@ -1849,7 +1849,7 @@
       }
     ]
   },
-  "versionId": "f752b494-2c5d-47bd-ae5f-e9869f7b11fa",
+  "versionId": "547a7a33-f8c8-48e6-8be0-6b42d3dee47f",
   "triggerCount": 1,
   "tags": []
 }
