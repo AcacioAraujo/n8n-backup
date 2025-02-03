@@ -1,18 +1,297 @@
 {
   "createdAt": "2025-02-02T13:10:28.074Z",
-  "updatedAt": "2025-02-02T13:10:28.074Z",
+  "updatedAt": "2025-02-02T18:48:18.972Z",
   "id": "seHaD0TxyHBofvlo",
   "name": "[BRUNA ALMEIDA]-[CAPTURA DE LEAD PARA CRM]",
   "active": false,
-  "nodes": [],
-  "connections": {},
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://app.bellesoftware.com.br/api/release/controller/IntegracaoExterna/v1.0/cliente/gravar-lead",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "a7f462f0ed27ad0aa263fe38f497c5dd"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "nome",
+              "value": "={{ $('Dados Lead').item.json.nome }}"
+            },
+            {
+              "name": "celular",
+              "value": "={{ $('Dados Lead').item.json.celular }}"
+            },
+            {
+              "name": "observacao",
+              "value": "Cadastro via formulário"
+            },
+            {
+              "name": "codOrigem",
+              "value": "1"
+            },
+            {
+              "name": "codEstab",
+              "value": "1"
+            },
+            {
+              "name": "cidade",
+              "value": "={{ $('Dados Lead').item.json.cidade }}"
+            },
+            {
+              "name": "UF",
+              "value": "={{ $('Dados Lead').item.json.uf }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "fcceb41a-e2a3-4246-b6c2-91df24ebd536",
+      "name": "Cadastra Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1060,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "efb180f8-43ac-4848-93cd-34c12b6da4af",
+              "leftValue": "={{ $json.codigo }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "6add9bf3-34bb-4195-8b82-5d58843036ea",
+      "name": "Existe Pessoa",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        860,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://app.bellesoftware.com.br/api/release/controller/IntegracaoExterna/v1.0/cliente/listar",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "codEstab",
+              "value": "1"
+            },
+            {
+              "name": "celular",
+              "value": "={{ (()=>{\n\n  let numero = $json.celular\n  const numeros = numero.replace(/\\D/g, '');\n\n  // Verifica se o número tem 10 dígitos (sem o 9)\n  if (numeros.length === 10) {\n      // Adiciona o 9 após o DDD\n      numeros = numeros.substring(0, 2) + '9' + numeros.substring(2);\n  }\n\n  // Verifica se o número tem 11 dígitos (com o 9)\n  if (numeros.length === 11) {\n      // Formata o número no padrão (xx)99999-9999\n      return `(${numeros.substring(0, 2)})${numeros.substring(2, 7)}-${numeros.substring(7)}`;\n  }\n\n  // Retorna o número original se não for válido\n  return numero;\n\n})()\n}}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "a7f462f0ed27ad0aa263fe38f497c5dd"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "fc3ed8c0-939a-497f-87c3-d21b554fb132",
+      "name": "Consulta Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        680,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3f6b25d6-221b-492f-a763-ce272482d9f9",
+              "name": "organization_id",
+              "value": "=19",
+              "type": "number"
+            },
+            {
+              "id": "1b256a46-e64b-4a6d-98cb-c7ae5316caf6",
+              "name": "nome",
+              "value": "={{ $json.body.nome }}",
+              "type": "string"
+            },
+            {
+              "id": "ef3ad2c0-f694-4db2-b89b-9ad1cc5e1763",
+              "name": "celular",
+              "value": "={{ $json.body.celular }}",
+              "type": "string"
+            },
+            {
+              "id": "eaafb71d-5760-4f26-80c9-7dd5c24a6dbc",
+              "name": "cidade",
+              "value": "={{ $json.body.cidade }}",
+              "type": "string"
+            },
+            {
+              "id": "e8ad5725-6f1d-4836-b554-821b9bf09b36",
+              "name": "uf",
+              "value": "={{ $json.body.uf }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6a48d4dd-4f0f-4496-8aa4-ca5d8ce288b6",
+      "name": "Dados Lead",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        500,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "d8189402-5181-40fa-8446-e9e270090ccb",
+        "options": {}
+      },
+      "id": "57ee2dae-73c4-4f28-9544-cc4ccc97ae2c",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        320,
+        320
+      ],
+      "webhookId": "d8189402-5181-40fa-8446-e9e270090ccb"
+    }
+  ],
+  "connections": {
+    "Dados Lead": {
+      "main": [
+        [
+          {
+            "node": "Consulta Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Existe Pessoa": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Cadastra Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta Lead": {
+      "main": [
+        [
+          {
+            "node": "Existe Pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Dados Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "settings": {
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
-  "pinData": {},
-  "versionId": "087eb8f7-b6b7-4876-8700-113efebfd726",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "PostmanRuntime/7.43.0",
+            "content-length": "107",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "postman-token": "78e40900-563d-4a59-a55f-a69a549604e2",
+            "x-forwarded-for": "186.233.178.124",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "759fa69d6a32",
+            "x-real-ip": "186.233.178.124"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "nome": "Cliente Teste",
+            "celular": "11999999999",
+            "cidade": "São Paulo",
+            "uf": "SP"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/d8189402-5181-40fa-8446-e9e270090ccb",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "b99d966c-6239-4301-be48-9b00b20cb86c",
   "triggerCount": 0,
   "tags": []
 }
