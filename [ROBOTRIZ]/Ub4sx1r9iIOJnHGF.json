@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-12-18T23:36:28.288Z",
-  "updatedAt": "2024-12-19T11:19:38.532Z",
+  "updatedAt": "2025-02-07T11:55:15.112Z",
   "id": "Ub4sx1r9iIOJnHGF",
   "name": "[ROBOTRIZ]-[AUTOMAÇÃO NOVOS CLIENTES]",
   "active": true,
@@ -13,6 +13,10 @@
             {
               "fieldLabel": "Qual o seu nome?",
               "placeholder": "Nome",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Qual seu celular? Ex.:11-999999999",
               "requiredField": true
             },
             {
@@ -29,8 +33,7 @@
             {
               "fieldLabel": "O que gostaria de automatizar?",
               "requiredField": true
-            },
-            {}
+            }
           ]
         },
         "options": {
@@ -43,11 +46,10 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.2,
       "position": [
-        340,
-        20
+        260,
+        280
       ],
-      "webhookId": "8970a5af-b422-4882-8d3d-eefafb2e11ec",
-      "disabled": true
+      "webhookId": "8970a5af-b422-4882-8d3d-eefafb2e11ec"
     },
     {
       "parameters": {
@@ -76,8 +78,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        680,
-        40
+        660,
+        -20
       ]
     },
     {
@@ -95,7 +97,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"autoInvite\": true,\n  \"groupName\": \"Robotriz - {{ $json.body.empresa }}\",\n  \"phones\": [\"5527997748634\",\"557398251408\",\"5535997638844\",\"{{ $json.body.celular }}\"]\n}",
+        "jsonBody": "={\n  \"autoInvite\": true,\n  \"groupName\": \"Robotriz - {{ $json.body.empresa }}\",\n  \"phones\": [\"5527997748634\",\"557398251408\",\"5535997638844\",\"55{{ $json.body.celular }}\"]\n}",
         "options": {
           "redirect": {
             "redirect": {}
@@ -153,8 +155,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        300,
-        280
+        240,
+        -80
       ],
       "webhookId": "ee265710-8784-4db0-922f-d29fd255b45a"
     }
@@ -172,6 +174,11 @@
       ]
     },
     "Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "On form submission": {
       "main": [
         [
           {
@@ -223,9 +230,22 @@
           "executionMode": "production"
         }
       }
+    ],
+    "On form submission": [
+      {
+        "json": {
+          "Qual o seu nome?": "Acacio Araujo",
+          "Qual seu celular? Ex.:11-999999999": "11981588224",
+          "Qual o seu e-mail?": "acacio@gmail.com",
+          "Qual o nome da sua empresa?": "Forno & Fumaça",
+          "O que gostaria de automatizar?": "Captação de leads e automatizar processos internos.",
+          "submittedAt": "2025-02-07T08:44:23.597-03:00",
+          "formMode": "production"
+        }
+      }
     ]
   },
-  "versionId": "1544037c-3f27-4c7c-aaa1-42bc223649e9",
-  "triggerCount": 1,
+  "versionId": "a14345c5-09a4-495c-af08-5710508204ed",
+  "triggerCount": 3,
   "tags": []
 }
