@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-02-11T13:51:34.995Z",
-  "updatedAt": "2025-02-11T13:51:34.995Z",
+  "updatedAt": "2025-02-13T19:25:10.926Z",
   "id": "ZV75ih8MrdP2E65o",
   "name": "[IMOBILIARIA ROBOTRIZ]-[EVOLUTION_DIFY]",
-  "active": false,
+  "active": true,
   "nodes": [
     {
       "parameters": {
@@ -84,8 +84,7 @@
     },
     {
       "parameters": {
-        "amount": 15,
-        "path": "3ddc4a92-b7ed-4cd6-8d94-a9a3bf72df8d"
+        "amount": 15
       },
       "id": "3f67e9b2-7199-4db2-834d-93b0d6041dd5",
       "name": "Wait",
@@ -96,52 +95,6 @@
         680
       ],
       "webhookId": "3ddc4a92-b7ed-4cd6-8d94-a9a3bf72df8d"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://evolution.robotriz.com.br/message/sendText/Pousadas%20Robotriz",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "6612A58785A6-4F45-9527-B3BA28DF0952"
-            }
-          ]
-        },
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "number",
-              "value": "5535997638844"
-            },
-            {
-              "name": "text",
-              "value": "={{\n\n(()=>{\n\n  let arrMensagens = $json.propertyName;\n\n  return arrMensagens.join(\", \");\n})()\n\n}}"
-            }
-          ]
-        },
-        "options": {
-          "redirect": {
-            "redirect": {}
-          },
-          "response": {
-            "response": {}
-          }
-        }
-      },
-      "id": "87991bdd-b392-4385-9e6f-38bb3e62668e",
-      "name": "HTTP Request1",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        -1860,
-        1560
-      ],
-      "alwaysOutputData": true,
-      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -176,28 +129,6 @@
         940,
         580
       ]
-    },
-    {
-      "parameters": {
-        "operation": "get",
-        "key": "={{ $('Dados Lead').item.json.celular }}",
-        "keyType": "list",
-        "options": {}
-      },
-      "id": "454c3c85-9585-49db-9f5f-faacedbd5aae",
-      "name": "Consulta msg novamente1",
-      "type": "n8n-nodes-base.redis",
-      "typeVersion": 1,
-      "position": [
-        -2060,
-        1560
-      ],
-      "credentials": {
-        "redis": {
-          "id": "eqvHIOsQVjeLxmqP",
-          "name": "Redis account"
-        }
-      }
     },
     {
       "parameters": {
@@ -518,7 +449,25 @@
             {
               "id": "ed90fdce-325a-4ec2-8794-5ec8eb347694",
               "name": "api_key",
-              "value": "app-vmB7uHP1CoT7uFmFOHDictEY",
+              "value": "app-BrAqlaOL08Ygo8Ro8mrsCoXo",
+              "type": "string"
+            },
+            {
+              "id": "e1ac8d3c-b336-4cbd-ab7d-0ab23f240dd7",
+              "name": "dify_url",
+              "value": "https://dify-api.robotriz.com.br/v1/chat-messages",
+              "type": "string"
+            },
+            {
+              "id": "ebc64d7b-2a21-4879-b7c4-90b71848f33b",
+              "name": "evolution_url",
+              "value": "https://evolution.robotriz.com.br/message/sendText/Imobiliaria%20Robotriz",
+              "type": "string"
+            },
+            {
+              "id": "f5736b37-cbdb-456f-ab20-c0d25d2a97ed",
+              "name": "evolution_apikey",
+              "value": "1D0689F15C1B-47B8-81ED-BC6D2D4B0424",
               "type": "string"
             }
           ]
@@ -778,7 +727,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://dify-api-serra-que-chora.robotriz.com.br/v1/chat-messages",
+        "url": "={{ $('Variaveis').item.json.dify_url }}",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -798,7 +747,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -460,
+        -420,
         1000
       ],
       "retryOnFail": true
@@ -833,7 +782,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -240,
+        -200,
         1000
       ]
     },
@@ -955,7 +904,7 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        0,
+        40,
         900
       ],
       "alwaysOutputData": true,
@@ -969,13 +918,13 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://evolution-serra-que-chora.robotriz.com.br/message/sendText/saira",
+        "url": "={{ $('Variaveis').item.json.evolution_url }}",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "apikey",
-              "value": "=3B74C9B3DC4E-4957-B413-D4136B81EC11"
+              "value": "={{ $('Variaveis').item.json.evolution_apikey }}"
             }
           ]
         },
@@ -1003,109 +952,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        260,
+        300,
         1020
-      ]
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "9fb78c40-3eaf-4362-a5e4-8cba44d2b88a",
-              "leftValue": "={{ $('Google Sheets').item.json.agente_ia.toString() }}",
-              "rightValue": "true",
-              "operator": {
-                "type": "string",
-                "operation": "equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "043b066f-cce7-4c16-8a48-3077437b989e",
-      "name": "liberado para testes",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        -1920,
-        1300
-      ]
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "28d74be8-a368-43ab-a714-e11665566ad5",
-              "leftValue": "={{ $json.body.data.key.fromMe }}",
-              "rightValue": "",
-              "operator": {
-                "type": "boolean",
-                "operation": "false",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "713b06d7-c764-41f1-9c3e-c8d59c241874",
-      "name": "Sender não é Melissa",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        -2720,
-        1220
-      ]
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "b3d0d8df-bb6e-415d-a075-87214afeb35b",
-              "leftValue": "={{ $json.key.id }}",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "exists",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "3e4fb44f-b96e-4e4b-9d4a-43c98438438a",
-      "name": "If1",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        -1640,
-        1560
       ]
     },
     {
@@ -1130,57 +978,14 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "5e009450-9843-4e88-844c-febc93e4d579",
-              "name": "celulae",
-              "value": "={{ $('Variaveis').item.json.celular }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "cd28592b-9733-45fd-afde-51d315a624da",
-      "name": "Edit Fields",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        200,
-        760
-      ]
-    },
-    {
-      "parameters": {
-        "operation": "delete",
-        "key": "={{ $('Variaveis').item.json.celular }}"
-      },
-      "id": "2853272f-ffe4-41b5-b220-589cebab1a0c",
-      "name": "Limpa msgs1",
-      "type": "n8n-nodes-base.redis",
-      "typeVersion": 1,
-      "position": [
-        460,
-        780
-      ],
-      "credentials": {
-        "redis": {
-          "id": "eqvHIOsQVjeLxmqP",
-          "name": "Redis account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "method": "POST",
-        "url": "https://evolution-serra-que-chora.robotriz.com.br/message/sendText/saira",
+        "url": "={{ $('Variaveis').item.json.evolution_url }}",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "apikey",
-              "value": "=3B74C9B3DC4E-4957-B413-D4136B81EC11"
+              "value": "={{ $('Variaveis').item.json.evolution_apikey }}"
             }
           ]
         },
@@ -1215,7 +1020,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://dify-serra-que-chora.robotriz.com.br/v1/chat-messages",
+        "url": "={{ $('Variaveis').item.json.dify_url }}",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -1423,33 +1228,11 @@
         ]
       ]
     },
-    "HTTP Request1": {
-      "main": [
-        [
-          {
-            "node": "If1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "If": {
       "main": [
         [
           {
             "node": "Limpa msgs",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Consulta msg novamente1": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request1",
             "type": "main",
             "index": 0
           }
@@ -1781,67 +1564,62 @@
           "headers": {
             "host": "webhook.robotriz.com.br",
             "user-agent": "axios/1.7.7",
-            "content-length": "1160",
+            "content-length": "979",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
-            "x-forwarded-for": "5.161.250.93",
+            "x-forwarded-for": "172.18.0.1",
             "x-forwarded-host": "webhook.robotriz.com.br",
             "x-forwarded-port": "443",
             "x-forwarded-proto": "https",
-            "x-forwarded-server": "718376f0c031",
-            "x-real-ip": "5.161.250.93"
+            "x-forwarded-server": "759fa69d6a32",
+            "x-real-ip": "172.18.0.1"
           },
           "params": {},
           "query": {},
           "body": {
             "event": "messages.upsert",
-            "instance": "saira",
+            "instance": "Imobiliaria Robotriz",
             "data": {
               "key": {
-                "remoteJid": "5521971361419@s.whatsapp.net",
+                "remoteJid": "553597638844@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3E995E6307DD5F76A5B548E8A8E6CADF"
+                "id": "3EB052BFFF8EE7F2F7ADD4"
               },
-              "pushName": "Carlos",
+              "pushName": "Acácio Araujo MG",
               "status": "DELIVERY_ACK",
               "message": {
+                "conversation": "oi",
                 "messageContextInfo": {
                   "deviceListMetadata": {
-                    "recipientKeyHash": "PZ77bUw5//oMlQ==",
-                    "recipientTimestamp": "1734643217"
+                    "senderKeyHash": "YFjG4EFikv8RUQ==",
+                    "senderTimestamp": "1738666129",
+                    "senderAccountType": "E2EE",
+                    "receiverAccountType": "E2EE",
+                    "recipientKeyHash": "GW+h1UOEgDP3IA==",
+                    "recipientTimestamp": "1739278452"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "kslXvCwezmvr617zREETRZIalwI7sk3saIctNVQqdto="
-                },
-                "conversation": "Queria saber se tem vaga para o carnaval, 01/03 à 05/03/2025 para um casal com uma criança de 4 anos, com café da manhã?"
-              },
-              "contextInfo": {
-                "expiration": 604800,
-                "ephemeralSettingTimestamp": "1720844236",
-                "disappearingMode": {
-                  "initiator": "INITIATED_BY_ME",
-                  "trigger": "ACCOUNT_SETTING",
-                  "initiatedByMe": true
+                  "messageSecret": "XTdN1kjEMud72TCw12JMDxPlGXCSXZiYDrUfRmcpoXI="
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1734972131,
-              "instanceId": "64b2ec9e-a972-4f7e-b39a-ac446af6933f",
-              "source": "android"
+              "messageTimestamp": 1739474255,
+              "instanceId": "b3e72ae3-4797-4c89-8f2b-2f6aa805f896",
+              "source": "web"
             },
-            "destination": "https://webhook.robotriz.com.br/webhook/338edc06-7ade-4fea-8218-e88acd9eb63f",
-            "date_time": "2024-12-23T13:42:11.442Z",
-            "sender": "553599230340@s.whatsapp.net",
-            "server_url": "https://evolution-serra-que-chora.robotriz.com.br",
-            "apikey": "3B74C9B3DC4E-4957-B413-D4136B81EC11"
+            "destination": "https://webhook.robotriz.com.br/webhook/b67f3c92-0075-4e16-91cc-00469f36992d",
+            "date_time": "2025-02-13T16:17:35.433Z",
+            "sender": "5511971430120@s.whatsapp.net",
+            "server_url": "https://evolution.robotriz.com.br",
+            "apikey": "1D0689F15C1B-47B8-81ED-BC6D2D4B0424"
           },
-          "webhookUrl": "https://webhook.robotriz.com.br/webhook/338edc06-7ade-4fea-8218-e88acd9eb63f",
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook/b67f3c92-0075-4e16-91cc-00469f36992d",
           "executionMode": "production"
         }
       }
     ]
   },
-  "versionId": "4c739144-0f3a-46a5-ae69-85fcea04b1a3",
+  "versionId": "0491d5f3-1ed3-4d70-8974-cd610edd6ac3",
   "triggerCount": 1,
   "tags": []
 }
