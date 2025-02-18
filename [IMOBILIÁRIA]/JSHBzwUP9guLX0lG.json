@@ -1,0 +1,204 @@
+{
+  "createdAt": "2025-02-17T19:21:43.744Z",
+  "updatedAt": "2025-02-17T19:29:40.212Z",
+  "id": "JSHBzwUP9guLX0lG",
+  "name": "[IMOBILIÁRIA]-[ENVIO DE IMAGENS]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b6589281-8a0d-407a-8ed1-f197436a522a",
+        "options": {}
+      },
+      "id": "626536f9-756d-4f03-b5db-7e6bdeee51a7",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        540,
+        360
+      ],
+      "webhookId": "b6589281-8a0d-407a-8ed1-f197436a522a"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Variaveis').item.json.evolution_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Variaveis').item.json.evolution_apikey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"number\": \"5535997638844\",\n    \"mediatype\": \"image\", // image, video or document\n    \"mimetype\": \"image/png\",\n    \"caption\": \"Teste de caption\",\n    \"media\": \"{{ $('Webhook').item.json.body[0].link }}\", /* url or base64 */\n    \"fileName\": \"Imagem.png\"\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "8954a016-524d-45ac-aa1e-15717aa09488",
+      "name": "Envia resposta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1040,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7ec39f15-8a96-4e19-b459-9078035f0d99",
+              "name": "celular",
+              "value": "={{ (()=>{\n\n  var entrada = $json.body.data.key.remoteJid\n\n    const partes = entrada.split('@');\n    \n    // Pegar a primeira parte\n    let primeiraParte = partes[0];\n    \n    // Verificar se tem 13 caracteres\n    if (primeiraParte.length !== 13) {\n        // Inserir '9' na 5ª posição (índice 4)\n        primeiraParte = primeiraParte.slice(0, 4) + '9' + primeiraParte.slice(4);\n    }\n\nreturn primeiraParte\n\n})()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "f853db83-6be1-4ee2-93fd-19c955345814",
+              "name": "remoteJid",
+              "value": "={{ $json.body.data.key.remoteJid }}",
+              "type": "string"
+            },
+            {
+              "id": "fe55b87a-c26f-412c-bc13-de0663d0aaf0",
+              "name": "conversation",
+              "value": "={{ $json.body.data.message.conversation }}",
+              "type": "string"
+            },
+            {
+              "id": "5acbc6a3-2627-40dd-a5b3-0818f6cd10cd",
+              "name": "messageType",
+              "value": "={{ $json.body.data.messageType }}",
+              "type": "string"
+            },
+            {
+              "id": "ed90fdce-325a-4ec2-8794-5ec8eb347694",
+              "name": "api_key",
+              "value": "app-BrAqlaOL08Ygo8Ro8mrsCoXo",
+              "type": "string"
+            },
+            {
+              "id": "e1ac8d3c-b336-4cbd-ab7d-0ab23f240dd7",
+              "name": "dify_url",
+              "value": "https://dify-api.robotriz.com.br/v1/chat-messages",
+              "type": "string"
+            },
+            {
+              "id": "ebc64d7b-2a21-4879-b7c4-90b71848f33b",
+              "name": "evolution_url",
+              "value": "https://evolution.robotriz.com.br/message/sendMedia/Imobiliaria%20Robotriz",
+              "type": "string"
+            },
+            {
+              "id": "f5736b37-cbdb-456f-ab20-c0d25d2a97ed",
+              "name": "evolution_apikey",
+              "value": "1D0689F15C1B-47B8-81ED-BC6D2D4B0424",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "328b01d0-8e4b-468b-af27-4db20fb2c127",
+      "name": "Variaveis",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        760,
+        360
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Variaveis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Variaveis": {
+      "main": [
+        [
+          {
+            "node": "Envia resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "PostmanRuntime/7.43.0",
+            "content-length": "805",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "postman-token": "0047977d-ef58-4728-b83b-263790dd936a",
+            "x-forwarded-for": "186.233.178.160",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "759fa69d6a32",
+            "x-real-ip": "186.233.178.160"
+          },
+          "params": {},
+          "query": {},
+          "body": [
+            {
+              "link": "https://fotos2.casasoft.net.br/indicadordeimoveis/imobiliarias/15050/fotos/142415050/100115050.jpg",
+              "descrição": "Imagem 1"
+            },
+            {
+              "link": "https://fotos2.casasoft.net.br/indicadordeimoveis/imobiliarias/15050/fotos/142415050/100215050.jpg",
+              "descrição": "Imagem 2"
+            },
+            {
+              "link": "https://fotos2.casasoft.net.br/indicadordeimoveis/imobiliarias/15050/fotos/142415050/95015050.jpg",
+              "descrição": "Imagem 3"
+            },
+            {
+              "link": "https://fotos2.casasoft.net.br/indicadordeimoveis/imobiliarias/15050/fotos/142415050/95115050.jpg",
+              "descrição": "Imagem 4"
+            },
+            {
+              "link": "https://fotos2.casasoft.net.br/indicadordeimoveis/imobiliarias/15050/fotos/142415050/95215050.jpg",
+              "descrição": "Imagem 5"
+            }
+          ],
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/b6589281-8a0d-407a-8ed1-f197436a522a",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "555f3c79-6fe8-43d0-a6d7-aae35af2d2e9",
+  "triggerCount": 0,
+  "tags": []
+}
