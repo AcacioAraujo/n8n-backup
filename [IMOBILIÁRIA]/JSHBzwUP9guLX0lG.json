@@ -1,57 +1,10 @@
 {
   "createdAt": "2025-02-17T19:21:43.744Z",
-  "updatedAt": "2025-02-17T19:29:40.212Z",
+  "updatedAt": "2025-02-18T14:09:59.154Z",
   "id": "JSHBzwUP9guLX0lG",
   "name": "[IMOBILIÁRIA]-[ENVIO DE IMAGENS]",
   "active": false,
   "nodes": [
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "b6589281-8a0d-407a-8ed1-f197436a522a",
-        "options": {}
-      },
-      "id": "626536f9-756d-4f03-b5db-7e6bdeee51a7",
-      "name": "Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        540,
-        360
-      ],
-      "webhookId": "b6589281-8a0d-407a-8ed1-f197436a522a"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "={{ $('Variaveis').item.json.evolution_url }}",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "={{ $('Variaveis').item.json.evolution_apikey }}"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n    \"number\": \"5535997638844\",\n    \"mediatype\": \"image\", // image, video or document\n    \"mimetype\": \"image/png\",\n    \"caption\": \"Teste de caption\",\n    \"media\": \"{{ $('Webhook').item.json.body[0].link }}\", /* url or base64 */\n    \"fileName\": \"Imagem.png\"\n}",
-        "options": {
-          "redirect": {
-            "redirect": {}
-          }
-        }
-      },
-      "id": "8954a016-524d-45ac-aa1e-15717aa09488",
-      "name": "Envia resposta",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        1040,
-        360
-      ]
-    },
     {
       "parameters": {
         "assignments": {
@@ -113,14 +66,183 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        760,
-        360
+        980,
+        440
       ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b6589281-8a0d-407a-8ed1-f197436a522a",
+        "options": {}
+      },
+      "id": "626536f9-756d-4f03-b5db-7e6bdeee51a7",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        340,
+        400
+      ],
+      "webhookId": "b6589281-8a0d-407a-8ed1-f197436a522a"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "03873bf8-e268-478d-b54d-9457ea443b4e",
+              "name": "imagens",
+              "value": "={{ $json.body }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "17e7083c-2fb7-4d32-b797-57f9f77c0923",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        780,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "imagens",
+        "options": {}
+      },
+      "id": "3c8cbb55-f6a4-4fca-9387-619635047880",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        920,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "body",
+        "options": {}
+      },
+      "id": "13df494f-c332-4158-9636-069b571ab74b",
+      "name": "Split Out1",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        520,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "83e2ec90-41a2-4cd7-b326-144ae26577d5",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        740,
+        400
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "01475826-3f92-4b2a-8e1d-fa94568c177b",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1200,
+        440
+      ],
+      "webhookId": "2ca449c0-a753-441e-9662-27af092d813c"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Variaveis').item.json.evolution_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Variaveis').item.json.evolution_apikey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"number\": \"5535997638844\",\n    \"mediatype\": \"image\",\n    \"mimetype\": \"image/png\",\n    \"caption\": \"Teste de caption\",\n    \"media\": \"{{ $('Split Out1').item.json.link }}\",\n    \"fileName\": \"Imagem.png\"\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "79aed181-e71b-44c7-bc5a-801fc6c618e4",
+      "name": "Envia resposta1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1400,
+        440
+      ],
+      "onError": "continueRegularOutput"
     }
   ],
   "connections": {
+    "Variaveis": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Webhook": {
       "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
         [
           {
             "node": "Variaveis",
@@ -130,11 +252,22 @@
         ]
       ]
     },
-    "Variaveis": {
+    "Wait": {
       "main": [
         [
           {
-            "node": "Envia resposta",
+            "node": "Envia resposta1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envia resposta1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
             "type": "main",
             "index": 0
           }
@@ -198,7 +331,7 @@
       }
     ]
   },
-  "versionId": "555f3c79-6fe8-43d0-a6d7-aae35af2d2e9",
+  "versionId": "dfc3e9dd-370f-4fe9-b176-1e6c4dae5bc7",
   "triggerCount": 0,
   "tags": []
 }
