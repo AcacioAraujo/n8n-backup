@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-11-20T00:30:00.922Z",
-  "updatedAt": "2025-01-29T15:20:52.793Z",
+  "updatedAt": "2025-02-22T11:40:22.780Z",
   "id": "Zf7EFCrOiB82eMqj",
   "name": "[CARTORIO]-[EVOLUTION_DIFY]",
   "active": true,
@@ -1849,7 +1849,7 @@
       }
     ]
   },
-  "versionId": "547a7a33-f8c8-48e6-8be0-6b42d3dee47f",
+  "versionId": "67049e6d-378b-49ed-a03d-a07bd8921e7e",
   "triggerCount": 1,
   "tags": []
 }
