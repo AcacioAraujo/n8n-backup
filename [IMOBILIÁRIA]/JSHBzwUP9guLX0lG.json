@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-02-17T19:21:43.744Z",
-  "updatedAt": "2025-02-18T14:09:59.154Z",
+  "updatedAt": "2025-02-24T18:10:30.958Z",
   "id": "JSHBzwUP9guLX0lG",
   "name": "[IMOBILIÁRIA]-[ENVIO DE IMAGENS]",
   "active": false,
@@ -69,22 +69,6 @@
         980,
         440
       ]
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "b6589281-8a0d-407a-8ed1-f197436a522a",
-        "options": {}
-      },
-      "id": "626536f9-756d-4f03-b5db-7e6bdeee51a7",
-      "name": "Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        340,
-        400
-      ],
-      "webhookId": "b6589281-8a0d-407a-8ed1-f197436a522a"
     },
     {
       "parameters": {
@@ -177,7 +161,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n    \"number\": \"5535997638844\",\n    \"mediatype\": \"image\",\n    \"mimetype\": \"image/png\",\n    \"caption\": \"Teste de caption\",\n    \"media\": \"{{ $('Split Out1').item.json.link }}\",\n    \"fileName\": \"Imagem.png\"\n}",
+        "jsonBody": "={\n    \"number\": \"557398414940\",\n    \"mediatype\": \"image\",\n    \"mimetype\": \"image/png\",\n    \"caption\": \"Teste de caption\",\n    \"media\": \"{{ $('Split Out1').item.json.link }}\",\n    \"fileName\": \"Imagem.png\"\n}",
         "options": {
           "redirect": {
             "redirect": {}
@@ -193,6 +177,22 @@
         440
       ],
       "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b6589281-8a0d-407a-8ed1-f197436a522a",
+        "options": {}
+      },
+      "id": "626536f9-756d-4f03-b5db-7e6bdeee51a7",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        340,
+        400
+      ],
+      "webhookId": "b6589281-8a0d-407a-8ed1-f197436a522a"
     }
   ],
   "connections": {
@@ -201,17 +201,6 @@
         [
           {
             "node": "Wait",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Webhook": {
-      "main": [
-        [
-          {
-            "node": "Split Out1",
             "type": "main",
             "index": 0
           }
@@ -268,6 +257,17 @@
         [
           {
             "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
             "type": "main",
             "index": 0
           }
@@ -331,7 +331,7 @@
       }
     ]
   },
-  "versionId": "dfc3e9dd-370f-4fe9-b176-1e6c4dae5bc7",
+  "versionId": "bf2f1fff-dd8d-48f8-ad22-a09d87c8c540",
   "triggerCount": 0,
   "tags": []
 }
