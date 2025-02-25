@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-02-11T13:51:34.995Z",
-  "updatedAt": "2025-02-13T19:25:10.926Z",
+  "updatedAt": "2025-02-24T19:08:55.371Z",
   "id": "ZV75ih8MrdP2E65o",
   "name": "[IMOBILIARIA ROBOTRIZ]-[EVOLUTION_DIFY]",
   "active": true,
@@ -356,15 +356,15 @@
       "parameters": {
         "documentId": {
           "__rl": true,
-          "value": "1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A",
+          "value": "19A6CvIuNWGGXAiHCCWLX6PmF6YlmXt-tCGkkyYYDlzA",
           "mode": "id"
         },
         "sheetName": {
           "__rl": true,
-          "value": 1578736974,
+          "value": 2138516065,
           "mode": "list",
           "cachedResultName": "Clientes",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A/edit#gid=1578736974"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19A6CvIuNWGGXAiHCCWLX6PmF6YlmXt-tCGkkyYYDlzA/edit#gid=2138516065"
         },
         "filtersUI": {
           "values": [
@@ -374,9 +374,7 @@
             }
           ]
         },
-        "options": {
-          "returnFirstMatch": true
-        }
+        "options": {}
       },
       "id": "507484c8-2776-465c-9428-07bbab6f5829",
       "name": "Google Sheets",
@@ -612,21 +610,22 @@
         "operation": "update",
         "documentId": {
           "__rl": true,
-          "value": "1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A",
+          "value": "19A6CvIuNWGGXAiHCCWLX6PmF6YlmXt-tCGkkyYYDlzA",
           "mode": "id"
         },
         "sheetName": {
           "__rl": true,
-          "value": 1578736974,
+          "value": 2138516065,
           "mode": "list",
           "cachedResultName": "Clientes",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A/edit#gid=1578736974"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19A6CvIuNWGGXAiHCCWLX6PmF6YlmXt-tCGkkyYYDlzA/edit#gid=2138516065"
         },
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "conversation_id": "={{ $('Dify').item.json.conversation_id }}",
-            "celular": "={{ $('Variaveis').item.json.celular }}"
+            "celular": "={{ $('Variaveis').item.json.celular }}",
+            "data_cadastro": "={{ $now.toString() }}",
+            "conversation_id": "={{ $('Dify').item.json.conversation_id }}"
           },
           "matchingColumns": [
             "celular"
@@ -658,8 +657,7 @@
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
+              "canBeUsedToMatch": true
             },
             {
               "id": "conversation_id",
@@ -791,24 +789,24 @@
         "operation": "update",
         "documentId": {
           "__rl": true,
-          "value": "19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA",
+          "value": "19A6CvIuNWGGXAiHCCWLX6PmF6YlmXt-tCGkkyYYDlzA",
           "mode": "id"
         },
         "sheetName": {
           "__rl": true,
-          "value": "gid=0",
+          "value": 2138516065,
           "mode": "list",
-          "cachedResultName": "leads",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19BwDMbT5UlCcgYLIsTcO0YA55_5UFQzE3qIm8ynoQnA/edit#gid=0"
+          "cachedResultName": "Clientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19A6CvIuNWGGXAiHCCWLX6PmF6YlmXt-tCGkkyYYDlzA/edit#gid=2138516065"
         },
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "telefone": "={{ $('Variaveis').item.json.celular }}",
-            "conversation_id": "={{ $('Dify1').item.json.conversation_id }}"
+            "conversation_id": "={{ $('Dify1').item.json.conversation_id }}",
+            "celular": "={{ $('Variaveis').item.json.celular }}"
           },
           "matchingColumns": [
-            "telefone"
+            "celular"
           ],
           "schema": [
             {
@@ -821,17 +819,8 @@
               "canBeUsedToMatch": true
             },
             {
-              "id": "email",
-              "displayName": "email",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "telefone",
-              "displayName": "telefone",
+              "id": "celular",
+              "displayName": "celular",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -840,40 +829,14 @@
               "removed": false
             },
             {
-              "id": "data_inscricao",
-              "displayName": "data_inscricao",
+              "id": "data_cadastro",
+              "displayName": "data_cadastro",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "horario_inscricao",
-              "displayName": "horario_inscricao",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "pagina",
-              "displayName": "pagina",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "status",
-              "displayName": "status",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
+              "canBeUsedToMatch": true,
+              "removed": false
             },
             {
               "id": "conversation_id",
@@ -1054,22 +1017,20 @@
         "operation": "appendOrUpdate",
         "documentId": {
           "__rl": true,
-          "value": "1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A",
+          "value": "19A6CvIuNWGGXAiHCCWLX6PmF6YlmXt-tCGkkyYYDlzA",
           "mode": "id"
         },
         "sheetName": {
           "__rl": true,
-          "value": 1578736974,
+          "value": 2138516065,
           "mode": "list",
           "cachedResultName": "Clientes",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VSpFcr3v5J-aEnfiDAIEaadGHw1emCwSiHJu2D1bb9A/edit#gid=1578736974"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19A6CvIuNWGGXAiHCCWLX6PmF6YlmXt-tCGkkyYYDlzA/edit#gid=2138516065"
         },
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
             "celular": "={{ $('Variaveis').item.json.celular }}",
-            "nome": "=",
-            "conversation_id": "=",
             "data_cadastro": "={{ $now.toString() }}"
           },
           "matchingColumns": [
@@ -1619,7 +1580,7 @@
       }
     ]
   },
-  "versionId": "0491d5f3-1ed3-4d70-8974-cd610edd6ac3",
+  "versionId": "a6ff5d5e-8723-41fa-a8a8-72e3b126bdda",
   "triggerCount": 1,
   "tags": []
 }
