@@ -1,0 +1,174 @@
+{
+  "createdAt": "2025-02-27T00:32:26.932Z",
+  "updatedAt": "2025-02-27T00:34:02.450Z",
+  "id": "dVM3A2qQuov7qtol",
+  "name": "[MCN ADVOGADOS]-[CONSULTA DE LEADS]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5ae3e1cc-b62c-4932-b175-3267e4847c6b",
+              "name": "celular",
+              "value": "5511981588224",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4e05fcb9-7d98-49e9-8584-a665aee6c3f6",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1380,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1DyE1-YVl5uR2usKdD_QEORPXoVr9ObGFgglIt1BS0qs",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1578736974,
+          "mode": "list",
+          "cachedResultName": "Clientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1DyE1-YVl5uR2usKdD_QEORPXoVr9ObGFgglIt1BS0qs/edit#gid=1578736974"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "celular",
+              "lookupValue": "={{ (()=>{\n\n  var entrada = $json.body.remoteJid\n\n    const partes = entrada.split('@');\n    \n    // Pegar a primeira parte\n    let primeiraParte = partes[0];\n    \n    // Verificar se tem 13 caracteres\n    if (primeiraParte.length !== 13) {\n        // Inserir '9' na 5ª posição (índice 4)\n        primeiraParte = primeiraParte.slice(0, 4) + '9' + primeiraParte.slice(4);\n    }\n\nreturn primeiraParte\n\n})()\n}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "87940d76-3f79-446f-8157-d5d6a16ad985",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        820,
+        360
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"row_number\":\"{{ $json.row_number }}\",\n  \"nome\": \"{{ $json.nome }}\",\n  \"conversation_id\":\"{{ $json.conversation_id }}\"\n}",
+        "options": {}
+      },
+      "id": "cdbb78b2-ad7a-4f2a-92b8-19c752e42a85",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1040,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "cd9b5a0f-473e-4b18-bb7b-79337682921a",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "d49fe2ed-5018-486b-9a13-e07de745ae5c",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        600,
+        360
+      ],
+      "webhookId": "cd9b5a0f-473e-4b18-bb7b-79337682921a"
+    }
+  ],
+  "connections": {
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.robotriz.com.br",
+            "user-agent": "python-httpx/0.27.2",
+            "content-length": "44",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "content-type": "application/json",
+            "x-forwarded-for": "5.161.231.166",
+            "x-forwarded-host": "webhook.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "9292266f8f54",
+            "x-real-ip": "5.161.231.166"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "remoteJid": "553597638844@s.whatsapp.net"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook/ca81b39c-b6db-4077-b956-7ab96dc26a2e",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "0ba2985b-9504-4645-bc05-e831feab7c4d",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2025-02-26T23:55:34.456Z",
+      "updatedAt": "2025-02-26T23:55:34.456Z",
+      "id": "wXiOtXoVs8IO8LX6",
+      "name": "MCN ADVOGADOS"
+    }
+  ]
+}
