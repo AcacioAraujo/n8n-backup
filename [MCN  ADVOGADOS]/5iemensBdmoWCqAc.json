@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-02-26T23:55:41.509Z",
-  "updatedAt": "2025-02-27T13:47:07.264Z",
+  "updatedAt": "2025-03-04T19:04:21.610Z",
   "id": "5iemensBdmoWCqAc",
   "name": "[MCN  ADVOGADOS]-[EVOLUTION_DIFY]",
   "active": true,
@@ -1134,6 +1134,22 @@
     },
     {
       "parameters": {
+        "httpMethod": "POST",
+        "path": "b070f400-8d75-4e27-b523-17a37aac7e22",
+        "options": {}
+      },
+      "id": "f0d1469c-d832-42af-bde1-02e1d64634f5",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -3560,
+        940
+      ],
+      "webhookId": "b070f400-8d75-4e27-b523-17a37aac7e22"
+    },
+    {
+      "parameters": {
         "conditions": {
           "options": {
             "caseSensitive": true,
@@ -1170,6 +1186,46 @@
                 "operation": "equals",
                 "name": "filter.operator.equals"
               }
+            },
+            {
+              "id": "9b4aa756-12d3-43bf-81af-1d9f98a51049",
+              "leftValue": "={{ $json.celular }}",
+              "rightValue": "5527998640510",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "46f318d1-5f3b-41ac-8ea5-1f2902ba01d0",
+              "leftValue": "={{ $json.celular }}",
+              "rightValue": "5527997193833",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "2096a8a5-708b-4d2f-bb6f-776c4a4334cf",
+              "leftValue": "={{ $json.celular }}",
+              "rightValue": "5527998211033",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "e669b2b7-1bd8-4182-9f4d-6fb209b35269",
+              "leftValue": "={{ $json.celular }}",
+              "rightValue": "5527999761843",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
             }
           ],
           "combinator": "or"
@@ -1177,29 +1233,13 @@
         "options": {}
       },
       "id": "26b04eda-bdd9-4d92-b246-1087b1d98d4e",
-      "name": "If1",
+      "name": "Telefones liberados",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
         -3100,
         940
       ]
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "b070f400-8d75-4e27-b523-17a37aac7e22",
-        "options": {}
-      },
-      "id": "f0d1469c-d832-42af-bde1-02e1d64634f5",
-      "name": "Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        -3560,
-        940
-      ],
-      "webhookId": "b070f400-8d75-4e27-b523-17a37aac7e22"
     }
   ],
   "connections": {
@@ -1394,7 +1434,7 @@
       "main": [
         [
           {
-            "node": "If1",
+            "node": "Telefones liberados",
             "type": "main",
             "index": 0
           }
@@ -1557,22 +1597,22 @@
         ]
       ]
     },
-    "If1": {
+    "Webhook": {
       "main": [
         [
           {
-            "node": "Google Sheets",
+            "node": "Variaveis",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Webhook": {
+    "Telefones liberados": {
       "main": [
         [
           {
-            "node": "Variaveis",
+            "node": "Google Sheets",
             "type": "main",
             "index": 0
           }
@@ -1649,7 +1689,7 @@
       }
     ]
   },
-  "versionId": "b872c71d-c102-48c2-bb18-3a29fbc1f74c",
+  "versionId": "96b78d0d-3bd2-42ba-865d-fd6ce502faf3",
   "triggerCount": 1,
   "tags": [
     {
