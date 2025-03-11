@@ -1,0 +1,37 @@
+{
+  "createdAt": "2025-03-10T17:21:26.007Z",
+  "updatedAt": "2025-03-10T17:22:03.903Z",
+  "id": "RtMHy4Nihcazhiim",
+  "name": "[ROBOTRIZ_AUTOMACOES]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "2d70bfbd-56d4-48fa-9060-8b8e0030d4ad",
+        "options": {}
+      },
+      "id": "1f50a21c-c384-4da5-9cd0-f330a6fb99c7",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        820,
+        360
+      ],
+      "webhookId": "2d70bfbd-56d4-48fa-9060-8b8e0030d4ad"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "a89db899-d856-42d9-8dbc-a7a1f23fa5cc",
+  "triggerCount": 1,
+  "tags": []
+}
