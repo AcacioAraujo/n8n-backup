@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-02-26T23:55:41.509Z",
-  "updatedAt": "2025-03-05T12:56:05.031Z",
+  "updatedAt": "2025-03-14T20:10:19.873Z",
   "id": "5iemensBdmoWCqAc",
   "name": "[MCN  ADVOGADOS]-[EVOLUTION_DIFY]",
   "active": true,
@@ -162,7 +162,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -2740,
+        -2840,
         700
       ],
       "credentials": {
@@ -1240,6 +1240,28 @@
         -3060,
         940
       ]
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Variaveis').item.json.celular }}",
+        "messageData": "=##OK##",
+        "tail": true
+      },
+      "id": "03e93ff5-2608-4e20-a7ca-0636056921d3",
+      "name": "Salva msg OK",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1380,
+        500
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
     }
   ],
   "connections": {
@@ -1618,6 +1640,17 @@
           }
         ]
       ]
+    },
+    "Limpa msgs": {
+      "main": [
+        [
+          {
+            "node": "Salva msg OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -1634,7 +1667,7 @@
           "headers": {
             "host": "webhook.robotriz.com.br",
             "user-agent": "axios/1.7.7",
-            "content-length": "984",
+            "content-length": "971",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
             "x-forwarded-for": "172.18.0.1",
@@ -1651,34 +1684,32 @@
             "instance": "mcn_advogados_venda",
             "data": {
               "key": {
-                "remoteJid": "553597638844@s.whatsapp.net",
+                "remoteJid": "5527997748634@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3EB021CB48CEDD543F9F85"
+                "id": "21BE17066DC88DB518F162E71A735539"
               },
-              "pushName": "Acácio Araujo MG",
+              "pushName": "Raul",
               "status": "DELIVERY_ACK",
               "message": {
-                "conversation": "Bom dia!",
+                "conversation": "Não é meu nome Oe, é Raul, e gênero masculino",
                 "messageContextInfo": {
                   "deviceListMetadata": {
-                    "senderKeyHash": "5YLuJhsCvbctIQ==",
-                    "senderTimestamp": "1741085971",
-                    "senderAccountType": "E2EE",
-                    "receiverAccountType": "E2EE",
+                    "senderKeyHash": "hiBjz0nc6dQ+BQ==",
+                    "senderTimestamp": "1741888883",
                     "recipientKeyHash": "uDPLHY+mf6I9Ow==",
-                    "recipientTimestamp": "1740596182"
+                    "recipientTimestamp": "1741892608"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "9132+6uCQQvLsibw0O4ZUUMRH9y7KlwxhWBbqnXvvdE="
+                  "messageSecret": "/0jN0KadUgc+j3nUBqeLaTi011RqM2EVfwLC0E33N8U="
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1741179312,
+              "messageTimestamp": 1741982321,
               "instanceId": "60c428cb-330f-459f-b9af-d3a527e18c65",
-              "source": "web"
+              "source": "android"
             },
             "destination": "https://webhook.robotriz.com.br/webhook/b070f400-8d75-4e27-b523-17a37aac7e22",
-            "date_time": "2025-03-05T09:55:12.344Z",
+            "date_time": "2025-03-14T16:58:42.069Z",
             "sender": "5527996428010@s.whatsapp.net",
             "server_url": "https://evolution.robotriz.com.br",
             "apikey": "5511761CC5EE-445F-B55A-22A8FDDCFEA2"
@@ -1689,7 +1720,7 @@
       }
     ]
   },
-  "versionId": "7d596546-5697-4c72-948f-df48ea4d2d45",
+  "versionId": "ad564eb5-e8a5-48e7-b6d5-f814474a1694",
   "triggerCount": 1,
   "tags": [
     {
