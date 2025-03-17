@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-02-26T23:55:41.509Z",
-  "updatedAt": "2025-03-14T20:10:19.873Z",
+  "updatedAt": "2025-03-17T13:41:19.077Z",
   "id": "5iemensBdmoWCqAc",
   "name": "[MCN  ADVOGADOS]-[EVOLUTION_DIFY]",
   "active": true,
@@ -91,8 +91,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        -660,
-        680
+        -600,
+        540
       ],
       "webhookId": "ee9be1af-37cc-40fb-becb-a49edbc1646a"
     },
@@ -126,8 +126,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        940,
-        580
+        1000,
+        440
       ]
     },
     {
@@ -142,8 +142,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -480,
-        680
+        -420,
+        540
       ],
       "credentials": {
         "redis": {
@@ -155,15 +155,15 @@
     {
       "parameters": {
         "operation": "delete",
-        "key": "={{ $json.celular }}"
+        "key": "=5573998251408"
       },
       "id": "f020cc49-7a8d-4295-82ff-34d091405d36",
       "name": "Limpa msgs2",
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -2840,
-        700
+        -3160,
+        780
       ],
       "credentials": {
         "redis": {
@@ -356,7 +356,7 @@
       "parameters": {
         "documentId": {
           "__rl": true,
-          "value": "={{ $json.id_planilha }}",
+          "value": "={{ $('Variaveis').item.json.id_planilha }}",
           "mode": "id"
         },
         "sheetName": {
@@ -370,7 +370,7 @@
           "values": [
             {
               "lookupColumn": "celular",
-              "lookupValue": "={{ $json.celular }}"
+              "lookupValue": "={{ $('Variaveis').item.json.celular }}"
             }
           ]
         },
@@ -483,7 +483,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -3320,
+        -3780,
         940
       ]
     },
@@ -607,8 +607,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        220,
-        560
+        280,
+        420
       ]
     },
     {
@@ -693,8 +693,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        460,
-        460
+        520,
+        320
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -723,8 +723,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -260,
-        680
+        -200,
+        540
       ]
     },
     {
@@ -934,8 +934,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1180,
-        500
+        1240,
+        360
       ],
       "credentials": {
         "redis": {
@@ -981,8 +981,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        720,
-        580
+        780,
+        440
       ]
     },
     {
@@ -1010,8 +1010,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -40,
-        680
+        20,
+        540
       ],
       "retryOnFail": true,
       "alwaysOutputData": true,
@@ -1143,7 +1143,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -3560,
+        -4020,
         940
       ],
       "webhookId": "b070f400-8d75-4e27-b523-17a37aac7e22"
@@ -1237,7 +1237,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -3060,
+        -3520,
         940
       ]
     },
@@ -1253,8 +1253,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1380,
-        500
+        1760,
+        560
       ],
       "credentials": {
         "redis": {
@@ -1262,6 +1262,136 @@
           "name": "Redis account"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "=inicio_{{ $('Variaveis').item.json.celular }}",
+        "messageData": "={{ $now.toString() }}"
+      },
+      "id": "ce341d3a-9741-42a9-a0df-c5ef17897725",
+      "name": "Inicia REDIS",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -2620,
+        300
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "=inicio_{{ $('Variaveis').item.json.celular }}",
+        "options": {}
+      },
+      "id": "b734b067-6322-47f7-ad25-1e1764a66c8b",
+      "name": "Consulta Inicio REDIS",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -3020,
+        320
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fb9c0874-d63c-4b63-a11c-a606bab9bfce",
+              "leftValue": "={{ $json.propertyName.toString() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "490712eb-6a95-4987-9e76-f8e6730ee887",
+      "name": "If1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2840,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "=inicio_{{ $('Variaveis').item.json.celular }}",
+        "options": {}
+      },
+      "id": "da217234-34a0-4876-aade-a53f04c3d988",
+      "name": "Consulta Inicio REDIS1",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -600,
+        800
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d43c5477-de85-4bba-bfda-95955a58b7ea",
+              "leftValue": "={{ $json.propertyName[0].toDateTime() }}",
+              "rightValue": "=",
+              "operator": {
+                "type": "dateTime",
+                "operation": "beforeOrEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "8df8a25f-5443-4e5e-bf0d-9f33b2b7db6e",
+      "name": "If2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -380,
+        800
+      ]
     }
   ],
   "connections": {
@@ -1295,7 +1425,8 @@
             "type": "main",
             "index": 0
           }
-        ]
+        ],
+        []
       ]
     },
     "Wait": {
@@ -1630,6 +1761,11 @@
         ]
       ]
     },
+    "Limpa msgs": {
+      "main": [
+        []
+      ]
+    },
     "Telefones liberados": {
       "main": [
         [
@@ -1641,11 +1777,39 @@
         ]
       ]
     },
-    "Limpa msgs": {
+    "Consulta Inicio REDIS": {
       "main": [
         [
           {
-            "node": "Salva msg OK",
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Inicia REDIS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Inicia REDIS": {
+      "main": [
+        []
+      ]
+    },
+    "Consulta Inicio REDIS1": {
+      "main": [
+        [
+          {
+            "node": "If2",
             "type": "main",
             "index": 0
           }
@@ -1667,7 +1831,7 @@
           "headers": {
             "host": "webhook.robotriz.com.br",
             "user-agent": "axios/1.7.7",
-            "content-length": "971",
+            "content-length": "974",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
             "x-forwarded-for": "172.18.0.1",
@@ -1684,32 +1848,34 @@
             "instance": "mcn_advogados_venda",
             "data": {
               "key": {
-                "remoteJid": "5527997748634@s.whatsapp.net",
+                "remoteJid": "557398251408@s.whatsapp.net",
                 "fromMe": false,
-                "id": "21BE17066DC88DB518F162E71A735539"
+                "id": "3EB0EAD854DDD610830AEB"
               },
-              "pushName": "Raul",
+              "pushName": "Patrick Silva",
               "status": "DELIVERY_ACK",
               "message": {
-                "conversation": "Não é meu nome Oe, é Raul, e gênero masculino",
+                "conversation": "oi",
                 "messageContextInfo": {
                   "deviceListMetadata": {
-                    "senderKeyHash": "hiBjz0nc6dQ+BQ==",
-                    "senderTimestamp": "1741888883",
+                    "senderKeyHash": "IfmJhp38eOP7tQ==",
+                    "senderTimestamp": "1739879608",
+                    "senderAccountType": "E2EE",
+                    "receiverAccountType": "E2EE",
                     "recipientKeyHash": "uDPLHY+mf6I9Ow==",
-                    "recipientTimestamp": "1741892608"
+                    "recipientTimestamp": "1740596182"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "/0jN0KadUgc+j3nUBqeLaTi011RqM2EVfwLC0E33N8U="
+                  "messageSecret": "ESf2esuWQD2ADVcQdnp3t68YNY6gMCAiAPwKGZFpM1M="
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1741982321,
+              "messageTimestamp": 1742161520,
               "instanceId": "60c428cb-330f-459f-b9af-d3a527e18c65",
-              "source": "android"
+              "source": "web"
             },
             "destination": "https://webhook.robotriz.com.br/webhook/b070f400-8d75-4e27-b523-17a37aac7e22",
-            "date_time": "2025-03-14T16:58:42.069Z",
+            "date_time": "2025-03-16T18:45:20.322Z",
             "sender": "5527996428010@s.whatsapp.net",
             "server_url": "https://evolution.robotriz.com.br",
             "apikey": "5511761CC5EE-445F-B55A-22A8FDDCFEA2"
@@ -1720,7 +1886,7 @@
       }
     ]
   },
-  "versionId": "ad564eb5-e8a5-48e7-b6d5-f814474a1694",
+  "versionId": "b29feae8-254c-4669-a3dc-a6a3c3a0be73",
   "triggerCount": 1,
   "tags": [
     {
