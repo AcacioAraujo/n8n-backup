@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-02-11T13:51:34.995Z",
-  "updatedAt": "2025-02-24T19:08:55.371Z",
+  "updatedAt": "2025-03-19T20:32:51.063Z",
   "id": "ZV75ih8MrdP2E65o",
   "name": "[IMOBILIARIA ROBOTRIZ]-[EVOLUTION_DIFY]",
   "active": true,
@@ -459,13 +459,13 @@
             {
               "id": "ebc64d7b-2a21-4879-b7c4-90b71848f33b",
               "name": "evolution_url",
-              "value": "https://evolution.robotriz.com.br/message/sendText/Imobiliaria%20Robotriz",
+              "value": "https://api.evoapicloud.com/message/sendText/9c62fb59-ea6b-4382-b7f8-456135068309",
               "type": "string"
             },
             {
               "id": "f5736b37-cbdb-456f-ab20-c0d25d2a97ed",
               "name": "evolution_apikey",
-              "value": "1D0689F15C1B-47B8-81ED-BC6D2D4B0424",
+              "value": "D5484B5A2D9F-42EC-9678-A638108F0625",
               "type": "string"
             }
           ]
@@ -1142,6 +1142,47 @@
         920
       ],
       "webhookId": "b67f3c92-0075-4e16-91cc-00469f36992d"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Variaveis').item.json.evolution_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Variaveis').item.json.evolution_apikey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Variaveis').item.json.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('Dify').item.json.answer }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "61bb9af2-575f-4e3b-bfd2-727c4faaf757",
+      "name": "Envia resposta2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        700,
+        180
+      ]
     }
   ],
   "connections": {
@@ -1524,55 +1565,56 @@
         "json": {
           "headers": {
             "host": "webhook.robotriz.com.br",
-            "user-agent": "axios/1.7.7",
-            "content-length": "979",
+            "user-agent": "axios/1.8.3",
+            "content-length": "1195",
+            "accept": "application/json, text/plain, */*",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
-            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-for": "34.34.225.57",
             "x-forwarded-host": "webhook.robotriz.com.br",
             "x-forwarded-port": "443",
             "x-forwarded-proto": "https",
-            "x-forwarded-server": "759fa69d6a32",
-            "x-real-ip": "172.18.0.1"
+            "x-forwarded-server": "2b1c1a3d6d10",
+            "x-real-ip": "34.34.225.57"
           },
           "params": {},
           "query": {},
           "body": {
             "event": "messages.upsert",
-            "instance": "Imobiliaria Robotriz",
+            "instance": "6e5412df-0083-4afd-9dc5-189e99f92434",
+            "instanceName": "imobiliaria",
             "data": {
               "key": {
                 "remoteJid": "553597638844@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3EB052BFFF8EE7F2F7ADD4"
+                "id": "3EB0D84A86081FD3F9E166",
+                "profilePicUrl": "https://pps.whatsapp.net/v/t61.24694-24/85563089_516856538977488_3828743092239088568_n.jpg?ccb=11-4&oh=01_Q5AaITTej-0oiX_iSuZ1ukx3k6r61Ck_shnJVoTMPiO2Sn5w&oe=67E82AE8&_nc_sid=5e03e0&_nc_cat=100"
               },
               "pushName": "Acácio Araujo MG",
-              "status": "DELIVERY_ACK",
               "message": {
-                "conversation": "oi",
+                "conversation": "oi, to procurando casa no Xaxim",
                 "messageContextInfo": {
                   "deviceListMetadata": {
-                    "senderKeyHash": "YFjG4EFikv8RUQ==",
-                    "senderTimestamp": "1738666129",
+                    "senderKeyHash": "SXZoH4WuzmBHQQ==",
+                    "senderTimestamp": "1742383828",
                     "senderAccountType": "E2EE",
                     "receiverAccountType": "E2EE",
-                    "recipientKeyHash": "GW+h1UOEgDP3IA==",
-                    "recipientTimestamp": "1739278452"
+                    "recipientKeyHash": "ja8pp+MxZ+JJag==",
+                    "recipientTimestamp": "1742235393"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "XTdN1kjEMud72TCw12JMDxPlGXCSXZiYDrUfRmcpoXI="
+                  "messageSecret": "WY3bLvB09taDkxz9OW9VmRd0hVq+1lu3QTgOaOTr88w="
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1739474255,
-              "instanceId": "b3e72ae3-4797-4c89-8f2b-2f6aa805f896",
-              "source": "web"
+              "messageTimestamp": 1742407636,
+              "source": "web",
+              "instanceId": "6e5412df-0083-4afd-9dc5-189e99f92434"
             },
             "destination": "https://webhook.robotriz.com.br/webhook/b67f3c92-0075-4e16-91cc-00469f36992d",
-            "date_time": "2025-02-13T16:17:35.433Z",
-            "sender": "5511971430120@s.whatsapp.net",
-            "server_url": "https://evolution.robotriz.com.br",
-            "apikey": "1D0689F15C1B-47B8-81ED-BC6D2D4B0424"
+            "date_time": "2025-03-19T15:07:23.146Z",
+            "server_url": "https://api.evoapicloud.com",
+            "apikey": "42992BB2FCB4-4468-B5FC-2CA3669AD830"
           },
           "webhookUrl": "https://webhook.robotriz.com.br/webhook/b67f3c92-0075-4e16-91cc-00469f36992d",
           "executionMode": "production"
@@ -1580,7 +1622,7 @@
       }
     ]
   },
-  "versionId": "a6ff5d5e-8723-41fa-a8a8-72e3b126bdda",
+  "versionId": "7628fbeb-cf79-4853-8a45-c7b79f01abe9",
   "triggerCount": 1,
   "tags": []
 }
