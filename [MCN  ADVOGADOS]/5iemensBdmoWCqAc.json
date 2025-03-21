@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-02-26T23:55:41.509Z",
-  "updatedAt": "2025-03-17T13:41:19.077Z",
+  "updatedAt": "2025-03-21T13:17:45.763Z",
   "id": "5iemensBdmoWCqAc",
   "name": "[MCN  ADVOGADOS]-[EVOLUTION_DIFY]",
   "active": true,
@@ -155,7 +155,7 @@
     {
       "parameters": {
         "operation": "delete",
-        "key": "=5573998251408"
+        "key": "={{ $json.celular }}"
       },
       "id": "f020cc49-7a8d-4295-82ff-34d091405d36",
       "name": "Limpa msgs2",
@@ -1425,8 +1425,7 @@
             "type": "main",
             "index": 0
           }
-        ],
-        []
+        ]
       ]
     },
     "Wait": {
@@ -1761,11 +1760,6 @@
         ]
       ]
     },
-    "Limpa msgs": {
-      "main": [
-        []
-      ]
-    },
     "Telefones liberados": {
       "main": [
         [
@@ -1796,13 +1790,7 @@
             "type": "main",
             "index": 0
           }
-        ],
-        []
-      ]
-    },
-    "Inicia REDIS": {
-      "main": [
-        []
+        ]
       ]
     },
     "Consulta Inicio REDIS1": {
@@ -1831,7 +1819,7 @@
           "headers": {
             "host": "webhook.robotriz.com.br",
             "user-agent": "axios/1.7.7",
-            "content-length": "974",
+            "content-length": "936",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
             "x-forwarded-for": "172.18.0.1",
@@ -1848,34 +1836,32 @@
             "instance": "mcn_advogados_venda",
             "data": {
               "key": {
-                "remoteJid": "557398251408@s.whatsapp.net",
+                "remoteJid": "5527997193833@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3EB0EAD854DDD610830AEB"
+                "id": "3905379A1095043A5EBC7DA20FA70A1D"
               },
-              "pushName": "Patrick Silva",
+              "pushName": "Geisa Costa",
               "status": "DELIVERY_ACK",
               "message": {
-                "conversation": "oi",
+                "conversation": "Bom dia",
                 "messageContextInfo": {
                   "deviceListMetadata": {
-                    "senderKeyHash": "IfmJhp38eOP7tQ==",
-                    "senderTimestamp": "1739879608",
-                    "senderAccountType": "E2EE",
-                    "receiverAccountType": "E2EE",
+                    "senderKeyHash": "DforcRLSG0wO3g==",
+                    "senderTimestamp": "1741613980",
                     "recipientKeyHash": "uDPLHY+mf6I9Ow==",
-                    "recipientTimestamp": "1740596182"
+                    "recipientTimestamp": "1741892608"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "ESf2esuWQD2ADVcQdnp3t68YNY6gMCAiAPwKGZFpM1M="
+                  "messageSecret": "agO/4Gebpj/QIgNdhOBk/72htDAz6/PQ4CxKzm+Pbf4="
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1742161520,
+              "messageTimestamp": 1742562928,
               "instanceId": "60c428cb-330f-459f-b9af-d3a527e18c65",
-              "source": "web"
+              "source": "android"
             },
             "destination": "https://webhook.robotriz.com.br/webhook/b070f400-8d75-4e27-b523-17a37aac7e22",
-            "date_time": "2025-03-16T18:45:20.322Z",
+            "date_time": "2025-03-21T10:15:28.985Z",
             "sender": "5527996428010@s.whatsapp.net",
             "server_url": "https://evolution.robotriz.com.br",
             "apikey": "5511761CC5EE-445F-B55A-22A8FDDCFEA2"
@@ -1886,7 +1872,7 @@
       }
     ]
   },
-  "versionId": "b29feae8-254c-4669-a3dc-a6a3c3a0be73",
+  "versionId": "3b4a0a7f-a478-4d46-b350-f235cf950af6",
   "triggerCount": 1,
   "tags": [
     {
