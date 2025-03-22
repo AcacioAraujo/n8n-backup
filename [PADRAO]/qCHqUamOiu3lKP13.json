@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-07-11T12:27:58.740Z",
-  "updatedAt": "2024-12-02T11:26:08.252Z",
+  "updatedAt": "2025-03-22T13:22:19.588Z",
   "id": "qCHqUamOiu3lKP13",
   "name": "Teste Acacio",
   "active": false,
@@ -36,39 +36,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.4,
       "position": [
-        -60,
-        260
-      ],
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "QHPaQBvMXstzhtM3",
-          "name": "[ROBOTRIZ] GOOGLE SHEETS"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1YBksTL6XDSdvvJrJxcSTPCZOOAxgloXv9IrcCuxUemA",
-          "mode": "id"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 1546044827,
-          "mode": "list",
-          "cachedResultName": "teste",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YBksTL6XDSdvvJrJxcSTPCZOOAxgloXv9IrcCuxUemA/edit#gid=1546044827"
-        },
-        "options": {}
-      },
-      "id": "98e591c4-e152-41c1-ac19-672c75128057",
-      "name": "Google Sheets1",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.4,
-      "position": [
-        900,
-        260
+        1220,
+        740
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -84,39 +53,10 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -280,
-        260
+        -800,
+        -320
       ],
       "disabled": true
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "id": "7c82fe0f-59bb-46ee-9e17-d66b2df5908f",
-      "name": "Split Out",
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [
-        1120,
-        260
-      ]
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "f3c5af38-1e8c-4904-bc75-9ea75ee1877b",
-        "options": {}
-      },
-      "id": "c47d452b-d3d1-4cf8-9dac-f492b45c0c59",
-      "name": "Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        680,
-        520
-      ],
-      "webhookId": "f3c5af38-1e8c-4904-bc75-9ea75ee1877b"
     },
     {
       "parameters": {
@@ -180,45 +120,6 @@
     },
     {
       "parameters": {
-        "sendTo": "acacio@gmail.com",
-        "subject": "Teste n8n",
-        "emailType": "text",
-        "message": "Oi, isso é um teste de envio do n8n.",
-        "options": {
-          "appendAttribution": false
-        }
-      },
-      "id": "259bf5af-2fa1-4746-b49c-0b56933bd2fa",
-      "name": "Gmail",
-      "type": "n8n-nodes-base.gmail",
-      "typeVersion": 2.1,
-      "position": [
-        980,
-        920
-      ],
-      "credentials": {
-        "gmailOAuth2": {
-          "id": "zZoomeWZGy2wvtdg",
-          "name": "Admiraves Gmail account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "aggregate": "aggregateAllItemData",
-        "options": {}
-      },
-      "id": "ba0327de-ffac-4a4b-8613-6331780df731",
-      "name": "Aggregate",
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
-      "position": [
-        160,
-        520
-      ]
-    },
-    {
-      "parameters": {
         "conditions": {
           "options": {
             "caseSensitive": true,
@@ -277,29 +178,9 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        140,
-        260
+        1440,
+        740
       ]
-    },
-    {
-      "parameters": {
-        "path": "3404c61f-3f1f-466b-9bb0-3eb50723686f",
-        "formFields": {
-          "values": [
-            {}
-          ]
-        },
-        "options": {}
-      },
-      "id": "00c9a1ff-7fc3-4460-8f5b-bca7ad924a40",
-      "name": "n8n Form Trigger",
-      "type": "n8n-nodes-base.formTrigger",
-      "typeVersion": 2.1,
-      "position": [
-        640,
-        860
-      ],
-      "webhookId": "3404c61f-3f1f-466b-9bb0-3eb50723686f"
     },
     {
       "parameters": {
@@ -310,8 +191,8 @@
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        -500,
-        760
+        720,
+        720
       ],
       "credentials": {
         "smtp": {
@@ -339,8 +220,8 @@
       "type": "n8n-nodes-base.microsoftOutlook",
       "typeVersion": 2,
       "position": [
-        140,
-        820
+        900,
+        1040
       ],
       "credentials": {
         "microsoftOutlookOAuth2Api": {
@@ -372,8 +253,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -120,
-        680
+        1040,
+        940
       ]
     },
     {
@@ -392,8 +273,8 @@
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1.2,
       "position": [
-        460,
-        460
+        1360,
+        940
       ],
       "credentials": {
         "googleCalendarOAuth2Api": {
@@ -404,46 +285,111 @@
     },
     {
       "parameters": {
-        "categories": {
-          "categories": [
-            {},
-            {},
-            {}
-          ]
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ab5a8e25-ce51-4602-ac8d-1812368f157e",
+              "leftValue": "={{ $json.Subject }}",
+              "rightValue": "Aluguel - Consulta para o imóvel em",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
         },
         "options": {}
       },
-      "id": "eae7f080-4d6a-42bc-9d20-1b38125b0935",
-      "name": "Text Classifier",
-      "type": "@n8n/n8n-nodes-langchain.textClassifier",
-      "typeVersion": 1,
+      "id": "41991264-58a6-4b0e-843c-224b0b478b97",
+      "name": "Filter1",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
       "position": [
-        -200,
-        1060
+        -300,
+        -180
       ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "messageId": "={{ $json.id }}",
+        "simple": false,
+        "options": {}
+      },
+      "id": "4aaf17b3-b0e1-4bac-964c-22560e605070",
+      "name": "Gmail - Ler email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -80,
+        -180
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "JcjdpdVRGEs0s5H7",
+          "name": "Robotriz Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": 10,
+        "filters": {}
+      },
+      "id": "259bf5af-2fa1-4746-b49c-0b56933bd2fa",
+      "name": "Gmail - buscar emails",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -520,
+        -180
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "JcjdpdVRGEs0s5H7",
+          "name": "Robotriz Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {}
+      },
+      "id": "35a9ae49-7a08-44b8-b54b-c5a447595655",
+      "name": "Gmail Trigger",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -780,
+        -20
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "JcjdpdVRGEs0s5H7",
+          "name": "Robotriz Gmail account"
+        }
+      }
     }
   ],
   "connections": {
-    "Google Sheets1": {
-      "main": [
-        [
-          {
-            "node": "Split Out",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "When clicking ‘Test workflow’": {
       "main": [
-        [
-          {
-            "node": "Google Sheets",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Google Sheets": {
@@ -451,6 +397,28 @@
         [
           {
             "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Ler email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - buscar emails": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
             "type": "main",
             "index": 0
           }
@@ -466,7 +434,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "c5c14d15-e984-4099-9f12-303d36bdc57c",
+  "versionId": "8fbee16d-31d8-4c94-b9da-920c3bdb795f",
   "triggerCount": 1,
   "tags": []
 }
