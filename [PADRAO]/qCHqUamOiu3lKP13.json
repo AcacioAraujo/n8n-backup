@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-07-11T12:27:58.740Z",
-  "updatedAt": "2025-03-22T13:22:19.588Z",
+  "updatedAt": "2025-03-22T21:34:30.344Z",
   "id": "qCHqUamOiu3lKP13",
   "name": "Teste Acacio",
   "active": false,
@@ -53,10 +53,9 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -800,
-        -320
-      ],
-      "disabled": true
+        -760,
+        -220
+      ]
     },
     {
       "parameters": {
@@ -383,15 +382,124 @@
           "id": "JcjdpdVRGEs0s5H7",
           "name": "Robotriz Gmail account"
         }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Variaveis').item.json.evolution_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Variaveis').item.json.evolution_apikey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Variaveis').item.json.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('OpenAI').item.json.message.content }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "5818d963-afcc-43dd-ae8c-0540386b9b32",
+      "name": "Envia resposta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        760,
+        -180
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f853db83-6be1-4ee2-93fd-19c955345814",
+              "name": "remoteJid",
+              "value": "5535997638844",
+              "type": "string"
+            },
+            {
+              "id": "ebc64d7b-2a21-4879-b7c4-90b71848f33b",
+              "name": "evolution_url",
+              "value": "https://api.evoapicloud.com/message/sendText/9c62fb59-ea6b-4382-b7f8-456135068309",
+              "type": "string"
+            },
+            {
+              "id": "f5736b37-cbdb-456f-ab20-c0d25d2a97ed",
+              "name": "evolution_apikey",
+              "value": "D5484B5A2D9F-42EC-9678-A638108F0625",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "77776cb0-8c2c-4a8e-bf0c-c1d5f2d4077e",
+      "name": "Variaveis",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        540,
+        -180
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Você é uma agente especializado em receber os dados de email enviado pela Zap Imóveis, que é um portal de imóveis que reúne ofertas qualificadas, além de fotos, dicas e mapas para quem quer alugar, comprar ou vender.\n\nVocê precisa extrair do corpo do email as seguintes informações do lead: Nome, telefone com DDD e o email que deve ser em texto simples, sem formatação ou \"mailto:\".\n\nExtraia também os seguintes dados do imóvel: o código, o local e o valor.\n\nO texto gerado precisa ser formatado em um padrão que será enviado via chamada de API para um numero de whatsapp.\n\nRetornar apenas os dados do lead e do imóvel, sempre saudando o \"Casyo\", que é a pessoa responsável pelo recebimento das informações, nada mais nada menos.\n\nO corpo do email se encontra no <body> no Assistant.",
+              "role": "system"
+            },
+            {
+              "content": "=<body>\n{{ $json.text }}\n</body>",
+              "role": "assistant"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "eca69af6-edec-4458-9592-903fa35d3206",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.6,
+      "position": [
+        140,
+        -180
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "qTcKDeG1l7aS58Jy",
+          "name": "OpenAi account"
+        }
       }
     }
   ],
   "connections": {
-    "When clicking ‘Test workflow’": {
-      "main": [
-        []
-      ]
-    },
     "Google Sheets": {
       "main": [
         [
@@ -424,6 +532,50 @@
           }
         ]
       ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Gmail - buscar emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Ler email": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Variaveis": {
+      "main": [
+        [
+          {
+            "node": "Envia resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Variaveis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -434,7 +586,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "8fbee16d-31d8-4c94-b9da-920c3bdb795f",
+  "versionId": "2d97ff5f-b72c-4ae8-befa-87bd6dc9e66d",
   "triggerCount": 1,
   "tags": []
 }
