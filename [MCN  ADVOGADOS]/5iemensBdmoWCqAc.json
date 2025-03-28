@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-02-26T23:55:41.509Z",
-  "updatedAt": "2025-03-27T18:29:00.633Z",
+  "updatedAt": "2025-03-28T14:49:26.260Z",
   "id": "5iemensBdmoWCqAc",
   "name": "[MCN  ADVOGADOS]-[EVOLUTION_DIFY]",
   "active": true,
@@ -84,7 +84,7 @@
     },
     {
       "parameters": {
-        "amount": 15
+        "amount": 1
       },
       "id": "7aafbf9a-9729-43f1-9f77-278b664469ae",
       "name": "Wait",
@@ -126,8 +126,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1000,
-        440
+        1480,
+        -40
       ]
     },
     {
@@ -607,8 +607,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        280,
-        420
+        760,
+        -60
       ]
     },
     {
@@ -693,8 +693,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        520,
-        320
+        1000,
+        -160
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -934,8 +934,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1240,
-        360
+        1720,
+        -120
       ],
       "credentials": {
         "redis": {
@@ -981,8 +981,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        780,
-        440
+        1260,
+        -40
       ]
     },
     {
@@ -1134,22 +1134,6 @@
     },
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "b070f400-8d75-4e27-b523-17a37aac7e22",
-        "options": {}
-      },
-      "id": "f0d1469c-d832-42af-bde1-02e1d64634f5",
-      "name": "Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        -4020,
-        940
-      ],
-      "webhookId": "b070f400-8d75-4e27-b523-17a37aac7e22"
-    },
-    {
-      "parameters": {
         "conditions": {
           "options": {
             "caseSensitive": true,
@@ -1253,8 +1237,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1760,
-        560
+        2700,
+        260
       ],
       "credentials": {
         "redis": {
@@ -1392,6 +1376,325 @@
         -380,
         800
       ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "resposta",
+        "options": {}
+      },
+      "id": "20887bc7-7cef-4ada-a2c6-e89360b34a98",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "29d391a9-23d1-4384-915e-32d31ee28409",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1280,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "68f869ab-222a-499e-aa33-3d712b1c98bd",
+              "name": "resposta",
+              "value": "={{ $json.answer.split(/(?<=\\.\\s)|(?<=!\\s)|(?<=\\?\\s)/).map(part => part.trim()).filter(part => part.length > 0) }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bb50aa9b-7f59-40f8-83e0-aec3979bb114",
+      "name": "Quebrar mensagem",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        780,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b070f400-8d75-4e27-b523-17a37aac7e22",
+        "options": {}
+      },
+      "id": "f0d1469c-d832-42af-bde1-02e1d64634f5",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -4020,
+        940
+      ],
+      "webhookId": "b070f400-8d75-4e27-b523-17a37aac7e22"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Variaveis').item.json.evolution_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Variaveis').item.json.evolution_apikey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Variaveis').item.json.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('Loop Over Items').item.json.resposta }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "1868fb68-a5bf-487a-8d8f-eea285ca91ac",
+      "name": "Envia resposta2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1540,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.robotriz.com.br/chat/sendPresence/mcn_advogados_venda",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Variaveis').item.json.evolution_apikey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"delay\": 5000,\n  \"presence\": \"composing\"\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "12dff024-9d95-41f7-9d8d-8691daea5438",
+      "name": "Digitando...",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1700,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "07a30880-ff38-4636-ba58-d176ecf5c2af",
+              "leftValue": "={{ $('Variaveis').item.json.celular }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "95b323ba-028d-4e35-a22f-e87da7fc4a56",
+      "name": "If3",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1520,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Variaveis').item.json.celular }}"
+      },
+      "id": "3c0ba0e3-9f00-4570-8248-dbd600888278",
+      "name": "Limpa msgs1",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        340
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f10a56af-ec7b-48cd-aa36-1a6d14488814",
+              "leftValue": "={{ $('Dados Lead').item.json.conversation_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3cdf0ee5-bb7b-43dd-87c5-afdd3fc75d65",
+      "name": "Não tem conversation_id2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        280,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1DyE1-YVl5uR2usKdD_QEORPXoVr9ObGFgglIt1BS0qs",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1578736974,
+          "mode": "list",
+          "cachedResultName": "Clientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1DyE1-YVl5uR2usKdD_QEORPXoVr9ObGFgglIt1BS0qs/edit#gid=1578736974"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "conversation_id": "={{ $('Dify').item.json.conversation_id }}",
+            "celular": "={{ $('Variaveis').item.json.celular }}"
+          },
+          "matchingColumns": [
+            "celular"
+          ],
+          "schema": [
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "celular",
+              "displayName": "celular",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "data_cadastro",
+              "displayName": "data_cadastro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "conversation_id",
+              "displayName": "conversation_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bf0bbf1c-162c-4a5f-9501-11fbaaef6950",
+      "name": "Atualiza conversation_id2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        520,
+        440
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QHPaQBvMXstzhtM3",
+          "name": "[ROBOTRIZ] GOOGLE SHEETS"
+        }
+      }
     }
   ],
   "connections": {
@@ -1713,7 +2016,7 @@
       "main": [
         [
           {
-            "node": "Não tem conversation_id",
+            "node": "Não tem conversation_id2",
             "type": "main",
             "index": 0
           }
@@ -1743,17 +2046,6 @@
         [
           {
             "node": "Dados Lead",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Webhook": {
-      "main": [
-        [
-          {
-            "node": "Variaveis",
             "type": "main",
             "index": 0
           }
@@ -1803,6 +2095,119 @@
           }
         ]
       ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Envia resposta2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Variaveis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quebrar mensagem": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envia resposta2": {
+      "main": [
+        [
+          {
+            "node": "Digitando...",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Digitando...": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Limpa msgs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Não tem conversation_id2": {
+      "main": [
+        [
+          {
+            "node": "Atualiza conversation_id2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Quebrar mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualiza conversation_id2": {
+      "main": [
+        [
+          {
+            "node": "Quebrar mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -1819,7 +2224,7 @@
           "headers": {
             "host": "webhook.robotriz.com.br",
             "user-agent": "axios/1.7.7",
-            "content-length": "987",
+            "content-length": "2273",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
             "x-forwarded-for": "172.18.0.1",
@@ -1836,32 +2241,34 @@
             "instance": "mcn_advogados_venda",
             "data": {
               "key": {
-                "remoteJid": "5527997193833@s.whatsapp.net",
+                "remoteJid": "553597638844@s.whatsapp.net",
                 "fromMe": false,
-                "id": "126703F1F4D64A4AEE33BFF79C0F2791"
+                "id": "3EB0C9EF2EF5D3C6D99C1A"
               },
-              "pushName": "Geisa Costa",
+              "pushName": "Acácio Araujo MG",
               "status": "DELIVERY_ACK",
               "message": {
-                "conversation": "Eu preciso resolver questões sobre minha filha, pegar ela",
+                "conversation": "Estou em uma união estável há quatro anos, mas nosso relacionamento sempre foi conturbado. Inicialmente, namorávamos à distância — eu morava em São Paulo, e ela, no Espírito Santo — sem qualquer formalização de união. Em 2020, ela engravidou da nossa filha, Alice, e, nesse período, decidimos formalizar uma declaração de união estável apenas para incluí-la no plano de saúde (ou seja, uma declaração falsa).\n\nPara estar mais presente na vida da minha filha, larguei meu emprego em São Paulo e me mudei para Vitória-ES em 2022. Durante esses quatro anos, mantive o relacionamento apenas por nossa filha, mas dormindo em quartos separados. No final de setembro de 2024, ela decidiu sair de casa, mas, mesmo assim, continuamos tendo contato.\n\nEm janeiro de 2025, fiquei desempregado e aceitei uma oportunidade de trabalho em São Paulo. Durante esse período, deixei meu carro com ela para facilitar o transporte da nossa filha até a escola. Nos últimos meses, eu vinha a Vitória a cada 15 dias, e a relação aparentava estar normal. No entanto, no último final de semana, ao viajar para visitar minha filha e buscar o carro de volta, ela desapareceu com o veículo e nossa filha, alegando que precisava conversar com um advogado e que teria direito a 50% de tudo.",
                 "messageContextInfo": {
                   "deviceListMetadata": {
-                    "senderKeyHash": "DforcRLSG0wO3g==",
-                    "senderTimestamp": "1742910069",
+                    "senderKeyHash": "SXZoH4WuzmBHQQ==",
+                    "senderTimestamp": "1742383828",
+                    "senderAccountType": "E2EE",
+                    "receiverAccountType": "E2EE",
                     "recipientKeyHash": "uDPLHY+mf6I9Ow==",
                     "recipientTimestamp": "1741892608"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "RxiJDgj2ZtR2lSkMG5luYZW97kl2//JpVRpbxxby7UQ="
+                  "messageSecret": "4sifesu7INE3u3wpRVT4SyXfQzidwOPCSTDXql6LnfY="
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1743091969,
+              "messageTimestamp": 1743173004,
               "instanceId": "60c428cb-330f-459f-b9af-d3a527e18c65",
-              "source": "android"
+              "source": "web"
             },
             "destination": "https://webhook.robotriz.com.br/webhook/b070f400-8d75-4e27-b523-17a37aac7e22",
-            "date_time": "2025-03-27T13:12:50.044Z",
+            "date_time": "2025-03-28T11:43:24.816Z",
             "sender": "5527996428010@s.whatsapp.net",
             "server_url": "https://evolution.robotriz.com.br",
             "apikey": "5511761CC5EE-445F-B55A-22A8FDDCFEA2"
@@ -1872,7 +2279,7 @@
       }
     ]
   },
-  "versionId": "228c78a1-e6e6-447f-96e3-f0c87bdd338e",
+  "versionId": "575be302-b0d2-45cc-91a5-6c717e32d371",
   "triggerCount": 1,
   "tags": [
     {
