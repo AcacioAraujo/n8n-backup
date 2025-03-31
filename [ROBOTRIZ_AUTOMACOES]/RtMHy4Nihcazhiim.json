@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-03-10T17:21:26.007Z",
-  "updatedAt": "2025-03-26T13:32:54.989Z",
+  "updatedAt": "2025-03-30T19:04:55.009Z",
   "id": "RtMHy4Nihcazhiim",
   "name": "[ROBOTRIZ_AUTOMACOES]-[MVP][DANIELA MOLEIRO]",
   "active": true,
@@ -1727,11 +1727,6 @@
         ]
       ]
     },
-    "Telefones liberados": {
-      "main": [
-        []
-      ]
-    },
     "Consulta Inicio REDIS": {
       "main": [
         [
@@ -1846,7 +1841,7 @@
       }
     ]
   },
-  "versionId": "e964ede4-1175-4634-9a84-05bf5e04010d",
+  "versionId": "39ee6e42-e1ae-4c5b-999d-08400894a65a",
   "triggerCount": 1,
   "tags": []
 }
