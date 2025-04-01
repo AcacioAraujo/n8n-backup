@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-07-11T12:27:58.740Z",
-  "updatedAt": "2025-03-22T21:34:30.344Z",
+  "updatedAt": "2025-03-31T19:38:29.979Z",
   "id": "qCHqUamOiu3lKP13",
   "name": "Teste Acacio",
   "active": false,
@@ -197,35 +197,6 @@
         "smtp": {
           "id": "n7uoPlnCt45Bzt6f",
           "name": "SMTP account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "toRecipients": "afonso.moreira@ahmsolution.com",
-        "subject": "teste",
-        "bodyContent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dapibus arcu ante, ut faucibus mauris tincidunt nec. Nunc lacinia, tortor non finibus hendrerit, ligula lectus posuere nibh, a pellentesque odio leo nec massa. Mauris facilisis nulla faucibus enim dictum dignissim. Pellentesque dignissim urna a nibh consequat, non tempus tortor sollicitudin. Aliquam eu consectetur magna. Vivamus pulvinar urna ex, tincidunt lacinia velit sollicitudin vitae. Duis porta arcu eros, ut consequat lacus congue nec. Etiam venenatis suscipit tortor vel lacinia. Morbi tortor ex, consequat ac diam quis, venenatis iaculis mi. Pellentesque ultrices sem in tincidunt iaculis. Ut diam erat, elementum et eleifend at, cursus id nisi. Maecenas elementum pellentesque est eu eleifend.\n\nAliquam erat volutpat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec tempor neque eget leo pellentesque aliquet. Maecenas ligula nibh, volutpat varius justo sed, laoreet sollicitudin nunc. Suspendisse accumsan ligula orci, vitae laoreet ligula aliquet scelerisque. Fusce vel tincidunt ipsum, vitae mattis nisi. Nulla ornare fermentum viverra. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean vel mattis nunc. Praesent nisl mi, porttitor ac volutpat ut, sodales vulputate nibh.",
-        "additionalFields": {
-          "attachments": {
-            "attachments": [
-              {}
-            ]
-          },
-          "bodyContentType": "Text"
-        }
-      },
-      "id": "185da78c-5ad8-421b-ab60-e2fc4e36f2c6",
-      "name": "Microsoft Outlook",
-      "type": "n8n-nodes-base.microsoftOutlook",
-      "typeVersion": 2,
-      "position": [
-        900,
-        1040
-      ],
-      "credentials": {
-        "microsoftOutlookOAuth2Api": {
-          "id": "sEZbSrXl9tvdOUNc",
-          "name": "Microsoft Outlook account"
         }
       }
     },
@@ -497,6 +468,70 @@
           "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "filters": {}
+      },
+      "id": "185da78c-5ad8-421b-ab60-e2fc4e36f2c6",
+      "name": "Retorna calendário Leonardo",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        -60,
+        340
+      ],
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "lYa6AQ8mJOydecG7",
+          "name": "MCN Advogados"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "operation": "create",
+        "name": "Teste Robotriz",
+        "additionalFields": {}
+      },
+      "id": "241b18cb-40b2-498f-b1d8-aaf497dc3df0",
+      "name": "Criar calendário Leonardo",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        320,
+        180
+      ],
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "lYa6AQ8mJOydecG7",
+          "name": "MCN Advogados"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "operation": "create",
+        "name": "Teste Robotriz",
+        "additionalFields": {}
+      },
+      "id": "9cbc75eb-8d79-4724-b339-7276146f25fd",
+      "name": "Criar calendário Leonardo1",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        80,
+        620
+      ],
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "lYa6AQ8mJOydecG7",
+          "name": "MCN Advogados"
+        }
+      }
     }
   ],
   "connections": {
@@ -586,7 +621,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "2d97ff5f-b72c-4ae8-befa-87bd6dc9e66d",
+  "versionId": "9a631cab-89cc-489c-8181-42e5ff0c7145",
   "triggerCount": 1,
   "tags": []
 }
