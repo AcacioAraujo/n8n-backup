@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-07-11T12:27:58.740Z",
-  "updatedAt": "2025-03-31T19:38:29.979Z",
+  "updatedAt": "2025-04-01T13:36:13.265Z",
   "id": "qCHqUamOiu3lKP13",
   "name": "Teste Acacio",
   "active": false,
@@ -53,8 +53,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -760,
-        -220
+        -840,
+        440
       ]
     },
     {
@@ -513,18 +513,58 @@
     },
     {
       "parameters": {
-        "resource": "calendar",
+        "resource": "event",
         "operation": "create",
-        "name": "Teste Robotriz",
-        "additionalFields": {}
+        "calendarId": {
+          "__rl": true,
+          "value": "AAMkAGQ3ODFlODdhLWFlMWYtNDM4Mi05YmNmLTgxNDNjMGY5ZTg1NQBGAAAAAAA027rLNeOLQ5MQFaV06yPyBwD62yPncSo9T7K039KZrGRcAAAAAAEGAAD62yPncSo9T7K039KZrGRcAAALyF9YAAA=",
+          "mode": "list",
+          "cachedResultName": "Teste Robotriz"
+        },
+        "subject": "Reunião Teste Robotriz",
+        "startDateTime": "2024-10-28T10:30:00",
+        "endDateTime": "2024-10-28T11:30:00",
+        "additionalFields": {
+          "body": "Teste de duplicidade de reunião",
+          "isOnlineMeeting": false
+        }
       },
       "id": "9cbc75eb-8d79-4724-b339-7276146f25fd",
-      "name": "Criar calendário Leonardo1",
+      "name": "Criar agenda Leonardo",
       "type": "n8n-nodes-base.microsoftOutlook",
       "typeVersion": 2,
       "position": [
-        80,
-        620
+        120,
+        600
+      ],
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "lYa6AQ8mJOydecG7",
+          "name": "MCN Advogados"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "event",
+        "fromAllCalendars": false,
+        "calendarId": {
+          "__rl": true,
+          "value": "AAMkAGQ3ODFlODdhLWFlMWYtNDM4Mi05YmNmLTgxNDNjMGY5ZTg1NQBGAAAAAAA027rLNeOLQ5MQFaV06yPyBwD62yPncSo9T7K039KZrGRcAAAAAAEGAAD62yPncSo9T7K039KZrGRcAAALyF9YAAA=",
+          "mode": "list",
+          "cachedResultName": "Teste Robotriz"
+        },
+        "filters": {
+          "custom": "start/dateTime gt '2025-03-20T00:00:00'"
+        }
+      },
+      "id": "c3e9f071-7a3c-491c-a2a6-a6173df293f5",
+      "name": "Consultar agenda Leonardo",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        -620,
+        440
       ],
       "credentials": {
         "microsoftOutlookOAuth2Api": {
@@ -572,7 +612,7 @@
       "main": [
         [
           {
-            "node": "Gmail - buscar emails",
+            "node": "Consultar agenda Leonardo",
             "type": "main",
             "index": 0
           }
@@ -621,7 +661,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "9a631cab-89cc-489c-8181-42e5ff0c7145",
+  "versionId": "be312d0e-ab21-4b17-a44b-96e58cce0137",
   "triggerCount": 1,
   "tags": []
 }
