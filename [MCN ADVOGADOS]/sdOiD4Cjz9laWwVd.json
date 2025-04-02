@@ -1,0 +1,69 @@
+{
+  "createdAt": "2025-04-01T17:41:37.601Z",
+  "updatedAt": "2025-04-01T17:55:31.604Z",
+  "id": "sdOiD4Cjz9laWwVd",
+  "name": "[MCN ADVOGADOS]-[AGENDAMENTO DE REUNIÃO]",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "36aa3a27-934d-43c3-afe9-7f5aa3ef228c",
+      "name": "dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1100,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ffb3e48e-db56-4d94-837c-47dad074fcd9",
+        "options": {}
+      },
+      "id": "73dbcbea-5eaa-44ec-8833-5d9bb248e4a7",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        880,
+        360
+      ],
+      "webhookId": "ffb3e48e-db56-4d94-837c-47dad074fcd9"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "dfa2ec23-7f66-4f62-b25c-f153a0b883a9",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "createdAt": "2025-02-26T23:55:34.456Z",
+      "updatedAt": "2025-02-26T23:55:34.456Z",
+      "id": "wXiOtXoVs8IO8LX6",
+      "name": "MCN ADVOGADOS"
+    }
+  ]
+}
