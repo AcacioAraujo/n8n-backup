@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-01T17:41:37.601Z",
-  "updatedAt": "2025-04-03T20:30:12.593Z",
+  "updatedAt": "2025-04-04T14:14:07.412Z",
   "id": "sdOiD4Cjz9laWwVd",
   "name": "[MCN ADVOGADOS]-[AGENDAMENTO DE REUNIÃO]",
   "active": false,
@@ -121,19 +121,19 @@
             {
               "id": "d7eef651-0de1-4333-bc88-a8e59cbbc193",
               "name": "data_inicio",
-              "value": "={{ (()=>{\n  const dataInicial = $now.format('yyyy-MM-dd');\n  diasUteis = 1 ;\n\n  const feriadosFixosNacionais = [\n    '01-01', // Confraternização Universal\n    '04-21', // Tiradentes\n    '05-01', // Dia do Trabalho\n    '09-07', // Independência do Brasil\n    '10-12', // Nossa Senhora Aparecida\n    '11-02', // Finados\n    '11-15', // Proclamação da República\n    '12-25', // Natal\n  ];\n\n  const feriadosFixosEstaduaisES = [\n    '05-23', // Colonização do Solo Espírito-Santense\n    '10-28', // Dia do Servidor Público (opcional, mas incluído aqui)\n  ];\n\n\n  function calcularPascoa(ano) {\n    const f = Math.floor, G = ano % 19;\n    const C = f(ano / 100);\n    const H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30;\n    const I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11));\n    const J = (ano + f(ano / 4) + I + 2 - C + f(C / 4)) % 7;\n    const L = I - J;\n    const mes = 3 + f((L + 40) / 44);\n    const dia = L + 28 - 31 * f(mes / 4);\n    return new Date(ano, mes - 1, dia);\n  }\n\n  function obterFeriadosMoveis(ano) {\n    const pascoa = calcularPascoa(ano);\n    return [\n      pascoa,\n      new Date(pascoa.getTime() - 2 * 24 * 60 * 60 * 1000), // Sexta-feira Santa\n      new Date(pascoa.getTime() - 47 * 24 * 60 * 60 * 1000), // Carnaval\n      new Date(pascoa.getTime() + 60 * 24 * 60 * 60 * 1000), // Corpus Christi\n    ].map(d => d.toISOString().slice(0, 10));\n  }\n\n  const data = new Date(dataInicial);\n  const ano = data.getFullYear();\n  const feriadosMoveis = obterFeriadosMoveis(ano);\n\n  let adicionados = 0;\n  while (adicionados < diasUteis) {\n    data.setDate(data.getDate() + 1);\n    const diaSemana = data.getDay();\n    const dataISO = data.toISOString().slice(0, 10);\n    const mmdd = dataISO.slice(5);\n\n    const ehFeriado = feriadosFixosNacionais.includes(mmdd) ||\n                      feriadosFixosEstaduaisES.includes(mmdd) ||\n                      feriadosMoveis.includes(dataISO);\n\n    const ehFimDeSemana = diaSemana === 0 || diaSemana === 6;\n\n    if (!ehFeriado && !ehFimDeSemana) {\n      adicionados++;\n    }\n  }\n\n\n  return data.toISOString().slice(0, 10);\n\n})()\n}}",
+              "value": "={{ (()=>{\n  const dataInicial = $now.format('yyyy-MM-dd');\n  let diasUteis = 1;\n\n  const feriadosFixosNacionais = [\n    '01-01', '04-21', '05-01', '09-07',\n    '10-12', '11-02', '11-15', '12-25'\n  ];\n\n  const feriadosFixosEstaduaisES = [\n    '05-23', // Colonização do Solo Espírito-Santense\n    '10-28', // Dia do Servidor Público\n  ];\n\n  function calcularPascoa(ano) {\n    const f = Math.floor, G = ano % 19;\n    const C = f(ano / 100);\n    const H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30;\n    const I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11));\n    const J = (ano + f(ano / 4) + I + 2 - C + f(C / 4)) % 7;\n    const L = I - J;\n    const mes = 3 + f((L + 40) / 44);\n    const dia = L + 28 - 31 * f(mes / 4);\n    return new Date(ano, mes - 1, dia);\n  }\n\n  function obterFeriadosMoveis(ano) {\n    const pascoa = calcularPascoa(ano);\n    return [\n      pascoa,\n      new Date(pascoa.getTime() - 2 * 24 * 60 * 60 * 1000), // Sexta-feira Santa\n      new Date(pascoa.getTime() - 47 * 24 * 60 * 60 * 1000), // Carnaval\n      new Date(pascoa.getTime() + 60 * 24 * 60 * 60 * 1000), // Corpus Christi\n    ].map(d => d.toISOString().slice(0, 10));\n  }\n\n  const data = new Date(dataInicial);\n  data.setDate(data.getDate() + 1); // começa a contar do próximo dia\n\n  let adicionados = 0;\n\n  while (adicionados < diasUteis) {\n    const anoAtual = data.getFullYear();\n    const feriadosMoveis = obterFeriadosMoveis(anoAtual);\n    const diaSemana = data.getDay();\n    const dataISO = data.toISOString().slice(0, 10);\n    const mmdd = dataISO.slice(5);\n\n    const ehFeriado = feriadosFixosNacionais.includes(mmdd) ||\n                      feriadosFixosEstaduaisES.includes(mmdd) ||\n                      feriadosMoveis.includes(dataISO);\n\n    const ehFimDeSemana = diaSemana === 5 || diaSemana === 6;\n\n    if (!ehFimDeSemana) {\n      adicionados++;\n      if (adicionados === diasUteis) {\n        return dataISO;\n      }\n    }\n\n    data.setDate(data.getDate() + 1);\n  }\n\n})()\n}}",
               "type": "string"
             },
             {
               "id": "a8fea9d8-fd0f-44d8-8e8e-01608ab4f5bf",
               "name": "data_fim",
-              "value": "={{ (()=>{\n  const dataInicial = $now.format('yyyy-MM-dd');\n  diasUteis = 5 ;\n\n  const feriadosFixosNacionais = [\n    '01-01', // Confraternização Universal\n    '04-21', // Tiradentes\n    '05-01', // Dia do Trabalho\n    '09-07', // Independência do Brasil\n    '10-12', // Nossa Senhora Aparecida\n    '11-02', // Finados\n    '11-15', // Proclamação da República\n    '12-25', // Natal\n  ];\n\n  const feriadosFixosEstaduaisES = [\n    '05-23', // Colonização do Solo Espírito-Santense\n    '10-28', // Dia do Servidor Público (opcional, mas incluído aqui)\n  ];\n\n\n  function calcularPascoa(ano) {\n    const f = Math.floor, G = ano % 19;\n    const C = f(ano / 100);\n    const H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30;\n    const I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11));\n    const J = (ano + f(ano / 4) + I + 2 - C + f(C / 4)) % 7;\n    const L = I - J;\n    const mes = 3 + f((L + 40) / 44);\n    const dia = L + 28 - 31 * f(mes / 4);\n    return new Date(ano, mes - 1, dia);\n  }\n\n  function obterFeriadosMoveis(ano) {\n    const pascoa = calcularPascoa(ano);\n    return [\n      pascoa,\n      new Date(pascoa.getTime() - 2 * 24 * 60 * 60 * 1000), // Sexta-feira Santa\n      new Date(pascoa.getTime() - 47 * 24 * 60 * 60 * 1000), // Carnaval\n      new Date(pascoa.getTime() + 60 * 24 * 60 * 60 * 1000), // Corpus Christi\n    ].map(d => d.toISOString().slice(0, 10));\n  }\n\n  const data = new Date(dataInicial);\n  const ano = data.getFullYear();\n  const feriadosMoveis = obterFeriadosMoveis(ano);\n\n  let adicionados = 0;\n  while (adicionados < diasUteis) {\n    data.setDate(data.getDate() + 1);\n    const diaSemana = data.getDay();\n    const dataISO = data.toISOString().slice(0, 10);\n    const mmdd = dataISO.slice(5);\n\n    const ehFeriado = feriadosFixosNacionais.includes(mmdd) ||\n                      feriadosFixosEstaduaisES.includes(mmdd) ||\n                      feriadosMoveis.includes(dataISO);\n\n    const ehFimDeSemana = diaSemana === 0 || diaSemana === 6;\n\n    if (!ehFeriado && !ehFimDeSemana) {\n      adicionados++;\n    }\n  }\n\n\n  return data.toISOString().slice(0, 10);\n\n})()\n}}",
+              "value": "={{ (()=>{\n  const dataInicial = $now.format('yyyy-MM-dd');\n  let diasUteis = 5;\n\n  const feriadosFixosNacionais = [\n    '01-01', '04-21', '05-01', '09-07',\n    '10-12', '11-02', '11-15', '12-25'\n  ];\n\n  const feriadosFixosEstaduaisES = [\n    '05-23', // Colonização do Solo Espírito-Santense\n    '10-28', // Dia do Servidor Público\n  ];\n\n  function calcularPascoa(ano) {\n    const f = Math.floor, G = ano % 19;\n    const C = f(ano / 100);\n    const H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30;\n    const I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11));\n    const J = (ano + f(ano / 4) + I + 2 - C + f(C / 4)) % 7;\n    const L = I - J;\n    const mes = 3 + f((L + 40) / 44);\n    const dia = L + 28 - 31 * f(mes / 4);\n    return new Date(ano, mes - 1, dia);\n  }\n\n  function obterFeriadosMoveis(ano) {\n    const pascoa = calcularPascoa(ano);\n    return [\n      pascoa,\n      new Date(pascoa.getTime() - 2 * 24 * 60 * 60 * 1000), // Sexta-feira Santa\n      new Date(pascoa.getTime() - 47 * 24 * 60 * 60 * 1000), // Carnaval\n      new Date(pascoa.getTime() + 60 * 24 * 60 * 60 * 1000), // Corpus Christi\n    ].map(d => d.toISOString().slice(0, 10));\n  }\n\n  const data = new Date(dataInicial);\n  data.setDate(data.getDate() + 1); // começa a contar do próximo dia\n\n  let adicionados = 0;\n\n  while (adicionados < diasUteis) {\n    const anoAtual = data.getFullYear();\n    const feriadosMoveis = obterFeriadosMoveis(anoAtual);\n    const diaSemana = data.getDay();\n    const dataISO = data.toISOString().slice(0, 10);\n    const mmdd = dataISO.slice(5);\n\n    const ehFeriado = feriadosFixosNacionais.includes(mmdd) ||\n                      feriadosFixosEstaduaisES.includes(mmdd) ||\n                      feriadosMoveis.includes(dataISO);\n\n    const ehFimDeSemana = diaSemana === 5 || diaSemana === 6;\n\n    if (!ehFimDeSemana) {\n      adicionados++;\n      if (adicionados === diasUteis) {\n        return dataISO;\n      }\n    }\n\n    data.setDate(data.getDate() + 1);\n  }\n\n})()\n}}",
               "type": "string"
             },
             {
               "id": "3a4d3e9d-4f55-49f5-8161-d12afd49eb60",
               "name": "array_datas",
-              "value": "={{ (()=>{\n  const dataInicial = $now.format('yyyy-MM-dd');\n  diasUteis = 5 ;\n\n  const feriadosFixosNacionais = [\n    '01-01', // Confraternização Universal\n    '04-21', // Tiradentes\n    '05-01', // Dia do Trabalho\n    '09-07', // Independência do Brasil\n    '10-12', // Nossa Senhora Aparecida\n    '11-02', // Finados\n    '11-15', // Proclamação da República\n    '12-25', // Natal\n  ];\n\n  const feriadosFixosEstaduaisES = [\n    '05-23', // Colonização do Solo Espírito-Santense\n    '10-28', // Dia do Servidor Público (opcional, mas incluído aqui)\n  ];\n\n\n  function calcularPascoa(ano) {\n    const f = Math.floor, G = ano % 19;\n    const C = f(ano / 100);\n    const H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30;\n    const I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11));\n    const J = (ano + f(ano / 4) + I + 2 - C + f(C / 4)) % 7;\n    const L = I - J;\n    const mes = 3 + f((L + 40) / 44);\n    const dia = L + 28 - 31 * f(mes / 4);\n    return new Date(ano, mes - 1, dia);\n  }\n\n  function obterFeriadosMoveis(ano) {\n    const pascoa = calcularPascoa(ano);\n    return [\n      pascoa,\n      new Date(pascoa.getTime() - 2 * 24 * 60 * 60 * 1000), // Sexta-feira Santa\n      new Date(pascoa.getTime() - 47 * 24 * 60 * 60 * 1000), // Carnaval\n      new Date(pascoa.getTime() + 60 * 24 * 60 * 60 * 1000), // Corpus Christi\n    ].map(d => d.toISOString().slice(0, 10));\n  }\n\n  const data = new Date(dataInicial);\n  const ano = data.getFullYear();\n  const feriadosMoveis = obterFeriadosMoveis(ano);\n\n  const datasUteis = [];\n  let adicionados = 0;\n  while (adicionados < diasUteis) {\n    data.setDate(data.getDate() + 1);\n    const diaSemana = data.getDay();\n    const dataISO = data.toISOString().slice(0, 10);\n    const mmdd = dataISO.slice(5);\n\n    const ehFeriado = feriadosFixosNacionais.includes(mmdd) ||\n                      feriadosFixosEstaduaisES.includes(mmdd) ||\n                      feriadosMoveis.includes(dataISO);\n\n    const ehFimDeSemana = diaSemana === 0 || diaSemana === 6;\n\n    if (!ehFeriado && !ehFimDeSemana) {\n      datasUteis.push(dataISO);\n      adicionados++;\n    }\n  }\n\n\n  return datasUteis;\n\n})()\n}}",
+              "value": "={{ (()=>{\n  const dataInicial = $now.format('yyyy-MM-dd');\n  diasUteis = 5 ;\n\n  const feriadosFixosNacionais = [\n    '01-01', // Confraternização Universal\n    '04-21', // Tiradentes\n    '05-01', // Dia do Trabalho\n    '09-07', // Independência do Brasil\n    '10-12', // Nossa Senhora Aparecida\n    '11-02', // Finados\n    '11-15', // Proclamação da República\n    '12-25', // Natal\n  ];\n\n  const feriadosFixosEstaduaisES = [\n    '05-23', // Colonização do Solo Espírito-Santense\n    '10-28', // Dia do Servidor Público (opcional, mas incluído aqui)\n  ];\n\n\n  function calcularPascoa(ano) {\n    const f = Math.floor, G = ano % 19;\n    const C = f(ano / 100);\n    const H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30;\n    const I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11));\n    const J = (ano + f(ano / 4) + I + 2 - C + f(C / 4)) % 7;\n    const L = I - J;\n    const mes = 3 + f((L + 40) / 44);\n    const dia = L + 28 - 31 * f(mes / 4);\n    return new Date(ano, mes - 1, dia);\n  }\n\n  function obterFeriadosMoveis(ano) {\n    const pascoa = calcularPascoa(ano);\n    return [\n      pascoa,\n      new Date(pascoa.getTime() - 2 * 24 * 60 * 60 * 1000), // Sexta-feira Santa\n      new Date(pascoa.getTime() - 47 * 24 * 60 * 60 * 1000), // Carnaval\n      new Date(pascoa.getTime() + 60 * 24 * 60 * 60 * 1000), // Corpus Christi\n    ].map(d => d.toISOString().slice(0, 10));\n  }\n\n  const data = new Date(dataInicial);\n  const ano = data.getFullYear();\n  const feriadosMoveis = obterFeriadosMoveis(ano);\n\n  const datasUteis = [];\n  let adicionados = 0;\n  while (adicionados < diasUteis) {\n    data.setDate(data.getDate() + 1);\n    const diaSemana = data.getDay();\n    const dataISO = data.toISOString().slice(0, 10);\n    const mmdd = dataISO.slice(5);\n\n    const ehFeriado = feriadosFixosNacionais.includes(mmdd) ||\n                      feriadosFixosEstaduaisES.includes(mmdd) ||\n                      feriadosMoveis.includes(dataISO);\n\n    const ehFimDeSemana = diaSemana === 5 || diaSemana === 6;\n\n    if (!ehFeriado && !ehFimDeSemana) {\n      datasUteis.push(dataISO);\n      adicionados++;\n    }\n  }\n\n\n  return datasUteis;\n\n})()\n}}",
               "type": "string"
             }
           ]
@@ -160,7 +160,7 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        2160,
+        2060,
         180
       ]
     },
@@ -246,7 +246,7 @@
             {
               "id": "d4d5783e-030c-4846-a6a1-037a5171b483",
               "name": "",
-              "value": "={{ (() => {\n\n  const datasArray = $('OpenAI - Consultar Disponibilidade').item.json.message.content.parseJson()\n  const dataEspecifica = $('dados').item.json.data_agenda\n\n//return jsonDatas\n\n  return datasArray.some(data => new Date(data).getTime() === new Date(dataEspecifica).getTime());\n\n})() }}",
+              "value": "={{ (() => {\n\n  const arrayDeDatas = $json.message.content.parseJson()\n\n  const dataEspecifica = $('dados').item.json.data_agenda\n\n//return datasArray\nreturn arrayDeDatas.some(item => item.data === dataEspecifica);\n})() }}",
               "type": "string"
             }
           ]
@@ -261,68 +261,6 @@
         2060,
         380
       ]
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "ffb3e48e-db56-4d94-837c-47dad074fcd9",
-        "responseMode": "responseNode",
-        "options": {}
-      },
-      "id": "73dbcbea-5eaa-44ec-8833-5d9bb248e4a7",
-      "name": "Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        400,
-        300
-      ],
-      "webhookId": "ffb3e48e-db56-4d94-837c-47dad074fcd9"
-    },
-    {
-      "parameters": {
-        "modelId": {
-          "__rl": true,
-          "value": "gpt-4o",
-          "mode": "list",
-          "cachedResultName": "GPT-4O"
-        },
-        "messages": {
-          "values": [
-            {
-              "content": "Você é um assistente que gera um calendário de agendamento com base em dois arrays de entrada:\n\ndatasDisponiveis: uma lista de datas no formato YYYY-MM-DD\n\nhorariosOcupados: uma lista de objetos que contêm os campos start.dateTime e end.dateTime \n\nSua tarefa é gerar, para cada data em datasDisponiveis, uma lista de horários disponíveis seguindo as regras abaixo:\n\nOs horários de agendamento devem ser de hora em hora, iniciando às 09:00 e terminando às 18:00\n\nO horário entre 12:00 e 13:00 deve ser sempre excluído (intervalo de almoço)\n\nExclua todos os horários que coincidirem com o início de qualquer intervalo no campo horariosOcupados\n\nRetorne APENAS um array contendo objetos com as datas e seus respectivos horários disponíveis, no seguinte formato:\n\n[\n{ \"data\": \"2025-04-03 10:00:00\" },\n{ \"data\": \"2025-04-04 10:00:00\" },\n{ \"data\": \"2025-04-05 10:00:00\" }...\n];\n\nNão inclua nenhum texto explicativo ou comentários. Retorne apenas o array com o resultado final.",
-              "role": "system"
-            },
-            {
-              "content": "=<datasDisponiveis>\n{{ $('dados').item.json.array_datas }}\n</datasDisponiveis>",
-              "role": "assistant"
-            },
-            {
-              "content": "=<horariosOcupados>\n{{ $json.data_convertidas.toJsonString() }}\n</horariosOcupados>",
-              "role": "assistant"
-            },
-            {
-              "content": "=<data_agenda>\n{{ $('dados').item.json.data_agenda }}\n</data_agenda>",
-              "role": "assistant"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "2ce60d08-0b04-475a-8f6b-3e4513a01a8d",
-      "name": "OpenAI - Consultar Disponibilidade",
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.6,
-      "position": [
-        1420,
-        300
-      ],
-      "credentials": {
-        "openAiApi": {
-          "id": "qTcKDeG1l7aS58Jy",
-          "name": "OpenAi account"
-        }
-      }
     },
     {
       "parameters": {
@@ -388,6 +326,68 @@
         1780,
         300
       ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Você é um assistente que gera um calendário de agendamento com base em dois arrays de entrada:\n\ndatasDisponiveis: uma lista de datas no formato YYYY-MM-DD\n\nhorariosOcupados: uma lista de objetos que contêm os campos start.dateTime e end.dateTime \n\nSua tarefa é gerar, para cada data em datasDisponiveis, uma lista de horários disponíveis seguindo as regras abaixo:\n\nOs horários de agendamento devem ser de hora em hora, iniciando às 09:00 e terminando às 18:00\n\nO horário entre 12:00 e 13:00 deve ser sempre excluído (intervalo de almoço)\n\nExclua todos os horários que coincidirem com o início de qualquer intervalo no campo horariosOcupados\n\nRetorne APENAS um ARRAY contendo objetos com as datas e seus respectivos horários disponíveis, no seguinte formato:\n\n[\n{ \"data\": \"2025-04-03 10:00:00\" },\n{ \"data\": \"2025-04-04 10:00:00\" },\n{ \"data\": \"2025-04-05 10:00:00\" }...\n];\n\nNão inclua nenhum texto explicativo ou comentários. Retorne SEMPRE O ARRAY com o resultado final.",
+              "role": "system"
+            },
+            {
+              "content": "=<datasDisponiveis>\n{{ $('dados').item.json.array_datas }}\n</datasDisponiveis>",
+              "role": "assistant"
+            },
+            {
+              "content": "=<horariosOcupados>\n{{ $json.data_convertidas.toJsonString() }}\n</horariosOcupados>",
+              "role": "assistant"
+            },
+            {
+              "content": "=<data_agenda>\n{{ $('dados').item.json.data_agenda }}\n</data_agenda>",
+              "role": "assistant"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2ce60d08-0b04-475a-8f6b-3e4513a01a8d",
+      "name": "OpenAI - Consultar Disponibilidade",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.6,
+      "position": [
+        1420,
+        300
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "qTcKDeG1l7aS58Jy",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ffb3e48e-db56-4d94-837c-47dad074fcd9",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "73dbcbea-5eaa-44ec-8833-5d9bb248e4a7",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        400,
+        300
+      ],
+      "webhookId": "ffb3e48e-db56-4d94-837c-47dad074fcd9"
     }
   ],
   "connections": {
@@ -424,22 +424,29 @@
         ]
       ]
     },
-    "dados": {
+    "Switch": {
       "main": [
         [
           {
-            "node": "Consultar agenda Leonardo",
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Webhook": {
+    "dados": {
       "main": [
         [
           {
-            "node": "dados",
+            "node": "Consultar agenda Leonardo",
             "type": "main",
             "index": 0
           }
@@ -457,18 +464,11 @@
         ]
       ]
     },
-    "Switch": {
+    "Webhook": {
       "main": [
         [
           {
-            "node": "Respond to Webhook",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Edit Fields",
+            "node": "dados",
             "type": "main",
             "index": 0
           }
@@ -509,7 +509,7 @@
             "nome": "Acacio Araujo",
             "telefone": "5535997638844",
             "email": "acacio.araujo@robotriz.com.br",
-            "data_agenda": "2025-04-04 16:00:00",
+            "data_agenda": "2025-04-07 16:00:00",
             "acao": "agendar",
             "observacoes": ""
           },
@@ -519,7 +519,7 @@
       }
     ]
   },
-  "versionId": "77a31ac1-ae78-4586-bc06-4a1aa4ed0ea0",
+  "versionId": "df6654e6-44eb-4614-9367-7b1ed1cc33cc",
   "triggerCount": 0,
   "tags": [
     {
