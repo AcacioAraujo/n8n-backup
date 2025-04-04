@@ -1,75 +1,10 @@
 {
   "createdAt": "2025-04-01T17:41:37.601Z",
-  "updatedAt": "2025-04-02T20:33:25.992Z",
+  "updatedAt": "2025-04-03T20:30:12.593Z",
   "id": "sdOiD4Cjz9laWwVd",
   "name": "[MCN ADVOGADOS]-[AGENDAMENTO DE REUNIÃO]",
   "active": false,
   "nodes": [
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.acao }}",
-                    "rightValue": "consultar_disponibilidade",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "consultar_disponibilidade"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "3a67789d-0965-43fa-be92-daf86803f86e",
-                    "leftValue": "={{ $json.acao }}",
-                    "rightValue": "agendar",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "agendar"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "095042f0-7e6c-497d-ba1e-4bdb406c64d2",
-      "name": "Switch",
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.2,
-      "position": [
-        1640,
-        300
-      ]
-    },
     {
       "parameters": {
         "resource": "event",
@@ -94,8 +29,8 @@
       "type": "n8n-nodes-base.microsoftOutlook",
       "typeVersion": 2,
       "position": [
-        1940,
-        160
+        780,
+        300
       ],
       "credentials": {
         "microsoftOutlookOAuth2Api": {
@@ -116,8 +51,8 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        2140,
-        160
+        980,
+        300
       ]
     },
     {
@@ -139,8 +74,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2360,
-        160
+        1200,
+        300
       ]
     },
     {
@@ -210,14 +145,14 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1420,
+        600,
         300
       ]
     },
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={{ $json.message.content }}",
+        "responseBody": "={{ $('OpenAI - Consultar Disponibilidade').item.json.message.content }}",
         "options": {}
       },
       "id": "cbd5d00e-c197-4b97-ae3e-efd0f62be19c",
@@ -225,26 +160,43 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        2960,
-        160
+        2160,
+        180
       ]
     },
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "ffb3e48e-db56-4d94-837c-47dad074fcd9",
-        "responseMode": "responseNode",
-        "options": {}
+        "resource": "event",
+        "operation": "create",
+        "calendarId": {
+          "__rl": true,
+          "value": "AAMkAGQ3ODFlODdhLWFlMWYtNDM4Mi05YmNmLTgxNDNjMGY5ZTg1NQBGAAAAAAA027rLNeOLQ5MQFaV06yPyBwD62yPncSo9T7K039KZrGRcAAAAAAEGAAD62yPncSo9T7K039KZrGRcAAALyF9YAAA=",
+          "mode": "list",
+          "cachedResultName": "Teste Robotriz"
+        },
+        "subject": "Reunião com Acácio Araujo - Direito de Família",
+        "startDateTime": "2025-04-04T10:00:00",
+        "endDateTime": "2025-04-04T11:00:00",
+        "additionalFields": {
+          "body": "Teste de duplicidade de reunião",
+          "hideAttendees": false,
+          "isOnlineMeeting": true
+        }
       },
-      "id": "73dbcbea-5eaa-44ec-8833-5d9bb248e4a7",
-      "name": "Webhook",
-      "type": "n8n-nodes-base.webhook",
+      "id": "8c7d7973-0046-4420-a036-4b081dcc82ae",
+      "name": "Criar agenda Leonardo",
+      "type": "n8n-nodes-base.microsoftOutlook",
       "typeVersion": 2,
       "position": [
-        1180,
-        300
+        2620,
+        660
       ],
-      "webhookId": "ffb3e48e-db56-4d94-837c-47dad074fcd9"
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "lYa6AQ8mJOydecG7",
+          "name": "MCN Advogados"
+        }
+      }
     },
     {
       "parameters": {
@@ -272,13 +224,13 @@
         },
         "options": {}
       },
-      "id": "2ce60d08-0b04-475a-8f6b-3e4513a01a8d",
-      "name": "OpenAI",
+      "id": "7877751a-54c9-4c0f-9cfe-843ff48683c2",
+      "name": "OpenAI - Data disponivel",
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.6,
       "position": [
-        2580,
-        160
+        2880,
+        320
       ],
       "credentials": {
         "openAiApi": {
@@ -286,20 +238,159 @@
           "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d4d5783e-030c-4846-a6a1-037a5171b483",
+              "name": "",
+              "value": "={{ (() => {\n\n  const datasArray = $('OpenAI - Consultar Disponibilidade').item.json.message.content.parseJson()\n  const dataEspecifica = $('dados').item.json.data_agenda\n\n//return jsonDatas\n\n  return datasArray.some(data => new Date(data).getTime() === new Date(dataEspecifica).getTime());\n\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9c5f3434-c473-4abe-8785-dd34d0e7ec93",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2060,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ffb3e48e-db56-4d94-837c-47dad074fcd9",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "73dbcbea-5eaa-44ec-8833-5d9bb248e4a7",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        400,
+        300
+      ],
+      "webhookId": "ffb3e48e-db56-4d94-837c-47dad074fcd9"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Você é um assistente que gera um calendário de agendamento com base em dois arrays de entrada:\n\ndatasDisponiveis: uma lista de datas no formato YYYY-MM-DD\n\nhorariosOcupados: uma lista de objetos que contêm os campos start.dateTime e end.dateTime \n\nSua tarefa é gerar, para cada data em datasDisponiveis, uma lista de horários disponíveis seguindo as regras abaixo:\n\nOs horários de agendamento devem ser de hora em hora, iniciando às 09:00 e terminando às 18:00\n\nO horário entre 12:00 e 13:00 deve ser sempre excluído (intervalo de almoço)\n\nExclua todos os horários que coincidirem com o início de qualquer intervalo no campo horariosOcupados\n\nRetorne APENAS um array contendo objetos com as datas e seus respectivos horários disponíveis, no seguinte formato:\n\n[\n{ \"data\": \"2025-04-03 10:00:00\" },\n{ \"data\": \"2025-04-04 10:00:00\" },\n{ \"data\": \"2025-04-05 10:00:00\" }...\n];\n\nNão inclua nenhum texto explicativo ou comentários. Retorne apenas o array com o resultado final.",
+              "role": "system"
+            },
+            {
+              "content": "=<datasDisponiveis>\n{{ $('dados').item.json.array_datas }}\n</datasDisponiveis>",
+              "role": "assistant"
+            },
+            {
+              "content": "=<horariosOcupados>\n{{ $json.data_convertidas.toJsonString() }}\n</horariosOcupados>",
+              "role": "assistant"
+            },
+            {
+              "content": "=<data_agenda>\n{{ $('dados').item.json.data_agenda }}\n</data_agenda>",
+              "role": "assistant"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2ce60d08-0b04-475a-8f6b-3e4513a01a8d",
+      "name": "OpenAI - Consultar Disponibilidade",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.6,
+      "position": [
+        1420,
+        300
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "qTcKDeG1l7aS58Jy",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('dados').item.json.acao }}",
+                    "rightValue": "consultar_disponibilidade",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "consultar_disponibilidade"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "3a67789d-0965-43fa-be92-daf86803f86e",
+                    "leftValue": "={{ $('dados').item.json.acao }}",
+                    "rightValue": "agendar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "agendar"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "095042f0-7e6c-497d-ba1e-4bdb406c64d2",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1780,
+        300
+      ]
     }
   ],
   "connections": {
-    "Switch": {
-      "main": [
-        [
-          {
-            "node": "Consultar agenda Leonardo",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Consultar agenda Leonardo": {
       "main": [
         [
@@ -326,7 +417,7 @@
       "main": [
         [
           {
-            "node": "OpenAI",
+            "node": "OpenAI - Consultar Disponibilidade",
             "type": "main",
             "index": 0
           }
@@ -337,7 +428,7 @@
       "main": [
         [
           {
-            "node": "Switch",
+            "node": "Consultar agenda Leonardo",
             "type": "main",
             "index": 0
           }
@@ -355,11 +446,29 @@
         ]
       ]
     },
-    "OpenAI": {
+    "OpenAI - Consultar Disponibilidade": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
       "main": [
         [
           {
             "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
@@ -374,8 +483,43 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "b18c6837-2060-4964-bce6-53d66a551fe1",
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "PostmanRuntime/7.43.3",
+            "content-length": "217",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "cache-control": "no-cache",
+            "content-type": "application/json",
+            "postman-token": "7798dda8-f2f2-4485-8c79-d4da0ec40c8c",
+            "x-forwarded-for": "186.233.178.77",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "2b1c1a3d6d10",
+            "x-real-ip": "186.233.178.77"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "nome": "Acacio Araujo",
+            "telefone": "5535997638844",
+            "email": "acacio.araujo@robotriz.com.br",
+            "data_agenda": "2025-04-04 16:00:00",
+            "acao": "agendar",
+            "observacoes": ""
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/ffb3e48e-db56-4d94-837c-47dad074fcd9",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "77a31ac1-ae78-4586-bc06-4a1aa4ed0ea0",
   "triggerCount": 0,
   "tags": [
     {
