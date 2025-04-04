@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-07-11T12:27:58.740Z",
-  "updatedAt": "2025-04-01T18:22:43.516Z",
+  "updatedAt": "2025-04-03T20:30:09.974Z",
   "id": "qCHqUamOiu3lKP13",
   "name": "Teste Acacio",
   "active": false,
@@ -521,12 +521,13 @@
           "mode": "list",
           "cachedResultName": "Teste Robotriz"
         },
-        "subject": "Reunião Teste Robotriz 2",
-        "startDateTime": "2025-04-02T10:00:00",
-        "endDateTime": "2025-04-02T11:00:00",
+        "subject": "Reunião com Acácio Araujo - Direito de Família",
+        "startDateTime": "2025-04-04T10:00:00",
+        "endDateTime": "2025-04-04T11:00:00",
         "additionalFields": {
           "body": "Teste de duplicidade de reunião",
-          "isOnlineMeeting": false
+          "hideAttendees": false,
+          "isOnlineMeeting": true
         }
       },
       "id": "9cbc75eb-8d79-4724-b339-7276146f25fd",
@@ -563,8 +564,8 @@
       "type": "n8n-nodes-base.microsoftOutlook",
       "typeVersion": 2,
       "position": [
-        -620,
-        440
+        -440,
+        300
       ],
       "credentials": {
         "microsoftOutlookOAuth2Api": {
@@ -661,7 +662,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "efcc7eb3-1202-4323-80ce-3ed3819f3616",
+  "versionId": "cdde25d8-42b8-41cd-a87b-808df92470ca",
   "triggerCount": 1,
   "tags": []
 }
