@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-01T17:41:37.601Z",
-  "updatedAt": "2025-04-04T14:14:07.412Z",
+  "updatedAt": "2025-04-04T19:36:09.449Z",
   "id": "sdOiD4Cjz9laWwVd",
   "name": "[MCN ADVOGADOS]-[AGENDAMENTO DE REUNIÃO]",
   "active": false,
@@ -135,6 +135,18 @@
               "name": "array_datas",
               "value": "={{ (()=>{\n  const dataInicial = $now.format('yyyy-MM-dd');\n  diasUteis = 5 ;\n\n  const feriadosFixosNacionais = [\n    '01-01', // Confraternização Universal\n    '04-21', // Tiradentes\n    '05-01', // Dia do Trabalho\n    '09-07', // Independência do Brasil\n    '10-12', // Nossa Senhora Aparecida\n    '11-02', // Finados\n    '11-15', // Proclamação da República\n    '12-25', // Natal\n  ];\n\n  const feriadosFixosEstaduaisES = [\n    '05-23', // Colonização do Solo Espírito-Santense\n    '10-28', // Dia do Servidor Público (opcional, mas incluído aqui)\n  ];\n\n\n  function calcularPascoa(ano) {\n    const f = Math.floor, G = ano % 19;\n    const C = f(ano / 100);\n    const H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30;\n    const I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11));\n    const J = (ano + f(ano / 4) + I + 2 - C + f(C / 4)) % 7;\n    const L = I - J;\n    const mes = 3 + f((L + 40) / 44);\n    const dia = L + 28 - 31 * f(mes / 4);\n    return new Date(ano, mes - 1, dia);\n  }\n\n  function obterFeriadosMoveis(ano) {\n    const pascoa = calcularPascoa(ano);\n    return [\n      pascoa,\n      new Date(pascoa.getTime() - 2 * 24 * 60 * 60 * 1000), // Sexta-feira Santa\n      new Date(pascoa.getTime() - 47 * 24 * 60 * 60 * 1000), // Carnaval\n      new Date(pascoa.getTime() + 60 * 24 * 60 * 60 * 1000), // Corpus Christi\n    ].map(d => d.toISOString().slice(0, 10));\n  }\n\n  const data = new Date(dataInicial);\n  const ano = data.getFullYear();\n  const feriadosMoveis = obterFeriadosMoveis(ano);\n\n  const datasUteis = [];\n  let adicionados = 0;\n  while (adicionados < diasUteis) {\n    data.setDate(data.getDate() + 1);\n    const diaSemana = data.getDay();\n    const dataISO = data.toISOString().slice(0, 10);\n    const mmdd = dataISO.slice(5);\n\n    const ehFeriado = feriadosFixosNacionais.includes(mmdd) ||\n                      feriadosFixosEstaduaisES.includes(mmdd) ||\n                      feriadosMoveis.includes(dataISO);\n\n    const ehFimDeSemana = diaSemana === 5 || diaSemana === 6;\n\n    if (!ehFeriado && !ehFimDeSemana) {\n      datasUteis.push(dataISO);\n      adicionados++;\n    }\n  }\n\n\n  return datasUteis;\n\n})()\n}}",
               "type": "string"
+            },
+            {
+              "id": "a6490354-375c-4b35-abdd-a7c36bd82258",
+              "name": "area",
+              "value": "={{ $json.body.area }}",
+              "type": "string"
+            },
+            {
+              "id": "f1d50263-e6c9-40bf-ab00-209601555e01",
+              "name": "reuniao_online",
+              "value": "={{ $json.body.reuniao_online }}",
+              "type": "boolean"
             }
           ]
         },
@@ -180,7 +192,7 @@
         "additionalFields": {
           "body": "Teste de duplicidade de reunião",
           "hideAttendees": false,
-          "isOnlineMeeting": true
+          "isOnlineMeeting": "={{ true }}"
         }
       },
       "id": "8c7d7973-0046-4420-a036-4b081dcc82ae",
@@ -188,8 +200,8 @@
       "type": "n8n-nodes-base.microsoftOutlook",
       "typeVersion": 2,
       "position": [
-        2620,
-        660
+        2640,
+        260
       ],
       "credentials": {
         "microsoftOutlookOAuth2Api": {
@@ -197,70 +209,6 @@
           "name": "MCN Advogados"
         }
       }
-    },
-    {
-      "parameters": {
-        "modelId": {
-          "__rl": true,
-          "value": "gpt-4o",
-          "mode": "list",
-          "cachedResultName": "GPT-4O"
-        },
-        "messages": {
-          "values": [
-            {
-              "content": "Você é um assistente que gera um calendário de agendamento com base em dois arrays de entrada:\n\ndatasDisponiveis: uma lista de datas no formato YYYY-MM-DD\n\nhorariosOcupados: uma lista de objetos que contêm os campos start.dateTime e end.dateTime \n\nSua tarefa é gerar, para cada data em datasDisponiveis, uma lista de horários disponíveis seguindo as regras abaixo:\n\nOs horários de agendamento devem ser de hora em hora, iniciando às 09:00 e terminando às 18:00\n\nO horário entre 12:00 e 13:00 deve ser sempre excluído (intervalo de almoço)\n\nExclua todos os horários que coincidirem com o início de qualquer intervalo no campo horariosOcupados\n\nRetorne APENAS um array contendo objetos com as datas e seus respectivos horários disponíveis, no seguinte formato:\n\n[ { \"data\": \"YYYY-MM-DD\", \"horarios\": [\"09:00\", \"10:00\", \"11:00\", \"13:00\", \"14:00\", \"15:00\", \"16:00\", \"17:00\"] }, ... ]\n\nNão inclua nenhum texto explicativo ou comentários. Retorne apenas o array com o resultado final.",
-              "role": "system"
-            },
-            {
-              "content": "=<datasDisponiveis>\n{{ $('dados').item.json.array_datas }}\n</datasDisponiveis>",
-              "role": "assistant"
-            },
-            {
-              "content": "=<horariosOcupados>\n{{ $json.data_convertidas.toJsonString() }}\n</horariosOcupados>",
-              "role": "assistant"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "7877751a-54c9-4c0f-9cfe-843ff48683c2",
-      "name": "OpenAI - Data disponivel",
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.6,
-      "position": [
-        2880,
-        320
-      ],
-      "credentials": {
-        "openAiApi": {
-          "id": "qTcKDeG1l7aS58Jy",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "d4d5783e-030c-4846-a6a1-037a5171b483",
-              "name": "",
-              "value": "={{ (() => {\n\n  const arrayDeDatas = $json.message.content.parseJson()\n\n  const dataEspecifica = $('dados').item.json.data_agenda\n\n//return datasArray\nreturn arrayDeDatas.some(item => item.data === dataEspecifica);\n})() }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "9c5f3434-c473-4abe-8785-dd34d0e7ec93",
-      "name": "Edit Fields",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2060,
-        380
-      ]
     },
     {
       "parameters": {
@@ -374,6 +322,82 @@
     },
     {
       "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "63edfbb8-eb69-4585-b4b0-db7fd97f8b70",
+              "leftValue": "={{ $json.data_disponivel }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "05effc86-ca8e-491c-b118-cd981251f108",
+      "name": "Data disponível",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2280,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d4d5783e-030c-4846-a6a1-037a5171b483",
+              "name": "data_disponivel",
+              "value": "={{ (() => {\n\n  const arrayDeDatas = $json.message.content.parseJson()\n\n  const dataEspecifica = $('dados').item.json.data_agenda\n\n//return datasArray\nreturn arrayDeDatas.some(item => item.data === dataEspecifica);\n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "072d1f84-663f-4122-8bc6-2ee108cb67b7",
+              "name": "agenda_titulo",
+              "value": "=Reunião {{ (() => {\nif($('dados').item.json.reuniao_online)\n  return 'Online'\nelse\n  return 'Presencial';\n})() }} com {{ $('dados').item.json.nome }} - {{ $('dados').item.json.area }}",
+              "type": "string"
+            },
+            {
+              "id": "72128a3c-4cc0-4ab6-b9d4-2897a13af0a7",
+              "name": "email_titulo",
+              "value": "=MCN Advogados - Reunião {{ (() => {\nif($('dados').item.json.reuniao_online)\n  return 'Online'\nelse\n  return 'Presencial';\n})() }} - {{ $('dados').item.json.area }}",
+              "type": "string"
+            },
+            {
+              "id": "eb294eb0-e64c-43af-95d7-cb9c216350c3",
+              "name": "email_mensagem",
+              "value": "=Boa tarde,\n\nSegue abaixo os dados da sua reunião:\n\nData:\nLocal:\n\nAtt.,\nXXXXXXXXXX",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9c5f3434-c473-4abe-8785-dd34d0e7ec93",
+      "name": "Dados Agendamento",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2060,
+        380
+      ]
+    },
+    {
+      "parameters": {
         "httpMethod": "POST",
         "path": "ffb3e48e-db56-4d94-837c-47dad074fcd9",
         "responseMode": "responseNode",
@@ -435,7 +459,7 @@
         ],
         [
           {
-            "node": "Edit Fields",
+            "node": "Dados Agendamento",
             "type": "main",
             "index": 0
           }
@@ -464,6 +488,17 @@
         ]
       ]
     },
+    "Dados Agendamento": {
+      "main": [
+        [
+          {
+            "node": "Data disponível",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Webhook": {
       "main": [
         [
@@ -484,6 +519,21 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {
+    "OpenAI - Consultar Disponibilidade": [
+      {
+        "json": {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "[{\"data\":\"2025-04-07 09:00:00\"},{\"data\":\"2025-04-07 11:00:00\"},{\"data\":\"2025-04-07 14:00:00\"},{\"data\":\"2025-04-07 15:00:00\"},{\"data\":\"2025-04-07 16:00:00\"},{\"data\":\"2025-04-07 17:00:00\"},{\"data\":\"2025-04-07 18:00:00\"},{\"data\":\"2025-04-08 09:00:00\"},{\"data\":\"2025-04-08 10:00:00\"},{\"data\":\"2025-04-08 11:00:00\"},{\"data\":\"2025-04-08 14:00:00\"},{\"data\":\"2025-04-08 15:00:00\"},{\"data\":\"2025-04-08 16:00:00\"},{\"data\":\"2025-04-08 17:00:00\"},{\"data\":\"2025-04-08 18:00:00\"},{\"data\":\"2025-04-09 09:00:00\"},{\"data\":\"2025-04-09 10:00:00\"},{\"data\":\"2025-04-09 11:00:00\"},{\"data\":\"2025-04-09 14:00:00\"},{\"data\":\"2025-04-09 15:00:00\"},{\"data\":\"2025-04-09 16:00:00\"},{\"data\":\"2025-04-09 17:00:00\"},{\"data\":\"2025-04-09 18:00:00\"},{\"data\":\"2025-04-10 09:00:00\"},{\"data\":\"2025-04-10 10:00:00\"},{\"data\":\"2025-04-10 11:00:00\"},{\"data\":\"2025-04-10 14:00:00\"},{\"data\":\"2025-04-10 15:00:00\"},{\"data\":\"2025-04-10 16:00:00\"},{\"data\":\"2025-04-10 17:00:00\"},{\"data\":\"2025-04-10 18:00:00\"},{\"data\":\"2025-04-11 09:00:00\"},{\"data\":\"2025-04-11 10:00:00\"},{\"data\":\"2025-04-11 11:00:00\"},{\"data\":\"2025-04-11 14:00:00\"},{\"data\":\"2025-04-11 15:00:00\"},{\"data\":\"2025-04-11 16:00:00\"},{\"data\":\"2025-04-11 17:00:00\"},{\"data\":\"2025-04-11 18:00:00\"}]",
+            "refusal": null,
+            "annotations": []
+          },
+          "logprobs": null,
+          "finish_reason": "stop"
+        }
+      }
+    ],
     "Webhook": [
       {
         "json": {
@@ -511,6 +561,8 @@
             "email": "acacio.araujo@robotriz.com.br",
             "data_agenda": "2025-04-07 16:00:00",
             "acao": "agendar",
+            "area": "Direito de Família",
+            "reuniao_online": "false",
             "observacoes": ""
           },
           "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/ffb3e48e-db56-4d94-837c-47dad074fcd9",
@@ -519,7 +571,7 @@
       }
     ]
   },
-  "versionId": "df6654e6-44eb-4614-9367-7b1ed1cc33cc",
+  "versionId": "b501d905-09d0-4775-8b12-f6f94555f0b0",
   "triggerCount": 0,
   "tags": [
     {
