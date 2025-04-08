@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-07-11T12:27:58.740Z",
-  "updatedAt": "2025-04-03T20:30:09.974Z",
+  "updatedAt": "2025-04-07T18:34:17.609Z",
   "id": "qCHqUamOiu3lKP13",
   "name": "Teste Acacio",
   "active": false,
@@ -573,6 +573,30 @@
           "name": "MCN Advogados"
         }
       }
+    },
+    {
+      "parameters": {
+        "toRecipients": "acacio.araujo@robotriz.com.br",
+        "subject": "Novo Teste",
+        "bodyContent": "<!DOCTYPE html>\n<html>\n  <body style=\"margin:0; padding:0; font-family: Arial, sans-serif;\">\n    <table align=\"center\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-collapse: collapse;\">\n      <tr>\n        <td style=\"padding: 20px; text-align: center;\">\n          <img src=\"https://seu-servidor.com/imagens/pagina_relatorio_email.png\" alt=\"Relatório Complementar\" width=\"100%\" style=\"display: block; border: 0;\" />\n        </td>\n      </tr>\n      <tr>\n        <td style=\"padding: 20px; text-align: center; font-size: 14px; color: #555;\">\n          <p>Para mais informações, entre em contato com a <strong>AHM Solution do Brasil</strong>.</p>\n          <p>Email: contato@ahmsolution.com<br />\n             WhatsApp: +55 (11) 9.7745-0002<br />\n             Site: <a href=\"https://www.ahmsolution.com.br\" target=\"_blank\">www.ahmsolution.com.br</a>\n          </p>\n        </td>\n      </tr>\n    </table>\n  </body>\n</html>",
+        "additionalFields": {
+          "bodyContentType": "html"
+        }
+      },
+      "id": "ab806715-3a98-4797-b14d-7c27b9303762",
+      "name": "AHM - Envio de email",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        840,
+        100
+      ],
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "fjDrljh6VQu9Rc2U",
+          "name": "Microsoft Outlook - AHM"
+        }
+      }
     }
   ],
   "connections": {
@@ -662,7 +686,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "cdde25d8-42b8-41cd-a87b-808df92470ca",
+  "versionId": "68cb8a97-33ae-45ed-8a2b-5817657ef1c1",
   "triggerCount": 1,
   "tags": []
 }
