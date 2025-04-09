@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-07-11T12:27:58.740Z",
-  "updatedAt": "2025-04-07T18:34:17.609Z",
+  "updatedAt": "2025-04-08T19:12:50.508Z",
   "id": "qCHqUamOiu3lKP13",
   "name": "Teste Acacio",
   "active": false,
@@ -53,8 +53,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -840,
-        440
+        -1200,
+        500
       ]
     },
     {
@@ -535,7 +535,7 @@
       "type": "n8n-nodes-base.microsoftOutlook",
       "typeVersion": 2,
       "position": [
-        -620,
+        -300,
         660
       ],
       "credentials": {
@@ -577,9 +577,16 @@
     {
       "parameters": {
         "toRecipients": "acacio.araujo@robotriz.com.br",
-        "subject": "Novo Teste",
-        "bodyContent": "<!DOCTYPE html>\n<html>\n  <body style=\"margin:0; padding:0; font-family: Arial, sans-serif;\">\n    <table align=\"center\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-collapse: collapse;\">\n      <tr>\n        <td style=\"padding: 20px; text-align: center;\">\n          <img src=\"https://seu-servidor.com/imagens/pagina_relatorio_email.png\" alt=\"Relatório Complementar\" width=\"100%\" style=\"display: block; border: 0;\" />\n        </td>\n      </tr>\n      <tr>\n        <td style=\"padding: 20px; text-align: center; font-size: 14px; color: #555;\">\n          <p>Para mais informações, entre em contato com a <strong>AHM Solution do Brasil</strong>.</p>\n          <p>Email: contato@ahmsolution.com<br />\n             WhatsApp: +55 (11) 9.7745-0002<br />\n             Site: <a href=\"https://www.ahmsolution.com.br\" target=\"_blank\">www.ahmsolution.com.br</a>\n          </p>\n        </td>\n      </tr>\n    </table>\n  </body>\n</html>",
+        "subject": "Acacio - TESTE ANEXO - Mitigar Risco | Ampliar Produtividade Operação",
+        "bodyContent": "<!DOCTYPE html>\n<html lang=\"pt-BR\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <title>Email Agradecimento</title>\n  </head>\n  <body style=\"font-family: Arial, sans-serif; line-height: 1.6; color: #333;\">\n    <p>Olá Acácio,</p>\n\n    <p>\n      Sou Afonso Moreira, CEO da AHM Solution. Agradeço sinceramente o seu contato e interação com a Clara, nossa Assistente Virtual. Nossa missão é tornar as empresas mais competitivas no seu setor de atuação.\n    </p>\n\n    <p>\n      Você sabia que um único acidente com empilhadeiras pode gerar custos superiores a R$ 100 mil? Investir em segurança industrial é uma decisão estratégica que protege vidas, reduz custos e aumenta a produtividade.\n    </p>\n\n    <ul>\n      <li><strong>Reduzir a alíquota do RAT:</strong> de 3% para até 1%, economizando na folha salarial</li>\n      <li><strong>Prevenir acidentes:</strong> Evitando paradas imprevistas</li>\n      <li><strong>Aumentar eficiência:</strong> Gerando operações mais produtivas</li>\n    </ul>\n\n    <p>Nossas soluções oferecem um retorno sobre investimento claro e mensurável:</p>\n\n    <ul>\n      <li>Economia significativa em custos diretos e indiretos</li>\n      <li>Aumento da produtividade operacional</li>\n      <li>Melhoria na reputação e conformidade regulatória</li>\n    </ul>\n\n    <p>\n      Preparamos um material com insights valiosos sobre aplicabilidades para que você entenda como nossos sistemas podem transformar a sua operação. Não deixe para agir depois de um problema. Antecipe-se e invista hoje em mitigar o risco de acidentes.\n    </p>\n\n    <p>\n      Queremos ir além, oferecendo uma reunião estratégica para analisar profundamente a sua operação e identificar oportunidades reais de proteção.\n    </p>\n\n    <p>\n      <a href=\"https://outlook.office365.com/owa/calendar/FalecomumEspecilistaAHMSolutiondoBrasil@ahmsolution.com/bookings/\" style=\"background-color: #0078d4; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;\">Fale com um Especialista Agora</a>\n    </p>\n\n    <p>\n      Conte comigo para explorarmos juntos como podemos atender às necessidades da sua empresa.\n    </p>\n\n    <p>Um abraço,<br />Afonso Moreira<br />CEO, AHM Solution do Brasil</p>\n  </body>\n</html>\n",
         "additionalFields": {
+          "attachments": {
+            "attachments": [
+              {
+                "binaryPropertyName": "data"
+              }
+            ]
+          },
           "bodyContentType": "html"
         }
       },
@@ -588,8 +595,8 @@
       "type": "n8n-nodes-base.microsoftOutlook",
       "typeVersion": 2,
       "position": [
-        840,
-        100
+        -700,
+        640
       ],
       "credentials": {
         "microsoftOutlookOAuth2Api": {
@@ -597,6 +604,22 @@
           "name": "Microsoft Outlook - AHM"
         }
       }
+    },
+    {
+      "parameters": {
+        "url": "https://miniofront.robotriz.com.br/api/v1/download-shared-object/aHR0cHM6Ly9taW5pb2JhY2sucm9ib3RyaXouY29tLmJyL3JvYm90cml6L0FjZXNzb3Jpb3MlMjBwYXJhJTIwZW1waWxoYWRlaXJhcy0lMjBSZWxhdCVDMyVCM3JpbyUyMENvbXBsZW1lbnRhciUyMC0lMjBUWVBFQk9ULnBkZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPTM3UkpDSlg0STlIMjVMSTlaUlpNJTJGMjAyNTA0MDglMkZwdC1iciUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTA0MDhUMTkxMjAyWiZYLUFtei1FeHBpcmVzPTQzMTk4JlgtQW16LVNlY3VyaXR5LVRva2VuPWV5SmhiR2NpT2lKSVV6VXhNaUlzSW5SNWNDSTZJa3BYVkNKOS5leUpoWTJObGMzTkxaWGtpT2lJek4xSktRMHBZTkVrNVNESTFURWs1V2xKYVRTSXNJbVY0Y0NJNk1UYzBOREU0TVRZM09Td2ljR0Z5Wlc1MElqb2lZV1J0YVc0aWZRLm9qa2hQMWVJVkZybmlMOGlwVXRQaWV0MS1fM2JlbEZQclhqWmFtWE1QemVLdUNoUVFSX2JXSXREelM4VHBCR1VlVEZBRE0tZEVZYU9NVk4xVDBVYUdBJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZ2ZXJzaW9uSWQ9bnVsbCZYLUFtei1TaWduYXR1cmU9ZjhjZjM0OWFjYmI3OGQyMzY4NjE5NjM1MTVmOWZmZDc0YjU5ODViMzNkYmQwMTEzMjhlOGQ0MmNlZTE0MjVmOQ",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "b9fc5e89-c981-4445-abe2-7e03bfa162bb",
+      "name": "Baixar imagem",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -940,
+        600
+      ]
     }
   ],
   "connections": {
@@ -637,7 +660,7 @@
       "main": [
         [
           {
-            "node": "Criar agenda Leonardo",
+            "node": "Baixar imagem",
             "type": "main",
             "index": 0
           }
@@ -676,6 +699,17 @@
           }
         ]
       ]
+    },
+    "Baixar imagem": {
+      "main": [
+        [
+          {
+            "node": "AHM - Envio de email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -686,7 +720,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "68cb8a97-33ae-45ed-8a2b-5817657ef1c1",
+  "versionId": "2f7c9ac8-1745-45cf-b92c-4961c8651d52",
   "triggerCount": 1,
   "tags": []
 }
