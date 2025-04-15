@@ -1,6 +1,6 @@
 {
   "createdAt": "2024-10-09T23:15:54.219Z",
-  "updatedAt": "2024-10-28T17:54:02.699Z",
+  "updatedAt": "2025-04-14T20:35:46.938Z",
   "id": "XdsDUWyIagaAuIFg",
   "name": "[AHM] - [BD][FINALIZAR FORMULARIO]",
   "active": true,
@@ -1437,22 +1437,6 @@
     },
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "61dc498f-b359-4d01-95c3-371d578a936e",
-        "options": {}
-      },
-      "id": "e7e1ad1d-dfa6-46b9-a65d-186344a1796a",
-      "name": "Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        -1420,
-        180
-      ],
-      "webhookId": "61dc498f-b359-4d01-95c3-371d578a936e"
-    },
-    {
-      "parameters": {
         "modelId": {
           "__rl": true,
           "value": "gpt-4o",
@@ -1474,7 +1458,7 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.5,
       "position": [
-        40,
+        80,
         300
       ],
       "credentials": {
@@ -1483,6 +1467,22 @@
           "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "61dc498f-b359-4d01-95c3-371d578a936e",
+        "options": {}
+      },
+      "id": "e7e1ad1d-dfa6-46b9-a65d-186344a1796a",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1420,
+        180
+      ],
+      "webhookId": "61dc498f-b359-4d01-95c3-371d578a936e"
     }
   ],
   "connections": {
@@ -1679,11 +1679,6 @@
             "node": "Perguntas e Respostas",
             "type": "main",
             "index": 0
-          },
-          {
-            "node": "Valida Razão Social",
-            "type": "main",
-            "index": 0
           }
         ]
       ]
@@ -1727,17 +1722,6 @@
         [
           {
             "node": "Dados Lead",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Aggregate": {
-      "main": [
-        [
-          {
-            "node": "OpenAI",
             "type": "main",
             "index": 0
           }
@@ -1810,17 +1794,6 @@
         ]
       ]
     },
-    "Webhook": {
-      "main": [
-        [
-          {
-            "node": "Campos",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "OpenAI": {
       "main": [
         [
@@ -1836,6 +1809,17 @@
           }
         ]
       ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Campos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -1845,8 +1829,39 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "9214054e-d2c6-4635-bd3f-5729cdb68085",
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.robotriz.com.br",
+            "user-agent": "PostmanRuntime/7.43.3",
+            "content-length": "93",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "cache-control": "no-cache",
+            "content-type": "application/json",
+            "postman-token": "a383c7a8-e14c-4ace-a12b-4c01a42ee742",
+            "x-forwarded-for": "186.233.178.195",
+            "x-forwarded-host": "n8n.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "2b1c1a3d6d10",
+            "x-real-ip": "186.233.178.195"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "id_lead": "i5a8x8i6rn6kecvfdmdc21sx",
+            "id_formulario": "hyt4ol1ksvnfu7hubogsppe1"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook-test/61dc498f-b359-4d01-95c3-371d578a936e",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "8417d559-53cc-4d38-ab79-761478e12aa0",
   "triggerCount": 1,
   "tags": [
     {
