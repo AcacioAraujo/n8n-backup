@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-02-26T23:55:41.509Z",
-  "updatedAt": "2025-03-28T15:31:20.681Z",
+  "updatedAt": "2025-04-15T13:29:29.263Z",
   "id": "5iemensBdmoWCqAc",
   "name": "[MCN ADVOGADOS]-[EVOLUTION_DIFY]",
   "active": true,
@@ -1184,7 +1184,7 @@
             {
               "id": "46f318d1-5f3b-41ac-8ea5-1f2902ba01d0",
               "leftValue": "={{ $json.celular }}",
-              "rightValue": "5527997193833",
+              "rightValue": "552798168580",
               "operator": {
                 "type": "string",
                 "operation": "equals",
@@ -2224,7 +2224,7 @@
           "headers": {
             "host": "webhook.robotriz.com.br",
             "user-agent": "axios/1.7.7",
-            "content-length": "2273",
+            "content-length": "736",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
             "x-forwarded-for": "172.18.0.1",
@@ -2241,35 +2241,26 @@
             "instance": "mcn_advogados_venda",
             "data": {
               "key": {
-                "remoteJid": "553597638844@s.whatsapp.net",
-                "fromMe": false,
-                "id": "3EB0C9EF2EF5D3C6D99C1A"
+                "remoteJid": "557398251408@s.whatsapp.net",
+                "fromMe": true,
+                "id": "FCBE91FBB5E5C2281AF32224EBD91425"
               },
-              "pushName": "Acácio Araujo MG",
-              "status": "DELIVERY_ACK",
+              "pushName": "Geisa Costa",
+              "status": "SERVER_ACK",
               "message": {
-                "conversation": "Estou em uma união estável há quatro anos, mas nosso relacionamento sempre foi conturbado. Inicialmente, namorávamos à distância — eu morava em São Paulo, e ela, no Espírito Santo — sem qualquer formalização de união. Em 2020, ela engravidou da nossa filha, Alice, e, nesse período, decidimos formalizar uma declaração de união estável apenas para incluí-la no plano de saúde (ou seja, uma declaração falsa).\n\nPara estar mais presente na vida da minha filha, larguei meu emprego em São Paulo e me mudei para Vitória-ES em 2022. Durante esses quatro anos, mantive o relacionamento apenas por nossa filha, mas dormindo em quartos separados. No final de setembro de 2024, ela decidiu sair de casa, mas, mesmo assim, continuamos tendo contato.\n\nEm janeiro de 2025, fiquei desempregado e aceitei uma oportunidade de trabalho em São Paulo. Durante esse período, deixei meu carro com ela para facilitar o transporte da nossa filha até a escola. Nos últimos meses, eu vinha a Vitória a cada 15 dias, e a relação aparentava estar normal. No entanto, no último final de semana, ao viajar para visitar minha filha e buscar o carro de volta, ela desapareceu com o veículo e nossa filha, alegando que precisava conversar com um advogado e que teria direito a 50% de tudo.",
+                "conversation": "Oi",
                 "messageContextInfo": {
-                  "deviceListMetadata": {
-                    "senderKeyHash": "SXZoH4WuzmBHQQ==",
-                    "senderTimestamp": "1742383828",
-                    "senderAccountType": "E2EE",
-                    "receiverAccountType": "E2EE",
-                    "recipientKeyHash": "uDPLHY+mf6I9Ow==",
-                    "recipientTimestamp": "1741892608"
-                  },
-                  "deviceListMetadataVersion": 2,
-                  "messageSecret": "4sifesu7INE3u3wpRVT4SyXfQzidwOPCSTDXql6LnfY="
+                  "messageSecret": "KBRYeLXWefUs7w6sF3ZgKSAg7Vz+i2TmBzdZ5vCw/+8="
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1743173004,
+              "messageTimestamp": 1744723633,
               "instanceId": "60c428cb-330f-459f-b9af-d3a527e18c65",
-              "source": "web"
+              "source": "android"
             },
             "destination": "https://webhook.robotriz.com.br/webhook/b070f400-8d75-4e27-b523-17a37aac7e22",
-            "date_time": "2025-03-28T11:43:24.816Z",
-            "sender": "5527996428010@s.whatsapp.net",
+            "date_time": "2025-04-15T10:27:13.965Z",
+            "sender": "5527997193833@s.whatsapp.net",
             "server_url": "https://evolution.robotriz.com.br",
             "apikey": "5511761CC5EE-445F-B55A-22A8FDDCFEA2"
           },
@@ -2279,7 +2270,7 @@
       }
     ]
   },
-  "versionId": "4fa0ef48-704a-4fbd-be8a-7e017b6e31fb",
+  "versionId": "401c3c00-a117-49c7-a93e-0ca821994377",
   "triggerCount": 1,
   "tags": [
     {
