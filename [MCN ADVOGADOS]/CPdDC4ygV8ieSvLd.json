@@ -1,0 +1,1748 @@
+{
+  "createdAt": "2025-04-15T18:09:48.187Z",
+  "updatedAt": "2025-04-15T20:00:11.564Z",
+  "id": "CPdDC4ygV8ieSvLd",
+  "name": "[MCN ADVOGADOS]-[EVOLUTION_DIFY]",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {
+          "language": "pt"
+        }
+      },
+      "id": "27b2aeb9-156c-4f80-ae62-6ae75cb7636e",
+      "name": "OpenAI1",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        -4620,
+        600
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "openAiApi": {
+          "id": "qTcKDeG1l7aS58Jy",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "audio64",
+        "options": {
+          "fileName": "transcricao.ogg",
+          "mimeType": "audio/ogg"
+        }
+      },
+      "id": "1e0e508d-9557-4752-9e41-14eee0c6b6ec",
+      "name": "Converter em Audio",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -4780,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "setAllData": false,
+        "destinationKey": "audio64",
+        "options": {
+          "encoding": "base64"
+        }
+      },
+      "id": "30660670-32d7-4a65-b5af-4a7aa9f46962",
+      "name": "Move Binary Data",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "typeVersion": 1,
+      "position": [
+        -4940,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b6cd097d-3a3a-4cdc-a6f1-13c118a4618c",
+              "name": "mensagem",
+              "value": "={{\n  $node['Webhook'].json.body.data.message.imageMessage?.caption\n    ? (\n        $json.content \n          ? `${$json.content} Legenda: ${$node['Webhook'].json.body.data.message.imageMessage.caption } }` \n          : 'Erro: json.content ausente para imagem com legenda'\n      ) \n    : `${$json.content || ''} ${$json.text ? $json.text : ''}`\n}}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9efffe35-ad1a-42ec-b47f-36bdb6dbb978",
+      "name": "Transcrição",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        -4320,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "setAllData": false,
+        "destinationKey": "image64",
+        "options": {
+          "encoding": "base64"
+        }
+      },
+      "id": "796fde2e-7c4a-46ec-83e6-61965997cec8",
+      "name": "Move Binary Data1",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "typeVersion": 1,
+      "position": [
+        -4940,
+        820
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "image64",
+        "options": {
+          "fileName": "imagem.jpeg",
+          "mimeType": "image/jpeg"
+        }
+      },
+      "id": "b58322cf-6f0f-4033-952a-7347bfd5fb10",
+      "name": "Converter em Imagem",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -4780,
+        820
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini-2024-07-18",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI-2024-07-18"
+        },
+        "text": "Descreva todo o conteúdo da imagem, sem Acentos e sem hífens",
+        "inputType": "base64",
+        "options": {}
+      },
+      "id": "ba581321-1455-47af-b136-28605afb1468",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [
+        -4620,
+        820
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "qTcKDeG1l7aS58Jy",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Webhook').item.json.body.data.message.mediaUrl }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "483822d3-2239-45d8-b6b4-5dfdf85ce277",
+      "name": "Baixar audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -5100,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Webhook').item.json.body.data.message.mediaUrl }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "5c7d06ce-911d-484e-b052-58954f012617",
+      "name": "Baixar imagem",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -5100,
+        820
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7ec39f15-8a96-4e19-b459-9078035f0d99",
+              "name": "celular",
+              "value": "={{ (()=>{\n\n  var entrada = $('Webhook').item.json.body.data.key.remoteJid\n\n    const partes = entrada.split('@');\n    \n    // Pegar a primeira parte\n    let primeiraParte = partes[0];\n    \n    // Verificar se tem 13 caracteres\n    if (primeiraParte.length !== 13) {\n        // Inserir '9' na 5ª posição (índice 4)\n        primeiraParte = primeiraParte.slice(0, 4) + '9' + primeiraParte.slice(4);\n    }\n\nreturn primeiraParte\n\n})()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "f853db83-6be1-4ee2-93fd-19c955345814",
+              "name": "remoteJid",
+              "value": "={{ $('Webhook').item.json.body.data.key.remoteJid }}",
+              "type": "string"
+            },
+            {
+              "id": "fe55b87a-c26f-412c-bc13-de0663d0aaf0",
+              "name": "conversation",
+              "value": "={{ $('Webhook').item.json.body.data.message.conversation }}",
+              "type": "string"
+            },
+            {
+              "id": "5acbc6a3-2627-40dd-a5b3-0818f6cd10cd",
+              "name": "messageType",
+              "value": "={{ $('Webhook').item.json.body.data.messageType }}",
+              "type": "string"
+            },
+            {
+              "id": "ed90fdce-325a-4ec2-8794-5ec8eb347694",
+              "name": "api_key",
+              "value": "app-Tnqlay3fbo6rBDAxwk6EiLIz",
+              "type": "string"
+            },
+            {
+              "id": "e1ac8d3c-b336-4cbd-ab7d-0ab23f240dd7",
+              "name": "dify_url",
+              "value": "https://dify-api.robotriz.com.br/v1/chat-messages",
+              "type": "string"
+            },
+            {
+              "id": "ebc64d7b-2a21-4879-b7c4-90b71848f33b",
+              "name": "evolution_url",
+              "value": "https://evolution.robotriz.com.br/message/sendText/mcn_advogados_venda",
+              "type": "string"
+            },
+            {
+              "id": "f5736b37-cbdb-456f-ab20-c0d25d2a97ed",
+              "name": "evolution_apikey",
+              "value": "5511761CC5EE-445F-B55A-22A8FDDCFEA2",
+              "type": "string"
+            },
+            {
+              "id": "bfd513f9-0c8a-45ff-b2a1-2bcfc228e07e",
+              "name": "id_planilha",
+              "value": "1DyE1-YVl5uR2usKdD_QEORPXoVr9ObGFgglIt1BS0qs",
+              "type": "string"
+            },
+            {
+              "id": "c715f85d-ef4a-4ae6-b3ad-2c29627bc359",
+              "name": "numero_empresa",
+              "value": "={{ $('Webhook').item.json.body.sender }}",
+              "type": "string"
+            },
+            {
+              "id": "ac91b9f1-61c1-4a80-9275-5b3f2e681d96",
+              "name": "id_empresa",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "69c4eff5-f8e0-4bd8-840e-1e3169da97a5",
+              "name": "nome_whatsapp",
+              "value": "={{ $('Webhook').item.json.body.data.pushName }}",
+              "type": "string"
+            },
+            {
+              "id": "1cc4c456-f306-4863-bb0c-f7e771bc025a",
+              "name": "instance_id",
+              "value": "={{ $('Webhook').item.json.body.data.instanceId }}",
+              "type": "string"
+            },
+            {
+              "id": "46547ec9-1a9f-48d9-8eff-2bcf9ebb0dc7",
+              "name": "id_mensagem",
+              "value": "={{ $('Webhook').item.json.body.data.key.id }}",
+              "type": "string"
+            },
+            {
+              "id": "e085e096-b6da-45ba-bd65-ebac33c46b12",
+              "name": "id_cliente_empresa",
+              "value": "={{ $('Webhook').item.json.body.data.instanceId }}|{{ $('Webhook').item.json.body.data.key.remoteJid }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d55f3d37-6acb-49fd-aed0-0b894ae61447",
+      "name": "Variaveis",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -7000,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Variaveis').item.json.messageType }}",
+                    "rightValue": "conversation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Texto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "772cb82b-59c4-4f89-8b4a-656d3f8c1226",
+                    "leftValue": "={{ $('Variaveis').item.json.messageType }}",
+                    "rightValue": "audioMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "019ed50a-9616-4a4a-af08-e8317e239faa",
+                    "leftValue": "={{ $('Variaveis').item.json.messageType }}",
+                    "rightValue": "imageMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Imagem"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1430540c-da84-4f84-b7a1-6a5f5afc974a",
+      "name": "Tipo de mensagem",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -5420,
+        760
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "84d44b09-555c-4489-98d6-45cab442ea99",
+              "leftValue": "={{ $json.body.data.key.remoteJid }}",
+              "rightValue": "553597638844",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "7a696fd8-dd0a-4020-aae8-984c4f70d1b7",
+              "leftValue": "={{ $json.body.data.key.remoteJid }}",
+              "rightValue": "5573998251408",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "ed7aafc9-6c4d-48c7-9fe5-316eb643cb37",
+              "leftValue": "={{ $json.body.data.key.remoteJid }}",
+              "rightValue": "5527997748634",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "9b4aa756-12d3-43bf-81af-1d9f98a51049",
+              "leftValue": "={{ $json.body.data.key.remoteJid }}",
+              "rightValue": "5527998640510",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "46f318d1-5f3b-41ac-8ea5-1f2902ba01d0",
+              "leftValue": "={{ $json.body.data.key.remoteJid }}",
+              "rightValue": "5527997193833",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "2096a8a5-708b-4d2f-bb6f-776c4a4334cf",
+              "leftValue": "={{ $json.body.data.key.remoteJid }}",
+              "rightValue": "5527998211033",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "e669b2b7-1bd8-4182-9f4d-6fb209b35269",
+              "leftValue": "={{ $json.body.data.key.remoteJid }}",
+              "rightValue": "5527999761843",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "6a57bc50-74c1-4f5d-8ca2-5b9dc6ed1d8f",
+      "name": "Telefones liberados",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -7600,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "812a353b-8a6a-4e4c-86fb-4ff77471f313",
+              "leftValue": "={{ $('Webhook').item.json.body.data.key.fromMe }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "8d172cf4-ad1e-4472-9e23-295aff4f4cf7",
+      "name": "empresa assumiu atendimento",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -5920,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "cliente",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone_whatsapp",
+              "condition": "eq",
+              "keyValue": "={{ $('Variaveis').item.json.remoteJid }}"
+            },
+            {
+              "keyName": "id_empresa",
+              "condition": "eq",
+              "keyValue": "={{ $('Variaveis').item.json.id_empresa }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "bot_ativo",
+              "fieldValue": "false"
+            }
+          ]
+        }
+      },
+      "id": "42838882-fa3a-48a1-9267-a44c9db9ef7e",
+      "name": "desativa bot",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -5660,
+        480
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Clientes Robotriz"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "empresa",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone_whatsapp",
+              "keyValue": "={{ $json.body.sender }}"
+            }
+          ]
+        }
+      },
+      "id": "99540f88-1dc0-4bc2-b28b-9471eab4f298",
+      "name": "Consulta Empresa",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -7220,
+        640
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Clientes Robotriz"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "cliente",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone_whatsapp",
+              "keyValue": "={{ $json.remoteJid }}"
+            },
+            {
+              "keyName": "id_empresa",
+              "keyValue": "={{ $json.id_empresa }}"
+            }
+          ]
+        }
+      },
+      "id": "215c8cde-a04b-46d6-8364-004cd2181d79",
+      "name": "Consulta Cliente",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -6800,
+        640
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Clientes Robotriz"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "cliente",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "id_empresa",
+              "fieldValue": "={{ $('Variaveis').item.json.id_empresa }}"
+            },
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $('Variaveis').item.json.nome_whatsapp }}"
+            },
+            {
+              "fieldId": "telefone_whatsapp",
+              "fieldValue": "={{ $('Variaveis').item.json.remoteJid }}"
+            },
+            {
+              "fieldId": "bot_ativo",
+              "fieldValue": "true"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "ativo"
+            }
+          ]
+        }
+      },
+      "id": "e944b68c-d48b-45e6-b941-f2df377513dc",
+      "name": "Cria Cliente",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -6360,
+        780
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Clientes Robotriz"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "466b9d2a-e9d3-400b-8404-bdc382220093",
+              "leftValue": "={{ $json.telefone_whatsapp }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "dbd9cfe4-2d7a-4c48-afa4-f3d127121f5c",
+      "name": "Existe Cliente",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -6580,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e92ca3e0-9b52-4d14-a64c-482e4a96228e",
+              "leftValue": "={{ $('Dados Cliente').item.json.bot_ativo }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "3e743272-de18-48fd-81f5-f2e0ec677cd8",
+      "name": "Bot ativo",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -5680,
+        780
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "749b8036-b18f-4060-b395-8d728f000a1a",
+      "name": "Bot inativado",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -5380,
+        1020
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Variaveis').item.json.id_cliente_empresa }}"
+      },
+      "id": "bbb9041e-c389-42e0-ad42-22d25a179390",
+      "name": "Limpa lista",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -4200,
+        480
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "id": "8a13c828-2e8b-41e0-905e-2d1822a275f9",
+      "name": "espera de msgs",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -4860,
+        360
+      ],
+      "webhookId": "7e60ddbe-0ba0-49c4-9db5-2faecb133409"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f10a56af-ec7b-48cd-aa36-1a6d14488814",
+              "leftValue": "={{ $('Dados Cliente').item.json.conversation_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "29295b73-fb9e-47c4-8027-e1476efd69a2",
+      "name": "nova conversa",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -3280,
+        680
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "cliente",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $('Dados Cliente').item.json.id }}"
+            },
+            {
+              "keyName": "id_empresa",
+              "condition": "eq",
+              "keyValue": "={{ $('Variaveis').item.json.id_empresa }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "conversation_id",
+              "fieldValue": "={{ $('Dify').item.json.conversation_id }}"
+            },
+            {
+              "fieldId": "alterado_em",
+              "fieldValue": "={{ $now.toString() }}"
+            }
+          ]
+        }
+      },
+      "id": "15eb7298-ada0-4fad-9a3e-413bc1f84bae",
+      "name": "Atualiza conversation_id",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -2560,
+        400
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Clientes Robotriz"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Variaveis').item.json.dify_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Variaveis').item.json.api_key }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\"inputs\": {},\n  \"query\": \"{{ $json.mensagem.replace(/[\\n\\r]/g, '').replace('\"','') }}\",\n  \"response_mode\": \"blocking\",\n  \"conversation_id\": \"{{ $('Dados Cliente').item.json.conversation_id ? $('Dados Cliente').item.json.conversation_id :'' }}\",\n  \"user\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"files\": [\n    {\n      \"type\": \"image\",\n      \"transfer_method\": \"remote_url\",\n      \"url\": \"https://cloud.dify.ai/logo/logo-site.png\"\n    }\n  ]\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "id": "5159277b-0885-4abc-add1-73b30ad1acdf",
+      "name": "Dify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -3500,
+        680
+      ],
+      "retryOnFail": true,
+      "alwaysOutputData": true,
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7877cada-f0ae-46e2-a298-6bb0bbc48d93",
+              "name": "mensagem",
+              "value": "={{ $json[\"propertyName\"].join(\", \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d0685f62-bdb7-45cc-9670-6fa901f860e0",
+      "name": "Monta msg",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3980,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "bbd254ae-9542-4633-b037-e837a867ae37",
+              "leftValue": "={{ $json.propertyName.last() }}",
+              "rightValue": "={{ $('Variaveis').item.json.conversation }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4014818c-01ee-44d0-8c96-411aa5239724",
+      "name": "verifica ultima msg da lista com msg enviada",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -4440,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $('Variaveis').item.json.id_cliente_empresa }}",
+        "options": {}
+      },
+      "id": "17784418-89b5-4c1c-a1f7-56b637368f1f",
+      "name": "Consulta lista de msg",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -4660,
+        360
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Variaveis').item.json.id_cliente_empresa }}",
+        "messageData": "={{ $('Variaveis').item.json.conversation }}",
+        "tail": true
+      },
+      "id": "836401a0-bd20-4a55-be1d-1fbbd1340114",
+      "name": "Inclui msg na lista",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -5080,
+        360
+      ],
+      "credentials": {
+        "redis": {
+          "id": "eqvHIOsQVjeLxmqP",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "resposta",
+        "options": {}
+      },
+      "id": "0bb19d22-a45d-42da-8ee9-8169cbe35066",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -2080,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "30d5a34e-68f4-45ea-8180-0d084b8053ab",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1820,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "68f869ab-222a-499e-aa33-3d712b1c98bd",
+              "name": "resposta",
+              "value": "={{ $('Dify').item.json.answer.split(/(?<=\\.\\s)|(?<=!\\s)|(?<=\\?\\s)/).map(part => part.trim()).filter(part => part.length > 0) }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f5544206-59e2-46ac-89ca-b4994c8045d6",
+      "name": "Quebrar mensagem",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2320,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ (()=>{\n\n  let url = $('Variaveis').item.json.evolution_url \n  return url.replace('message/sendText','chat/sendPresence')\n\n})()\n}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Variaveis').item.json.evolution_apikey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Variaveis').item.json.remoteJid }}\",\n  \"delay\": 5000,\n  \"presence\": \"composing\"\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "1db8c805-3c59-4f62-b166-9a5b5f5e6b59",
+      "name": "Digitando...",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1600,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Variaveis').item.json.evolution_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('Variaveis').item.json.evolution_apikey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Variaveis').item.json.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('Loop Over Items').item.json.resposta }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "a67a8043-7bc9-466a-bf95-c00a0fbfe83a",
+      "name": "Envia resposta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1380,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "cliente",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone_whatsapp",
+              "keyValue": "={{ $('Variaveis').item.json.remoteJid }}"
+            },
+            {
+              "keyName": "id_empresa",
+              "keyValue": "={{ $('Variaveis').item.json.id_empresa }}"
+            }
+          ]
+        }
+      },
+      "id": "06924c17-2da0-4406-bf8c-aa037f4daff6",
+      "name": "Consulta conversation_id",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -3060,
+        420
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "AUtZf9R6OsGpTLQi",
+          "name": "Supabase - Clientes Robotriz"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c852c175-45be-45e6-b572-78b8fd4d0e56",
+              "leftValue": "={{ $json.conversation_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "ee4fcf61-38ae-41ab-9ede-268d1300f1f8",
+      "name": "Não existe conversation_id",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2840,
+        420
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "ea67d6f5-22df-469b-88fc-cd8cd3b8358e",
+      "name": "Dados Cliente",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -6120,
+        640
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "b93b820b-974a-4b34-8fdd-93083bae571f",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -3740,
+        680
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "470174fc-5cf0-4962-8849-38bbe53dd07c",
+        "options": {}
+      },
+      "id": "a3a350c8-00d2-4d78-9e50-b273bfe5634e",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -7940,
+        640
+      ],
+      "webhookId": "470174fc-5cf0-4962-8849-38bbe53dd07c"
+    }
+  ],
+  "connections": {
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "Transcrição",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Converter em Audio": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move Binary Data": {
+      "main": [
+        [
+          {
+            "node": "Converter em Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcrição": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Move Binary Data1": {
+      "main": [
+        [
+          {
+            "node": "Converter em Imagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Converter em Imagem": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baixar audio": {
+      "main": [
+        [
+          {
+            "node": "Move Binary Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baixar imagem": {
+      "main": [
+        [
+          {
+            "node": "Move Binary Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Transcrição",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tipo de mensagem": {
+      "main": [
+        [
+          {
+            "node": "Inclui msg na lista",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Baixar audio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Baixar imagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "empresa assumiu atendimento": {
+      "main": [
+        [
+          {
+            "node": "desativa bot",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Bot ativo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta Empresa": {
+      "main": [
+        [
+          {
+            "node": "Variaveis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Variaveis": {
+      "main": [
+        [
+          {
+            "node": "Consulta Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta Cliente": {
+      "main": [
+        [
+          {
+            "node": "Existe Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Existe Cliente": {
+      "main": [
+        [
+          {
+            "node": "Dados Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cria Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cria Cliente": {
+      "main": [
+        [
+          {
+            "node": "Dados Cliente",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Bot ativo": {
+      "main": [
+        [
+          {
+            "node": "Tipo de mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Bot inativado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "espera de msgs": {
+      "main": [
+        [
+          {
+            "node": "Consulta lista de msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limpa lista": {
+      "main": [
+        [
+          {
+            "node": "Monta msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "nova conversa": {
+      "main": [
+        [
+          {
+            "node": "Consulta conversation_id",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Quebrar mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualiza conversation_id": {
+      "main": [
+        [
+          {
+            "node": "Quebrar mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dify": {
+      "main": [
+        [
+          {
+            "node": "nova conversa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Monta msg": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "verifica ultima msg da lista com msg enviada": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Limpa lista",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta lista de msg": {
+      "main": [
+        [
+          {
+            "node": "verifica ultima msg da lista com msg enviada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inclui msg na lista": {
+      "main": [
+        [
+          {
+            "node": "espera de msgs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Digitando...",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quebrar mensagem": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Digitando...": {
+      "main": [
+        [
+          {
+            "node": "Envia resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envia resposta": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta conversation_id": {
+      "main": [
+        [
+          {
+            "node": "Não existe conversation_id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Cliente": {
+      "main": [
+        [
+          {
+            "node": "empresa assumiu atendimento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Dify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Não existe conversation_id": {
+      "main": [
+        [
+          {
+            "node": "Atualiza conversation_id",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Quebrar mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telefones liberados": {
+      "main": [
+        [
+          {
+            "node": "Consulta Empresa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Telefones liberados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.robotriz.com.br",
+            "user-agent": "axios/1.7.7",
+            "content-length": "999",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "webhook.robotriz.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "2b1c1a3d6d10",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "mcn_advogados_venda",
+            "data": {
+              "key": {
+                "remoteJid": "553597638844@s.whatsapp.net",
+                "fromMe": false,
+                "id": "3EB00853A11926CA1A3417"
+              },
+              "pushName": "Acácio Araujo MG",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "conversation": "Preciso de um advogado!",
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "xOrdNwQyWuzoFw==",
+                    "senderTimestamp": "1744630741",
+                    "senderAccountType": "E2EE",
+                    "receiverAccountType": "E2EE",
+                    "recipientKeyHash": "PmIv8L8yrxLX4g==",
+                    "recipientTimestamp": "1744389474"
+                  },
+                  "deviceListMetadataVersion": 2,
+                  "messageSecret": "EESyarB4Lt/3Iw/hmAD6iY+iVxjKoCK2sB6ivRUFg5M="
+                }
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1744744456,
+              "instanceId": "60c428cb-330f-459f-b9af-d3a527e18c65",
+              "source": "web"
+            },
+            "destination": "https://webhook.robotriz.com.br/webhook/470174fc-5cf0-4962-8849-38bbe53dd07c",
+            "date_time": "2025-04-15T16:14:17.034Z",
+            "sender": "5527997193833@s.whatsapp.net",
+            "server_url": "https://evolution.robotriz.com.br",
+            "apikey": "5511761CC5EE-445F-B55A-22A8FDDCFEA2"
+          },
+          "webhookUrl": "https://webhook.robotriz.com.br/webhook/470174fc-5cf0-4962-8849-38bbe53dd07c",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "abc5532a-952a-424d-8d34-42879df39197",
+  "triggerCount": 1,
+  "tags": [
+    {
+      "createdAt": "2025-02-26T23:55:34.456Z",
+      "updatedAt": "2025-02-26T23:55:34.456Z",
+      "id": "wXiOtXoVs8IO8LX6",
+      "name": "MCN ADVOGADOS"
+    }
+  ]
+}
