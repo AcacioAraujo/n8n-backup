@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-15T18:09:48.187Z",
-  "updatedAt": "2025-04-15T20:00:11.564Z",
+  "updatedAt": "2025-04-16T10:45:33.250Z",
   "id": "CPdDC4ygV8ieSvLd",
   "name": "[MCN ADVOGADOS]-[EVOLUTION_DIFY]",
   "active": true,
@@ -404,7 +404,7 @@
             {
               "id": "7a696fd8-dd0a-4020-aae8-984c4f70d1b7",
               "leftValue": "={{ $json.body.data.key.remoteJid }}",
-              "rightValue": "5573998251408",
+              "rightValue": "98251408",
               "operator": {
                 "type": "string",
                 "operation": "contains"
@@ -413,7 +413,7 @@
             {
               "id": "ed7aafc9-6c4d-48c7-9fe5-316eb643cb37",
               "leftValue": "={{ $json.body.data.key.remoteJid }}",
-              "rightValue": "5527997748634",
+              "rightValue": "97748634",
               "operator": {
                 "type": "string",
                 "operation": "contains"
@@ -422,7 +422,7 @@
             {
               "id": "9b4aa756-12d3-43bf-81af-1d9f98a51049",
               "leftValue": "={{ $json.body.data.key.remoteJid }}",
-              "rightValue": "5527998640510",
+              "rightValue": "98640510",
               "operator": {
                 "type": "string",
                 "operation": "contains"
@@ -440,7 +440,7 @@
             {
               "id": "2096a8a5-708b-4d2f-bb6f-776c4a4334cf",
               "leftValue": "={{ $json.body.data.key.remoteJid }}",
-              "rightValue": "5527998211033",
+              "rightValue": "98211033",
               "operator": {
                 "type": "string",
                 "operation": "contains"
@@ -449,7 +449,7 @@
             {
               "id": "e669b2b7-1bd8-4182-9f4d-6fb209b35269",
               "leftValue": "={{ $json.body.data.key.remoteJid }}",
-              "rightValue": "5527999761843",
+              "rightValue": "99761843",
               "operator": {
                 "type": "string",
                 "operation": "contains"
@@ -1735,7 +1735,7 @@
       }
     ]
   },
-  "versionId": "abc5532a-952a-424d-8d34-42879df39197",
+  "versionId": "2ebd3afa-b4e6-45c8-92aa-e443bed00f1c",
   "triggerCount": 1,
   "tags": [
     {
