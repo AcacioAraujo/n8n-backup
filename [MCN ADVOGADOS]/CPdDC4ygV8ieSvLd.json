@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-04-15T18:09:48.187Z",
-  "updatedAt": "2025-04-16T10:45:33.250Z",
+  "updatedAt": "2025-04-16T18:27:18.156Z",
   "id": "CPdDC4ygV8ieSvLd",
   "name": "[MCN ADVOGADOS]-[EVOLUTION_DIFY]",
   "active": true,
@@ -431,7 +431,7 @@
             {
               "id": "46f318d1-5f3b-41ac-8ea5-1f2902ba01d0",
               "leftValue": "={{ $json.body.data.key.remoteJid }}",
-              "rightValue": "5527997193833",
+              "rightValue": "88168580",
               "operator": {
                 "type": "string",
                 "operation": "contains"
@@ -450,6 +450,24 @@
               "id": "e669b2b7-1bd8-4182-9f4d-6fb209b35269",
               "leftValue": "={{ $json.body.data.key.remoteJid }}",
               "rightValue": "99761843",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "6e39e60e-7c37-4366-a745-41d305eddd1b",
+              "leftValue": "={{ $json.body.data.key.remoteJid }}",
+              "rightValue": "99766030",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "e83a4336-49a8-42fe-9586-6f759e8d64cf",
+              "leftValue": "={{ $json.body.data.key.remoteJid }}",
+              "rightValue": "97015568",
               "operator": {
                 "type": "string",
                 "operation": "contains"
@@ -1735,7 +1753,7 @@
       }
     ]
   },
-  "versionId": "2ebd3afa-b4e6-45c8-92aa-e443bed00f1c",
+  "versionId": "e8f51a11-c88c-4361-9ce2-2b9b536a10ba",
   "triggerCount": 1,
   "tags": [
     {
